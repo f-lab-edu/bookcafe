@@ -1,5 +1,7 @@
 package com.study.bookcafe.member;
 
+import com.study.bookcafe.dto.Level;
+import com.study.bookcafe.dto.MemberDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +18,12 @@ public class BorrowTest {
             회원의 등급(enum)
          */
 
-        Member member1 = new Member(Level.BASIC, 3);
-        Member member2 = new Member(Level.BASIC, 2);
-        Member member3 = new Member(Level.WORM, 5);
-        Member member4 = new Member(Level.WORM, 4);
-        Member member5 = new Member(Level.LIBRARIAN, 10);
-        Member member6 = new Member(Level.LIBRARIAN, 9);
+        MemberDTO member1 = new MemberDTO("김도훈", Level.BASIC, 3);
+        MemberDTO member2 = new MemberDTO("슈카", Level.BASIC, 2);
+        MemberDTO member3 = new MemberDTO("트럼프", Level.WORM, 5);
+        MemberDTO member4 = new MemberDTO("머스크", Level.WORM, 4);
+        MemberDTO member5 = new MemberDTO("이상혁", Level.LIBRARIAN, 10);
+        MemberDTO member6 = new MemberDTO("손흥민", Level.LIBRARIAN, 9);
 
         assertThat(member1.canBorrow()).isEqualTo(false);
         assertThat(member2.canBorrow()).isEqualTo(true);
@@ -30,37 +32,5 @@ public class BorrowTest {
         assertThat(member5.canBorrow()).isEqualTo(false);
         assertThat(member6.canBorrow()).isEqualTo(true);
 
-    }
-}
-
-class Member {
-    Level level;
-    int borrowCount;
-
-    public Member(Level level, int borrowCount) {
-        this.level = level;
-        this.borrowCount = borrowCount;
-    }
-
-    public boolean canBorrow() {
-        return level.getMaximumBorrowCount() - borrowCount > 0;
-    }
-}
-
-enum Level {
-    LIBRARIAN(3, 10,null), WORM(2, 5,null), BASIC(1, 3, WORM);
-
-    private int value;
-    private int maximumBorrowCount;
-    private Level next;
-
-    Level(int value, int maximumBorrowCount, Level next) {
-        this.value = value;
-        this.maximumBorrowCount = maximumBorrowCount;
-        this.next = next;
-    }
-
-    public int getMaximumBorrowCount() {
-        return maximumBorrowCount;
     }
 }

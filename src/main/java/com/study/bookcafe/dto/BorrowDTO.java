@@ -1,8 +1,13 @@
 package com.study.bookcafe.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class BorrowDTO {
     private long borrowId;                  // 대출 ID
     private long memberId;                  // 회원 ID

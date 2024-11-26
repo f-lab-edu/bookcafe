@@ -19,7 +19,9 @@ public class BorrowDAO {
         return borrows.get(memberId);
     }
 
-    public void save(BorrowDTO borrowDTO) {
+    public BorrowDTO save(BorrowDTO borrowDTO) {
         // 추후 DB 연결 후 작성
+        borrowDTO.setBorrowId(1L);
+        return borrowDTO;
     }
 }

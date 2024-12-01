@@ -1,22 +1,24 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.common.ApiResult;
-import com.study.bookcafe.dao.BookDAO;
-import com.study.bookcafe.dao.MemberDAO;
-import com.study.bookcafe.dto.BookDTO;
-import com.study.bookcafe.dto.BorrowDTO;
-import com.study.bookcafe.dto.MemberDTO;
+import com.study.bookcafe.dao.TestBookRepository;
+import com.study.bookcafe.dao.MemberRepository;
+import com.study.bookcafe.domain.Book;
+import com.study.bookcafe.domain.Borrow;
+import com.study.bookcafe.domain.Member;
+import com.study.bookcafe.dto.BorrowDto;
+import com.study.bookcafe.dto.MemberDto;
+import com.study.bookcafe.entity.MemberEntity;
 
 public class MemberServiceImpl implements MemberService {
 
-    MemberDAO memberDAO;
-    BookDAO bookDAO;
+    MemberRepository memberRepository;
+    TestBookRepository bookRepository;
     BorrowService borrowService;
     BookService bookService;
 
-    public MemberServiceImpl(MemberDAO memberDAO, BookDAO bookDAO, BorrowService borrowService, BookService bookService) {
-        this.memberDAO = memberDAO;
-        this.bookDAO = bookDAO;
+    public MemberServiceImpl(MemberRepository memberRepository, TestBookRepository bookRepository, BorrowService borrowService, BookService bookService) {
+        this.memberRepository = memberRepository;
+        this.bookRepository = bookRepository;
         this.borrowService = borrowService;
         this.bookService = bookService;
     }
@@ -28,45 +30,24 @@ public class MemberServiceImpl implements MemberService {
      * @return 회원
      */
     @Override
-    public MemberDTO findById(long memberId) {
-        return memberDAO.findById(memberId);
-    }
-
-    /**
-     * 회원이 대출 가능한 상태인지 확인한다.
-     *
-     * @param member 회원
-     * @return 현재 회원의 대출 가능 권수가 남았는지 여부
-     */
-    @Override
-    public boolean canBorrow(MemberDTO member) {
-        return member != null && member.getLevel() != null && member.getLevel().isBookBorrowCountLeft(member.getBorrowCount());
+    public Member findById(long memberId) {
+        MemberEntity memberEntity = memberRepository.findById(memberId);
+        return Member.from(memberEntity);
     }
 
     /**
      * 회원이 도서를 대출한다.
      *
-     * @param memberId  회원 ID
-     * @param bookId    도서 ID
-     * @return 도서 대출 결과(성공여부, 데이터, 결과메세지)
+     * @param member  회원
+     * @param book    도서
+     * @return 대출 정보
      */
     @Override
-    public ApiResult borrowBook(long memberId, long bookId) {
-        MemberDTO member = findById(memberId);
-        if(!canBorrow(member)) {
-            return new ApiResult(false, "현재 회원님의 대출 가능 권수가 없습니다.");
-        }
+    public Borrow borrowBook(Member member, Book book) {
+        MemberEntity memberEntity = memberRepository.findById(member.getId());
+        member = Member.from(memberEntity);
 
-        BookDTO book = bookService.findById(bookId);
-        if(!bookService.canBorrow(book)) {
-            return new ApiResult(false, "현재 해당 도서는 모두 대출 중입니다.");
-        }
-
-        // 대출 객체를 생성해서 DB 저장 결과 및 데이터를를 리턴해주고 싶을 때 아래 방식말고 다른 방식도 궁금합니다.
-        BorrowDTO borrow = borrowService.createBorrow(member, book);
-        boolean borrowResult = borrowService.successBorrow(borrow);
-        String message = borrowResult ? "해당 도서가 대출되었습니다." : "해당 도서가 대출되지 않았습니다.";
-
-        return new ApiResult(borrowResult, borrow, message);
+        Borrow borrow = member.borrowBook(book);
+        return borrowService.save(borrow);
     }
 }

@@ -1,16 +1,18 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.dao.BookDAO;
-import com.study.bookcafe.dto.BookDTO;
+import com.study.bookcafe.dao.TestBookRepository;
+import com.study.bookcafe.domain.Book;
+import com.study.bookcafe.dto.BookDto;
+import com.study.bookcafe.entity.BookEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
 
-    BookDAO bookDAO;
+    TestBookRepository bookRepository;
 
-    public BookServiceImpl(BookDAO bookDAO) {
-        this.bookDAO = bookDAO;
+    public BookServiceImpl(TestBookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     /**
@@ -20,8 +22,9 @@ public class BookServiceImpl implements BookService {
      * @return 도서
      */
     @Override
-    public BookDTO findById(long bookId) {
-        return bookDAO.findById(bookId);
+    public Book findById(long bookId) {
+        BookEntity bookEntity = bookRepository.findById(bookId);
+        return Book.from(bookEntity);
     }
 
     /**
@@ -31,7 +34,7 @@ public class BookServiceImpl implements BookService {
      * @return 현재 도서의 대출 가능한 재고가 있는지 여부
      */
     @Override
-    public boolean canBorrow(BookDTO book) {
+    public boolean canBorrow(Book book) {
         return book.getInventory() != null && book.getInventory().isOnStock();
     }
 }

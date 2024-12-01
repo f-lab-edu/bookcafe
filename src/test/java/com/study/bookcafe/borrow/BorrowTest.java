@@ -1,11 +1,11 @@
 package com.study.bookcafe.borrow;
 
-import com.study.bookcafe.common.ApiResult;
-import com.study.bookcafe.dao.BookDAO;
-import com.study.bookcafe.dao.BorrowDAO;
-import com.study.bookcafe.dao.GeneralMemberDAO;
-import com.study.bookcafe.dto.BookDTO;
-import com.study.bookcafe.dto.MemberDTO;
+import com.study.bookcafe.dao.TestBookRepository;
+import com.study.bookcafe.dao.TestBorrowRepository;
+import com.study.bookcafe.dao.GeneralMemberRepository;
+import com.study.bookcafe.domain.Book;
+import com.study.bookcafe.domain.Borrow;
+import com.study.bookcafe.domain.Member;
 import com.study.bookcafe.service.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,30 +15,28 @@ import static org.assertj.core.api.Assertions.*;
 
 public class BorrowTest {
 
-    BookDAO bookDAO = new BookDAO();
-    BorrowDAO borrowDAO = new BorrowDAO();
-    BorrowService borrowService = new BorrowServiceImpl(bookDAO, borrowDAO);
-    BookService bookService = new BookServiceImpl(bookDAO);
-    MemberService memberService = new MemberServiceImpl(new GeneralMemberDAO(), bookDAO, borrowService, bookService);
+    TestBookRepository bookRepository = new TestBookRepository();
+    TestBorrowRepository borrowRepository = new TestBorrowRepository();
+    BorrowService borrowService = new BorrowServiceImpl(bookRepository, borrowRepository);
+    BookService bookService = new BookServiceImpl(bookRepository);
+    MemberService memberService = new MemberServiceImpl(new GeneralMemberRepository(), bookRepository, borrowService, bookService);
 
     @Test
     @DisplayName("회원이 도서를 대출한다.")
     public void testBorrowBook() {
 
-        BorrowService borrowService = new BorrowServiceImpl(bookDAO, borrowDAO);
+        BorrowService borrowService = new BorrowServiceImpl(bookRepository, borrowRepository);
 
-        MemberDTO member1 = memberService.findById(1L);
-        BookDTO book1 = bookService.findById(1L);
-        ApiResult result1 = memberService.borrowBook(member1.getMemberId(), book1.getBookId());
-        System.out.println(result1);
+        Member member1 = memberService.findById(1L);
+        Book book1 = bookService.findById(1L);
+        Borrow borrow1 = memberService.borrowBook(member1, book1);
 
-        MemberDTO member2 = memberService.findById(3L);
-        BookDTO book2 = bookService.findById(2L);
-        ApiResult result2 = memberService.borrowBook(member2.getMemberId(), book2.getBookId());
-        System.out.println(result2);
+        Member member2 = memberService.findById(3L);
+        Book book2 = bookService.findById(2L);
+        Borrow borrow2 = memberService.borrowBook(member2, book2);
 
-        assertThat(result1.isSuccess()).isTrue();
-        assertThat(result2.isSuccess()).isFalse();
+        assertThat(Borrow.successBorrow(borrow1)).isTrue();
+        assertThat(Borrow.successBorrow(borrow2)).isTrue();
 
     }
 }

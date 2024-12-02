@@ -5,8 +5,7 @@ import com.study.bookcafe.dao.MemberRepository;
 import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.domain.Member;
-import com.study.bookcafe.dto.BorrowDto;
-import com.study.bookcafe.dto.MemberDto;
+import com.study.bookcafe.entity.BookEntity;
 import com.study.bookcafe.entity.MemberEntity;
 
 public class MemberServiceImpl implements MemberService {
@@ -38,14 +37,17 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 회원이 도서를 대출한다.
      *
-     * @param member  회원
-     * @param book    도서
+     * @param memberId  회원 ID
+     * @param bookId    도서 ID
      * @return 대출 정보
      */
     @Override
-    public Borrow borrowBook(Member member, Book book) {
-        MemberEntity memberEntity = memberRepository.findById(member.getId());
-        member = Member.from(memberEntity);
+    public Borrow borrowBook(long memberId, long bookId) {
+        MemberEntity memberEntity = memberRepository.findById(memberId);
+        Member member = Member.from(memberEntity);
+
+        BookEntity bookEntity = bookRepository.findById(bookId);
+        Book book = Book.from(bookEntity);
 
         Borrow borrow = member.borrowBook(book);
         return borrowService.save(borrow);

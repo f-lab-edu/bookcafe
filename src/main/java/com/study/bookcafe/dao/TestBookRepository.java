@@ -1,6 +1,5 @@
 package com.study.bookcafe.dao;
 
-import com.study.bookcafe.dto.BookDto;
 import com.study.bookcafe.domain.Inventory;
 import com.study.bookcafe.entity.BookEntity;
 import org.springframework.stereotype.Repository;

@@ -25,15 +25,8 @@ public class BorrowTest {
     @DisplayName("회원이 도서를 대출한다.")
     public void testBorrowBook() {
 
-        BorrowService borrowService = new BorrowServiceImpl(bookRepository, borrowRepository);
-
-        Member member1 = memberService.findById(1L);
-        Book book1 = bookService.findById(1L);
-        Borrow borrow1 = memberService.borrowBook(member1, book1);
-
-        Member member2 = memberService.findById(3L);
-        Book book2 = bookService.findById(2L);
-        Borrow borrow2 = memberService.borrowBook(member2, book2);
+        Borrow borrow1 = memberService.borrowBook(1, 1);
+        Borrow borrow2 = memberService.borrowBook(3, 2);
 
         assertThat(Borrow.successBorrow(borrow1)).isTrue();
         assertThat(Borrow.successBorrow(borrow2)).isTrue();

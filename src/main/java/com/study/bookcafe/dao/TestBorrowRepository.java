@@ -20,8 +20,8 @@ public class TestBorrowRepository implements BorrowRepository {
         put(3L, null);
     }};
 
-    public BorrowEntity find(BorrowEntity borrowEntity) {
-        return borrows.get(borrowEntity.getMember().getId());
+    public BorrowEntity findById(long borrowId) {
+        return borrows.get(borrowId);
     }
 
     public BorrowEntity save(BorrowEntity borrowEntity) {

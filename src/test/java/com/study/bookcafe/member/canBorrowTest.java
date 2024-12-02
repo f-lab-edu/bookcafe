@@ -13,12 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class canBorrowTest {
 
-    TestBookRepository bookRepository = new TestBookRepository();
-    TestBorrowRepository borrowRepository = new TestBorrowRepository();
-    BorrowService borrowService = new BorrowServiceImpl(bookRepository, borrowRepository);
-    BookService bookService = new BookServiceImpl(bookRepository);
-    MemberService memberService = new MemberServiceImpl(new GeneralMemberRepository(), bookRepository, borrowService, bookService);
-
     @Test
     @DisplayName("회원이 현재 대출가능한 상태인지 확인한다. (회원등급별로 최대 대출 권수가 상이함)")
     public void checkMemberStatusForBorrow() {

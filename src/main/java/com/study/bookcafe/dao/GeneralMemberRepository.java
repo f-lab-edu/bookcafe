@@ -1,7 +1,6 @@
 package com.study.bookcafe.dao;
 
 import com.study.bookcafe.domain.Level;
-import com.study.bookcafe.dto.MemberDto;
 import com.study.bookcafe.entity.MemberEntity;
 import org.springframework.stereotype.Repository;
 

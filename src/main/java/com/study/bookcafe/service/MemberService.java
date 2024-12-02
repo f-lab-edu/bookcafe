@@ -1,6 +1,5 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.domain.Member;
 import org.springframework.stereotype.Service;
@@ -12,5 +11,5 @@ public interface MemberService {
     Member findById(long memberId);
 
     // 도서 대출
-    Borrow borrowBook(Member member, Book book);
+    Borrow borrowBook(long memberId, long bookId);
 }

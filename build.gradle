@@ -31,6 +31,28 @@ dependencies {
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
 	annotationProcessor('org.projectlombok:lombok')
 	testAnnotationProcessor('org.projectlombok:lombok')
+
+	// mapstruct
+	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+//	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+//	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
+//	testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+//	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct
+//	implementation("org.mapstruct:mapstruct:1.5.3.Final")
+//	// https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
+//	implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+
+//	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+//	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+//	implementation 'org.mapstruct:mapstruct-jdk8:1.5.5.Final'
+//	implementation 'org.mapstruct:mapstruct-spring-extensions:1.5.5.Final'
+
+
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+
+
 }
 
 tasks.named('test') {

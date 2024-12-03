@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class MemberEntity {
     private long id;                        // 회원 ID
-    private String memberName;              // 회원 이름
+    private String name;                    // 회원 이름
     private Level level;                    // 회원 등급
     private int borrowCount;                // 현재 대출 권수
 }

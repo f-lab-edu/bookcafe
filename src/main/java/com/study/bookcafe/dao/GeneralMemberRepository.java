@@ -11,9 +11,9 @@ import java.util.Map;
 public class GeneralMemberRepository implements MemberRepository {
 
     Map<Long, MemberEntity> members = new HashMap<>(){{
-        put(1L, MemberEntity.builder().id(1L).memberName("슈카").level(Level.BASIC).borrowCount(0).build());
-        put(2L, MemberEntity.builder().id(2L).memberName("머스크").level(Level.WORM).borrowCount(3).build());
-        put(3L, MemberEntity.builder().id(3L).memberName("트럼프").level(Level.LIBRARIAN).borrowCount(5).build());
+        put(1L, MemberEntity.builder().id(1L).name("슈카").level(Level.BASIC).borrowCount(0).build());
+        put(2L, MemberEntity.builder().id(2L).name("머스크").level(Level.WORM).borrowCount(3).build());
+        put(3L, MemberEntity.builder().id(3L).name("트럼프").level(Level.LIBRARIAN).borrowCount(5).build());
     }};
 
     @Override

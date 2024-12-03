@@ -1,35 +1,32 @@
 package com.study.bookcafe.borrow;
 
-import com.study.bookcafe.dao.TestBookRepository;
-import com.study.bookcafe.dao.TestBorrowRepository;
-import com.study.bookcafe.dao.GeneralMemberRepository;
-import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Borrow;
-import com.study.bookcafe.domain.Member;
 import com.study.bookcafe.service.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-
+@SpringBootTest
 public class BorrowTest {
 
-    TestBookRepository bookRepository = new TestBookRepository();
-    TestBorrowRepository borrowRepository = new TestBorrowRepository();
-    BorrowService borrowService = new BorrowServiceImpl(bookRepository, borrowRepository);
-    BookService bookService = new BookServiceImpl(bookRepository);
-    MemberService memberService = new MemberServiceImpl(new GeneralMemberRepository(), bookRepository, borrowService, bookService);
+    @Autowired
+    private MemberService memberService;
 
     @Test
     @DisplayName("회원이 도서를 대출한다.")
     public void testBorrowBook() {
 
-        Borrow borrow1 = memberService.borrowBook(1, 1);
-        Borrow borrow2 = memberService.borrowBook(3, 2);
+        List<Borrow> borrows1 = memberService.borrowBook(1, List.of(1L));
+        List<Borrow> borrows2 = memberService.borrowBook(3, List.of(2L));
 
-        assertThat(Borrow.successBorrow(borrow1)).isTrue();
-        assertThat(Borrow.successBorrow(borrow2)).isTrue();
+//        assertThat(Borrow.successBorrow(borrow1)).isTrue();
+        borrows1.forEach(borrow -> assertThat(Borrow.successBorrow(borrow)).isEqualTo(true));
+        borrows2.forEach(borrow -> assertThat(Borrow.successBorrow(borrow)).isEqualTo(true));
 
     }
 }

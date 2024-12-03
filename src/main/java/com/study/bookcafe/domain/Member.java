@@ -1,34 +1,23 @@
 package com.study.bookcafe.domain;
 
-import com.study.bookcafe.entity.MemberEntity;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
 public class Member {
     private long id;                        // 회원 ID
-    private String memberName;              // 회원 이름
+    private String password;                // 회원 Password
+    private String name;                    // 회원 이름
     private Level level;                    // 회원 등급
     private int borrowCount;                // 현재 대출 권수
 
-    public MemberEntity toEntity() {
-        return MemberEntity.builder()
-                .id(this.getId())
-                .memberName(this.getMemberName())
-                .level(this.getLevel())
-                .borrowCount(this.getBorrowCount())
-                .build();
-    }
-
-    public static Member from(MemberEntity memberEntity) {
-        return Member.builder()
-                .id(memberEntity.getId())
-                .memberName(memberEntity.getMemberName())
-                .level(memberEntity.getLevel())
-                .borrowCount(memberEntity.getBorrowCount())
-                .build();
-    }
+    private LocalDate createDate;           // 회원 가입 일자
+    private LocalDate updateDate;           // 회원 수정 일자
 
     /**
      * 회원이 대출 가능한 상태인지 알려준다.
@@ -39,16 +28,18 @@ public class Member {
         return this.getLevel().isBookBorrowCountLeft(getBorrowCount());
     }
 
-    public Borrow borrowBook(Book book) {
+    public List<Borrow> borrowBook(List<Book> bookList) {
+        List<Borrow> borrowList = new ArrayList<>();
 
+        // 회원이 대출 가능한 상태 확인
         if(!this.canBorrow()) {
-
+            return borrowList;
         }
 
-        if(!book.canBorrow()) {
-
-        }
-
-        return new Borrow(this, book);
+        // 대출 가능한 도서만 목록에 담기
+        return bookList.stream()
+                .filter(Book::canBorrow)
+                .map(book -> new Borrow(this, book))
+                .toList();
     }
 }

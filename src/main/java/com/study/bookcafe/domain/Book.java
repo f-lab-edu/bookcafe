@@ -1,6 +1,5 @@
 package com.study.bookcafe.domain;
 
-import com.study.bookcafe.entity.BookEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,32 +16,6 @@ public class Book {
     private Date publishDate;               // 출판일
     private double price;                   // 도서 가격
     private Inventory inventory;            // 도서 상태 정보 (재고, 대출, 예약)
-
-    public BookEntity toEntity() {
-        return BookEntity.builder()
-                .id(this.getId())
-                .ISBN(this.getISBN())
-                .title(this.getTitle())
-                .author(this.getAuthor())
-                .publisher(this.getPublisher())
-                .publishDate(this.getPublishDate())
-                .price(this.getPrice())
-                .inventory(this.getInventory())
-                .build();
-    }
-
-    public static Book from(BookEntity BookEntity) {
-        return Book.builder()
-                .id(BookEntity.getId())
-                .ISBN(BookEntity.getISBN())
-                .title(BookEntity.getTitle())
-                .author(BookEntity.getAuthor())
-                .publisher(BookEntity.getPublisher())
-                .publishDate(BookEntity.getPublishDate())
-                .price(BookEntity.getPrice())
-                .inventory(BookEntity.getInventory())
-                .build();
-    }
 
     /**
      * 도서가 대출 가능한 상태인지 확인한다.

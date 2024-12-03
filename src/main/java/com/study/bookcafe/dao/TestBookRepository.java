@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -20,5 +21,12 @@ public class TestBookRepository implements BookRepository {
 
     public BookEntity findById(long bookId) {
         return books.get(bookId);
+    }
+
+    @Override
+    public List<BookEntity> findByIdList(List<Long> bookIdList) {
+        return bookIdList
+                .stream().filter(id -> books.containsKey(id))
+                .map(id -> books.get(id)).toList();
     }
 }

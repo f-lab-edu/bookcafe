@@ -1,7 +1,13 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.common.ApiResult;
+import com.study.bookcafe.domain.Borrow;
+
+import java.util.List;
 
 public interface BorrowService {
-    ApiResult borrowBook(long memberId, long bookId);
+    // 대출 저장
+    Borrow save(Borrow borrow);
+
+    // 여러 대출 저장
+    List<Borrow> save(List<Borrow> borrowList);
 }

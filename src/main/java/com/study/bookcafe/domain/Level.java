@@ -1,4 +1,4 @@
-package com.study.bookcafe.dto;
+package com.study.bookcafe.domain;
 
 public enum Level {
 

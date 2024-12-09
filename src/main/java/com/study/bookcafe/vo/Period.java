@@ -1,9 +1,10 @@
 package com.study.bookcafe.vo;
 
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@EqualsAndHashCode
 public class Period {
     /*
         - 대출 일자가 반납 일자보다 더 이전인 것을 보장할 책임
@@ -25,18 +26,5 @@ public class Period {
 
         this.from = from;
         this.to = to;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Period period = (Period) o;
-        return Objects.equals(from, period.from) && Objects.equals(to, period.to);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(from, to);
     }
 }

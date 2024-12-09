@@ -1,10 +1,9 @@
 package com.study.bookcafe.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import java.sql.Timestamp;
+import com.study.bookcafe.vo.Period;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -14,12 +13,15 @@ public class Borrow {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
     private Book book;                      // 도서
-    private Timestamp borrowDate;           // 대출 날짜
-    private Timestamp returnDate;           // 반납 날짜
+//    private Timestamp borrowDate;           // 대출 날짜
+//    private Timestamp returnDate;           // 반납 날짜
 
-    public Borrow(Member member, Book book) {
+    private Period period;                  // 대출 기간
+
+    public Borrow(Member member, Book book, LocalDateTime from) {
         this.member = member;
         this.book = book;
+        this.period = new Period(from);
     }
 
     /**

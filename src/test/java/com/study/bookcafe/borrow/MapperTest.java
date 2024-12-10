@@ -30,14 +30,47 @@ public class MapperTest {
 
     private final Gson gson = JsonHelper.getGson();
 
+    interface BorrowObjectFactory {
+        Borrow createBorrow();
+        BorrowDto createBorrowDto();
+        BorrowEntity createBorrowEntity();
+    }
+
+    static class BorrowFactory implements BorrowObjectFactory {
+        @Override
+        public Borrow createBorrow() {
+            return Borrow.builder()
+                    .member(Member.builder().id(1).build())
+                    .book(Book.builder().id(1).ISBN(9788936433598L).build())
+                    .period(new Period(LocalDateTime.now()))
+                    .build();
+        }
+
+        @Override
+        public BorrowDto createBorrowDto() {
+            return BorrowDto.builder()
+                    .member(MemberDto.builder().id(1).build())
+                    .book(BookDto.builder().id(1).ISBN(9788936433598L).build())
+                    .period(new Period(LocalDateTime.now()))
+                    .build();
+        }
+
+        @Override
+        public BorrowEntity createBorrowEntity() {
+            return BorrowEntity.builder()
+                    .member(MemberEntity.builder().id(1).build())
+                    .book(BookEntity.builder().id(1).ISBN(9788936433598L).build())
+                    .period(new Period(LocalDateTime.now()))
+                    .build();
+        }
+    }
+
+    BorrowObjectFactory factory = new BorrowFactory();
+
     @Test
     @DisplayName("Mapper 테스트 : Borrow -> BorrowDto")
     public void checkMapperBorrowToBorrowDto() {
-        Borrow borrow = Borrow.builder()
-                .member(Member.builder().id(1).build())
-                .book(Book.builder().id(1).ISBN(9788936433598L).build())
-                .period(new Period(LocalDateTime.now()))
-                .build();
+        Borrow borrow = factory.createBorrow();
         BorrowDto borrowDto = borrowMapper.toBorrowDto(borrow);
 
         System.out.println(gson.toJson(borrowDto));
@@ -47,11 +80,7 @@ public class MapperTest {
     @Test
     @DisplayName("Mapper 테스트 : BorrowDto -> Borrow")
     public void checkMapperBorrowDtoToBorrow() {
-        BorrowDto borrowDto = BorrowDto.builder()
-                .member(MemberDto.builder().id(1).build())
-                .book(BookDto.builder().id(1).ISBN(9788936433598L).build())
-                .period(new Period(LocalDateTime.now()))
-                .build();
+        BorrowDto borrowDto = factory.createBorrowDto();
         Borrow borrow = borrowMapper.toBorrow(borrowDto);
 
         System.out.println(gson.toJson(borrow));
@@ -61,11 +90,7 @@ public class MapperTest {
     @Test
     @DisplayName("Mapper 테스트 : Borrow -> BorrowEntity")
     public void checkMapperBorrowToBorrowEntity() {
-        Borrow borrow = Borrow.builder()
-                .member(Member.builder().id(1).build())
-                .book(Book.builder().id(1).ISBN(9788936433598L).build())
-                .period(new Period(LocalDateTime.now()))
-                .build();
+        Borrow borrow = factory.createBorrow();
         BorrowEntity borrowEntity = borrowMapper.toBorrowEntity(borrow);
 
         System.out.println(gson.toJson(borrowEntity));
@@ -75,11 +100,7 @@ public class MapperTest {
     @Test
     @DisplayName("Mapper 테스트 : BorrowEntity -> Borrow")
     public void checkMapperBorrowEntityToBorrow() {
-        BorrowEntity borrowEntity = BorrowEntity.builder()
-                .member(MemberEntity.builder().id(1).build())
-                .book(BookEntity.builder().id(1).ISBN(9788936433598L).build())
-                .period(new Period(LocalDateTime.now()))
-                .build();
+        BorrowEntity borrowEntity = factory.createBorrowEntity();
         Borrow borrow = borrowMapper.toBorrow(borrowEntity);
 
         System.out.println(gson.toJson(borrow));

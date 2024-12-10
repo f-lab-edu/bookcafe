@@ -1,7 +1,7 @@
 package com.study.bookcafe.dao;
 
-import com.study.bookcafe.entity.MemberEntity;
+import com.study.bookcafe.domain.Member;
 
 public interface MemberRepository {
-    MemberEntity findById(long memberId);
+    Member findById(long memberId);
 }

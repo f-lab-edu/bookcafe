@@ -4,7 +4,6 @@ import com.study.bookcafe.dao.MemberRepository;
 import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.domain.Member;
-import com.study.bookcafe.entity.MemberEntity;
 import com.study.bookcafe.mapper.MemberMapper;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +32,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public Member findById(long memberId) {
-        MemberEntity memberEntity = memberRepository.findById(memberId);
-        return memberMapper.toMember(memberEntity);
+        return memberRepository.findById(memberId);
     }
 
     /**

@@ -2,8 +2,7 @@ package com.study.bookcafe.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +15,8 @@ public class Member {
     private Level level;                    // 회원 등급
     private int borrowCount;                // 현재 대출 권수
 
-    private LocalDate createDate;           // 회원 가입 일자
-    private LocalDate updateDate;           // 회원 수정 일자
+    private LocalDateTime createDate;       // 회원 가입 일자
+    private LocalDateTime updateDate;       // 회원 수정 일자
 
     /**
      * 회원이 대출 가능한 상태인지 알려준다.
@@ -39,7 +38,7 @@ public class Member {
         // 대출 가능한 도서만 목록에 담기
         return bookList.stream()
                 .filter(Book::canBorrow)
-                .map(book -> new Borrow(this, book))
+                .map(book -> new Borrow(this, book, LocalDateTime.now()))
                 .toList();
     }
 }

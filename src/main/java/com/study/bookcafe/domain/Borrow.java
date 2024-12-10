@@ -2,7 +2,6 @@ package com.study.bookcafe.domain;
 
 import com.study.bookcafe.vo.Period;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Builder
@@ -13,12 +12,9 @@ public class Borrow {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
     private Book book;                      // 도서
-//    private Timestamp borrowDate;           // 대출 날짜
-//    private Timestamp returnDate;           // 반납 날짜
-
     private Period period;                  // 대출 기간
 
-    public Borrow(Member member, Book book, LocalDateTime from) {
+    public Borrow(@NonNull Member member, @NonNull Book book, LocalDateTime from) {
         this.member = member;
         this.book = book;
         this.period = new Period(from);

@@ -26,8 +26,7 @@ public class BorrowServiceImpl implements BorrowService {
      */
     @Override
     public Borrow save(Borrow borrow) {
-        BorrowEntity borrowEntity = borrowRepository.save(borrowMapper.toBorrowEntity(borrow));
-        return borrowMapper.toBorrow(borrowEntity);
+        return borrowRepository.save(borrow);
     }
     /**
      * 새로운 여러 대출들을 저장한다.

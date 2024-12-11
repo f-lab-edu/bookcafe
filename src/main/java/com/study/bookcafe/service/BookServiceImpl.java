@@ -2,7 +2,6 @@ package com.study.bookcafe.service;
 
 import com.study.bookcafe.dao.BookRepository;
 import com.study.bookcafe.domain.Book;
-import com.study.bookcafe.entity.BookEntity;
 import com.study.bookcafe.mapper.BookMapper;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +26,7 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book findById(long bookId) {
-        BookEntity bookEntity = bookRepository.findById(bookId);
-        return bookMapper.toBook(bookEntity);
+        return bookRepository.findById(bookId);
     }
 
     /**
@@ -39,7 +37,6 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public List<Book> findByIdList(List<Long> bookIdList) {
-        List<BookEntity> BookEntityList = bookRepository.findByIdList(bookIdList);
-        return bookMapper.toBookList(BookEntityList);
+        return bookRepository.findByIdList(bookIdList);
     }
 }

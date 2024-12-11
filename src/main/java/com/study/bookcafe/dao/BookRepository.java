@@ -1,10 +1,10 @@
 package com.study.bookcafe.dao;
 
-import com.study.bookcafe.entity.BookEntity;
+import com.study.bookcafe.domain.Book;
 
 import java.util.List;
 
 public interface BookRepository {
-    BookEntity findById(long bookId);
-    List<BookEntity> findByIdList(List<Long> bookIdList);
+    Book findById(long bookId);
+    List<Book> findByIdList(List<Long> bookIdList);
 }

@@ -4,9 +4,9 @@ import com.study.bookcafe.dao.MemberRepository;
 import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.domain.Member;
-import com.study.bookcafe.mapper.MemberMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -15,13 +15,11 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BorrowService borrowService;
     private final BookService bookService;
-    private final MemberMapper memberMapper;
 
-    public MemberServiceImpl(MemberRepository memberRepository, BorrowService borrowService, BookService bookService, MemberMapper memberMapper) {
+    public MemberServiceImpl(MemberRepository memberRepository, BorrowService borrowService, BookService bookService) {
         this.memberRepository = memberRepository;
         this.borrowService = borrowService;
         this.bookService = bookService;
-        this.memberMapper = memberMapper;
     }
 
     /**
@@ -39,17 +37,17 @@ public class MemberServiceImpl implements MemberService {
      * 회원이 도서를 대출한다.
      *
      * @param memberId      회원 ID
-     * @param bookIdList    도서 ID 목록
+     * @param bookIds    도서 ID 목록
      * @return 대출 정보
      */
     @Override
-    public List<Borrow> borrowBook(long memberId, List<Long> bookIdList) {
+    public List<Borrow> borrowBook(long memberId, Collection<Long> bookIds) {
         Member member = findById(memberId);
-        List<Book> bookList = bookService.findByIdList(bookIdList);
-        List<Borrow> borrowList = member.borrowBook(bookList);
+        List<Book> books = bookService.findByIdList(bookIds);
+        List<Borrow> borrows = member.borrowBook(books);
 
-        if(borrowList.isEmpty()) return borrowList;
+        if(borrows.isEmpty()) return borrows;
 
-        return borrowService.save(borrowList);
+        return borrowService.save(borrows);
     }
 }

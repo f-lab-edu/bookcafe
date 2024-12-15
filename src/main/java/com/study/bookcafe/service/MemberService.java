@@ -3,6 +3,7 @@ package com.study.bookcafe.service;
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.domain.Member;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface MemberService {
@@ -11,5 +12,5 @@ public interface MemberService {
     Member findById(long memberId);
 
     // 도서 대출
-    List<Borrow> borrowBook(long memberId, List<Long> bookIdList);
+    List<Borrow> borrowBook(long memberId, Collection<Long> bookIds);
 }

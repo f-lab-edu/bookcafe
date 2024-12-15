@@ -2,20 +2,18 @@ package com.study.bookcafe.service;
 
 import com.study.bookcafe.dao.BookRepository;
 import com.study.bookcafe.domain.Book;
-import com.study.bookcafe.mapper.BookMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
 
-    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.bookMapper = bookMapper;
     }
 
     /**
@@ -32,11 +30,11 @@ public class BookServiceImpl implements BookService {
     /**
      * 도서를 ID 목록으로 조회한다.
      *
-     * @param bookIdList 도서 ID 목록
+     * @param bookIds 도서 ID 목록
      * @return 도서 목록
      */
     @Override
-    public List<Book> findByIdList(List<Long> bookIdList) {
-        return bookRepository.findByIdList(bookIdList);
+    public List<Book> findByIdList(Collection<Long> bookIds) {
+        return bookRepository.findByIdList(bookIds);
     }
 }

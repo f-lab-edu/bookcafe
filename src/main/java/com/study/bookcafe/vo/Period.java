@@ -1,5 +1,6 @@
 package com.study.bookcafe.vo;
 
+import com.study.bookcafe.domain.Level;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import java.time.LocalDateTime;
@@ -16,9 +17,9 @@ public class Period {
     private final LocalDateTime from;           // 대출 일자
     private final LocalDateTime to;             // 반납 일자
 
-    public Period(@NonNull LocalDateTime from) {
+    private Period(@NonNull LocalDateTime from, Level level) {
         this.from = from;
-        this.to = this.from.plusWeeks(1);
+        this.to = this.from.plusWeeks(level.getBorrowPeriod());
     }
 
     public Period(@NonNull LocalDateTime from, @NonNull LocalDateTime to) {
@@ -27,4 +28,9 @@ public class Period {
         this.from = from;
         this.to = to;
     }
+
+    public static Period createPeriod(@NonNull LocalDateTime from, Level level) {
+        return new Period(from, level);
+    }
+
 }

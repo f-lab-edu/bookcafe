@@ -18,6 +18,6 @@ public class BorrowDto {
     public BorrowDto(MemberDto member, BookDto book, LocalDateTime from) {
         this.member = member;
         this.book = book;
-        this.period = new Period(from);
+        this.period = Period.createPeriod(from, member.getLevel());
     }
 }

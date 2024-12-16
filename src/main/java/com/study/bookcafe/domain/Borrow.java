@@ -17,7 +17,7 @@ public class Borrow {
     public Borrow(@NonNull Member member, @NonNull Book book, LocalDateTime from) {
         this.member = member;
         this.book = book;
-        this.period = new Period(from);
+        this.period = Period.createPeriod(from, member.getLevel());
     }
 
     /**

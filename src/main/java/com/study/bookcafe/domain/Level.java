@@ -1,19 +1,24 @@
 package com.study.bookcafe.domain;
 
+import lombok.Getter;
+
 public enum Level {
 
-    LIBRARIAN(2, 10,null),          // 사서 회원
-    WORM(1, 5,null),                // 책벌레 회원
-    BASIC(0, 3, WORM);                    // 일반 회원
+    LIBRARIAN(2, 10,null, 2),          // 사서 회원
+    WORM(1, 5,null, 1),                // 책벌레 회원
+    BASIC(0, 3, WORM, 1);                    // 일반 회원
 
     private final int value;                      // 등급 값
     private final int maximumBorrowCount;         // 등급 별 최대 대출 권수
     private final Level next;                     // 다음 등급
+    @Getter
+    private final int borrowPeriod;
 
-    Level(int value, int maximumBorrowCount, Level next) {
+    Level(int value, int maximumBorrowCount, Level next, int borrowPeriod) {
         this.value = value;
         this.maximumBorrowCount = maximumBorrowCount;
         this.next = next;
+        this.borrowPeriod = borrowPeriod;
     }
 
     /**
@@ -25,4 +30,5 @@ public enum Level {
     public boolean isBookBorrowCountLeft(int borrowCount) {
         return this.maximumBorrowCount - borrowCount > 0;
     }
+
 }

@@ -1,6 +1,6 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.dao.MemberRepository;
+import com.study.bookcafe.repository.MemberRepository;
 import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.domain.Member;
@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<Borrow> borrowBook(long memberId, Collection<Long> bookIds) {
         Member member = findById(memberId);
-        List<Book> books = bookService.findByIdList(bookIds);
+        List<Book> books = bookService.findByIds(bookIds);
         List<Borrow> borrows = member.borrowBook(books);
 
         if(borrows.isEmpty()) return borrows;

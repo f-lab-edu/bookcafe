@@ -1,6 +1,6 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.dao.BookRepository;
+import com.study.bookcafe.repository.BookRepository;
 import com.study.bookcafe.domain.Book;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class BookServiceImpl implements BookService {
      * @return 도서 목록
      */
     @Override
-    public List<Book> findByIdList(Collection<Long> bookIds) {
-        return bookRepository.findByIdList(bookIds);
+    public List<Book> findByIds(Collection<Long> bookIds) {
+        return bookRepository.findByIds(bookIds);
     }
 }

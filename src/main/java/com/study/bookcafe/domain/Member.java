@@ -27,16 +27,16 @@ public class Member {
         return this.getLevel().isBookBorrowCountLeft(getBorrowCount());
     }
 
-    public List<Borrow> borrowBook(List<Book> bookList) {
-        List<Borrow> borrowList = new ArrayList<>();
+    public List<Borrow> borrowBook(List<Book> books) {
+        List<Borrow> borrows = new ArrayList<>();
 
         // 회원이 대출 가능한 상태 확인
         if(!this.canBorrow()) {
-            return borrowList;
+            return borrows;
         }
 
         // 대출 가능한 도서만 목록에 담기
-        return bookList.stream()
+        return books.stream()
                 .filter(Book::canBorrow)
                 .map(book -> new Borrow(this, book, LocalDateTime.now()))
                 .toList();

@@ -10,5 +10,5 @@ public interface BookService {
     Book findById(long bookId);
 
     // 도서 목록 조회 (id list)
-    List<Book> findByIdList(Collection<Long> bookIds);
+    List<Book> findByIds(Collection<Long> bookIds);
 }

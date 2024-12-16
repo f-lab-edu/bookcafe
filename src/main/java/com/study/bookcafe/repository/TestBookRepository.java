@@ -1,4 +1,4 @@
-package com.study.bookcafe.dao;
+package com.study.bookcafe.repository;
 
 import com.study.bookcafe.domain.Book;
 import com.study.bookcafe.domain.Inventory;
@@ -35,7 +35,7 @@ public class TestBookRepository implements BookRepository {
     }
 
     @Override
-    public List<Book> findByIdList(Collection<Long> bookIds) {
+    public List<Book> findByIds(Collection<Long> bookIds) {
         List<BookEntity> bookEntities = bookIds.stream()
                 .filter(id -> books.containsKey(id))
                 .map(id -> books.get(id)).toList();

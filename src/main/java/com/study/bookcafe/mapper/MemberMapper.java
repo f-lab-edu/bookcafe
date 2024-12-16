@@ -19,7 +19,7 @@ public interface MemberMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "level", source = "level")
     @Mapping(target = "borrowCount", source = "borrowCount")
-        // Member -> MemberDto
+    // Member -> MemberDto
     MemberDto toMemberDto(Member member);
 
     @Named("MemberDtoToMember")

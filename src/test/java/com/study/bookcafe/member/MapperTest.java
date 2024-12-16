@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class MapperTest {
     private final MemberMapper memberMapper = Mappers.getMapper(MemberMapper.class);
     private final Gson gson = JsonHelper.getGson();
@@ -21,7 +23,7 @@ public class MapperTest {
         MemberDto memberDto = MemberDto.builder().id(2).name("슈카").level(Level.WORM).borrowCount(5).build();
         Member member = memberMapper.toMember(memberDto);
 
-        System.out.println(gson.toJson(member));
+        assertThat(member).isNotNull();
     }
 
     @Test
@@ -30,7 +32,7 @@ public class MapperTest {
         Member member = Member.builder().id(1).name("김도훈").level(Level.BASIC).borrowCount(2).build();
         MemberDto memberDto = memberMapper.toMemberDto(member);
 
-        System.out.println(gson.toJson(memberDto));
+        assertThat(memberDto).isNotNull();
     }
 
     @Test
@@ -39,7 +41,7 @@ public class MapperTest {
         Member member = Member.builder().id(1).name("트럼프").level(Level.LIBRARIAN).borrowCount(7).build();
         MemberEntity memberEntity = memberMapper.toMemberEntity(member);
 
-        System.out.println(gson.toJson(memberEntity));
+        assertThat(memberEntity).isNotNull();
     }
 
     @Test
@@ -48,6 +50,6 @@ public class MapperTest {
         MemberEntity memberEntity = MemberEntity.builder().id(3).name("머스크").level(Level.WORM).borrowCount(2).build();
         Member member = memberMapper.toMember(memberEntity);
 
-        System.out.println(gson.toJson(member));
+        assertThat(member).isNotNull();
     }
 }

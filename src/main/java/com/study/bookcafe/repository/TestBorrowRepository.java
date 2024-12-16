@@ -1,4 +1,4 @@
-package com.study.bookcafe.dao;
+package com.study.bookcafe.repository;
 
 import com.study.bookcafe.domain.Borrow;
 import com.study.bookcafe.entity.BookEntity;

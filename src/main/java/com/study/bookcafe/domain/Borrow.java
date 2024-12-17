@@ -12,12 +12,14 @@ public class Borrow {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
     private Book book;                      // 도서
+    private LocalDateTime time;             // 대출 시간
     private Period period;                  // 대출 기간
 
-    public Borrow(@NonNull Member member, @NonNull Book book, LocalDateTime from) {
+    public Borrow(@NonNull Member member, @NonNull Book book, @NonNull LocalDateTime from) {
         this.member = member;
         this.book = book;
-        this.period = new Period(from);
+        this.time = from;
+        this.period = Period.of(from.toLocalDate(), member.getLevel());
     }
 
     /**

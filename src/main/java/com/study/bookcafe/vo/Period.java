@@ -1,8 +1,9 @@
 package com.study.bookcafe.vo;
 
+import com.study.bookcafe.domain.Level;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @EqualsAndHashCode
 public class Period {
@@ -13,18 +14,23 @@ public class Period {
             - 기본: 1주, 연장 시: 1주 추가, 총 2주
      */
 
-    private final LocalDateTime from;           // 대출 일자
-    private final LocalDateTime to;             // 반납 일자
+    private final LocalDate from;           // 대출 일자
+    private final LocalDate to;             // 반납 일자
 
-    public Period(@NonNull LocalDateTime from) {
+    private Period(@NonNull LocalDate from, Level level) {
         this.from = from;
-        this.to = this.from.plusWeeks(1);
+        this.to = this.from.plusWeeks(level.getBorrowPeriod());
     }
 
-    public Period(@NonNull LocalDateTime from, @NonNull LocalDateTime to) {
+    public Period(@NonNull LocalDate from, @NonNull LocalDate to) {
         if(from.isAfter(to)) throw new IllegalArgumentException("반납 일자는 대출 일자보다 이후여야 합니다.");
 
         this.from = from;
         this.to = to;
     }
+
+    public static Period of(@NonNull LocalDate from, Level level) {
+        return new Period(from, level);
+    }
+
 }

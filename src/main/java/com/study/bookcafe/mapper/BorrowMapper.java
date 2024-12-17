@@ -20,8 +20,7 @@ public interface BorrowMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberDto"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookToBookDto"})
-//    @Mapping(target = "borrowDate", source = "borrowDate")
-//    @Mapping(target = "returnDate", source = "returnDate")
+    @Mapping(target = "time", source = "time")
     @Mapping(target = "period", source = "period")
     // Borrow -> BorrowDto
     BorrowDto toBorrowDto(Borrow borrow);
@@ -30,8 +29,7 @@ public interface BorrowMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberDtoToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookDtoToBook"})
-//    @Mapping(target = "borrowDate", source = "borrowDate")
-//    @Mapping(target = "returnDate", source = "returnDate")
+    @Mapping(target = "time", source = "time")
     @Mapping(target = "period", source = "period")
     // BorrowDto -> Borrow
     Borrow toBorrow(BorrowDto borrowDto);
@@ -40,8 +38,7 @@ public interface BorrowMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberEntity"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookToBookEntity"})
-//    @Mapping(target = "borrowDate", source = "borrowDate")
-//    @Mapping(target = "returnDate", source = "returnDate")
+    @Mapping(target = "time", source = "time")
     @Mapping(target = "period", source = "period")
     // Borrow -> BorrowEntity
     BorrowEntity toBorrowEntity(Borrow borrow);
@@ -50,8 +47,7 @@ public interface BorrowMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberEntityToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookEntityToBook"})
-//    @Mapping(target = "borrowDate", source = "borrowDate")
-//    @Mapping(target = "returnDate", source = "returnDate")
+    @Mapping(target = "time", source = "time")
     @Mapping(target = "period", source = "period")
     // BorrowEntity -> Borrow
     Borrow toBorrow(BorrowEntity borrowEntity);

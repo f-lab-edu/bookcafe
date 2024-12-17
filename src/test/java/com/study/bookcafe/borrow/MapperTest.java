@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -39,7 +39,7 @@ public class MapperTest {
             return Borrow.builder()
                     .member(Member.builder().id(1).build())
                     .book(Book.builder().id(1).ISBN(9788936433598L).build())
-                    .period(Period.createPeriod(LocalDateTime.now(), Level.BASIC))
+                    .period(Period.of(LocalDate.now(), Level.BASIC))
                     .build();
         }
 
@@ -48,7 +48,7 @@ public class MapperTest {
             return BorrowDto.builder()
                     .member(MemberDto.builder().id(1).build())
                     .book(BookDto.builder().id(1).ISBN(9788936433598L).build())
-                    .period(Period.createPeriod(LocalDateTime.now(), Level.BASIC))
+                    .period(Period.of(LocalDate.now(), Level.BASIC))
                     .build();
         }
 
@@ -57,7 +57,7 @@ public class MapperTest {
             return BorrowEntity.builder()
                     .member(MemberEntity.builder().id(1).build())
                     .book(BookEntity.builder().id(1).ISBN(9788936433598L).build())
-                    .period(Period.createPeriod(LocalDateTime.now(), Level.BASIC))
+                    .period(Period.of(LocalDate.now(), Level.BASIC))
                     .build();
         }
     }

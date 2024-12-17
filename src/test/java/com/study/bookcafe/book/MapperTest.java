@@ -14,6 +14,8 @@ import org.mapstruct.factory.Mappers;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class MapperTest {
     private final BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
     private final Gson gson = JsonHelper.getGson();
@@ -27,7 +29,7 @@ public class MapperTest {
                 .price(35000).inventory(new Inventory(5)).build();
         BookDto bookDto = bookMapper.toBookDto(book);
 
-        System.out.println(gson.toJson(bookDto));
+        assertThat(bookDto).isNotNull();
     }
 
     @Test
@@ -39,7 +41,7 @@ public class MapperTest {
                 .price(35000).inventory(new Inventory(5)).build();
         Book book = bookMapper.toBook(bookDto);
 
-        System.out.println(gson.toJson(book));
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -51,7 +53,7 @@ public class MapperTest {
                 .price(35000).inventory(new Inventory(5)).build();
         BookEntity bookEntity = bookMapper.toBookEntity(book);
 
-        System.out.println(gson.toJson(bookEntity));
+        assertThat(bookEntity).isNotNull();
     }
 
     @Test
@@ -63,6 +65,6 @@ public class MapperTest {
                 .price(35000).inventory(new Inventory(5)).build();
         Book book = bookMapper.toBook(bookEntity);
 
-        System.out.println(gson.toJson(book));
+        assertThat(book).isNotNull();
     }
 }

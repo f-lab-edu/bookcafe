@@ -1,6 +1,6 @@
 package com.study.bookcafe.service;
 
-import com.study.bookcafe.dao.BorrowRepository;
+import com.study.bookcafe.repository.BorrowRepository;
 import com.study.bookcafe.domain.Borrow;
 import org.springframework.stereotype.Service;
 

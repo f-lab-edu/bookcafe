@@ -1,12 +1,12 @@
 package com.study.bookcafe.member;
 
 import com.google.gson.Gson;
-import com.study.bookcafe.common.JsonHelper;
-import com.study.bookcafe.domain.Level;
-import com.study.bookcafe.domain.Member;
-import com.study.bookcafe.dto.MemberDto;
-import com.study.bookcafe.entity.MemberEntity;
-import com.study.bookcafe.mapper.MemberMapper;
+import com.study.bookcafe.interfaces.common.JsonHelper;
+import com.study.bookcafe.domain.member.Level;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.interfaces.member.MemberDto;
+import com.study.bookcafe.domain.member.MemberEntity;
+import com.study.bookcafe.interfaces.member.MemberMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;

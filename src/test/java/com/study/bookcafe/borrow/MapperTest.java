@@ -1,22 +1,26 @@
 package com.study.bookcafe.borrow;
 
 import com.google.gson.Gson;
-import com.study.bookcafe.common.JsonHelper;
-import com.study.bookcafe.domain.*;
-import com.study.bookcafe.dto.BookDto;
-import com.study.bookcafe.dto.BorrowDto;
-import com.study.bookcafe.dto.MemberDto;
-import com.study.bookcafe.entity.BookEntity;
-import com.study.bookcafe.entity.BorrowEntity;
-import com.study.bookcafe.entity.MemberEntity;
-import com.study.bookcafe.mapper.BorrowMapper;
-import com.study.bookcafe.vo.Period;
+import com.study.bookcafe.interfaces.common.JsonHelper;
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.member.Level;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.interfaces.book.BookDto;
+import com.study.bookcafe.interfaces.borrow.BorrowDto;
+import com.study.bookcafe.interfaces.member.MemberDto;
+import com.study.bookcafe.infrastructure.book.BookEntity;
+import com.study.bookcafe.infrastructure.borrow.BorrowEntity;
+import com.study.bookcafe.infrastructure.member.MemberEntity;
+import com.study.bookcafe.interfaces.borrow.BorrowMapper;
+import com.study.bookcafe.domain.borrow.Period;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -40,6 +44,7 @@ public class MapperTest {
                     .member(Member.builder().id(1).build())
                     .book(Book.builder().id(1).ISBN(9788936433598L).build())
                     .period(Period.of(LocalDate.now(), Level.BASIC))
+                    .time(LocalDateTime.now())
                     .build();
         }
 
@@ -49,6 +54,7 @@ public class MapperTest {
                     .member(MemberDto.builder().id(1).build())
                     .book(BookDto.builder().id(1).ISBN(9788936433598L).build())
                     .period(Period.of(LocalDate.now(), Level.BASIC))
+                    .time(LocalDateTime.now())
                     .build();
         }
 
@@ -58,6 +64,7 @@ public class MapperTest {
                     .member(MemberEntity.builder().id(1).build())
                     .book(BookEntity.builder().id(1).ISBN(9788936433598L).build())
                     .period(Period.of(LocalDate.now(), Level.BASIC))
+                    .time(LocalDateTime.now())
                     .build();
         }
     }

@@ -1,7 +1,7 @@
 package com.study.bookcafe.member;
 
-import com.study.bookcafe.domain.Level;
-import com.study.bookcafe.domain.Member;
+import com.study.bookcafe.domain.member.Level;
+import com.study.bookcafe.domain.member.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

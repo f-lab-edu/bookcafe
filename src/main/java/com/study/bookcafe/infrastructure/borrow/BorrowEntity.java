@@ -1,7 +1,8 @@
-package com.study.bookcafe.domain.borrow;
+package com.study.bookcafe.infrastructure.borrow;
 
-import com.study.bookcafe.domain.book.BookEntity;
-import com.study.bookcafe.domain.member.MemberEntity;
+import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.infrastructure.book.BookEntity;
+import com.study.bookcafe.infrastructure.member.MemberEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;

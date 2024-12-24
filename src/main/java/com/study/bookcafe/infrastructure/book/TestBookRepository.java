@@ -1,5 +1,8 @@
-package com.study.bookcafe.domain.book;
+package com.study.bookcafe.infrastructure.book;
 
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookRepository;
+import com.study.bookcafe.domain.book.Inventory;
 import com.study.bookcafe.interfaces.book.BookMapper;
 import org.springframework.stereotype.Repository;
 

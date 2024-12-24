@@ -1,5 +1,6 @@
-package com.study.bookcafe.domain.book;
+package com.study.bookcafe.infrastructure.book;
 
+import com.study.bookcafe.domain.book.Inventory;
 import lombok.Builder;
 import lombok.Getter;
 

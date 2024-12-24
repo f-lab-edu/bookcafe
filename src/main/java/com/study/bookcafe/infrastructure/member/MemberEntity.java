@@ -1,5 +1,6 @@
-package com.study.bookcafe.domain.member;
+package com.study.bookcafe.infrastructure.member;
 
+import com.study.bookcafe.domain.member.Level;
 import lombok.Builder;
 import lombok.Getter;
 

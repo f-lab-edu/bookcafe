@@ -2,7 +2,7 @@ package com.study.bookcafe.interfaces.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.interfaces.book.BookMapper;
-import com.study.bookcafe.domain.borrow.BorrowEntity;
+import com.study.bookcafe.infrastructure.borrow.BorrowEntity;
 import com.study.bookcafe.interfaces.member.MemberMapper;
 import jdk.jfr.Name;
 import org.mapstruct.*;

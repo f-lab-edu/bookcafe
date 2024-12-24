@@ -5,7 +5,7 @@ import com.study.bookcafe.interfaces.common.JsonHelper;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.book.Inventory;
 import com.study.bookcafe.interfaces.book.BookDto;
-import com.study.bookcafe.domain.book.BookEntity;
+import com.study.bookcafe.infrastructure.book.BookEntity;
 import com.study.bookcafe.interfaces.book.BookMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

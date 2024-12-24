@@ -1,5 +1,8 @@
-package com.study.bookcafe.domain.member;
+package com.study.bookcafe.infrastructure.member;
 
+import com.study.bookcafe.domain.member.Level;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.member.MemberRepository;
 import com.study.bookcafe.interfaces.member.MemberMapper;
 import org.springframework.stereotype.Repository;
 

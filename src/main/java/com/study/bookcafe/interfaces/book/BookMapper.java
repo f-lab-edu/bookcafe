@@ -1,7 +1,7 @@
 package com.study.bookcafe.interfaces.book;
 
 import com.study.bookcafe.domain.book.Book;
-import com.study.bookcafe.domain.book.BookEntity;
+import com.study.bookcafe.infrastructure.book.BookEntity;
 import org.mapstruct.*;
 
 import java.util.List;

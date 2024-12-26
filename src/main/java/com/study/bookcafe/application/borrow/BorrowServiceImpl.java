@@ -2,6 +2,7 @@ package com.study.bookcafe.application.borrow;
 
 import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -25,6 +26,7 @@ public class BorrowServiceImpl implements BorrowService {
     public Borrow save(Borrow borrow) {
         return borrowRepository.save(borrow);
     }
+
     /**
      * 새로운 여러 대출들을 저장한다.
      *
@@ -34,6 +36,17 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     public List<Borrow> save(Collection<Borrow> borrows) {
         return borrowRepository.save(borrows);
+    }
+
+    /**
+     * 새로운 예약을 저장한다.
+     *
+     * @param reservation 예악 정보
+     * @return 생성한 예약 정보
+     */
+    @Override
+    public Reservation save(Reservation reservation) {
+        return borrowRepository.save(reservation);
     }
 
 }

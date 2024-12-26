@@ -1,5 +1,6 @@
 package com.study.bookcafe.infrastructure.borrow;
 
+import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.infrastructure.book.BookEntity;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
@@ -52,5 +53,10 @@ public class TestBorrowRepository implements BorrowRepository {
                 .stream().filter(borrow -> this.borrows.containsKey(borrow.getId()))
                 .map(borrow -> this.borrows.get(borrow.getId())).toList();
         return borrowMapper.toBorrowList(borrowEntities);
+    }
+
+    @Override
+    public Reservation save(Reservation reservation) {
+        return reservation;
     }
 }

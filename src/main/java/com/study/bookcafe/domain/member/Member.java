@@ -2,6 +2,7 @@ package com.study.bookcafe.domain.member;
 
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
 import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDateTime;
@@ -29,6 +30,12 @@ public class Member {
         return this.getLevel().isBookBorrowCountLeft(getBorrowCount());
     }
 
+    /**
+     * 회원이 도서를 대출한다.
+     *
+     * @param books 도서 목록
+     * @return borrows 대출 목록
+     */
     public List<Borrow> borrowBook(List<Book> books) {
         List<Borrow> borrows = new ArrayList<>();
 
@@ -43,4 +50,33 @@ public class Member {
                 .map(book -> new Borrow(this, book, LocalDateTime.now()))
                 .toList();
     }
+
+    /**
+     * 회원이 도서 대출을 예약한다.
+     *
+     * @param book 도서
+     * @return 예약
+     */
+    public Reservation reserveBook(Book book) {
+        // 대출 가능한 상태
+        if (this.canBorrow() && book.canBorrow()) {
+            // 대출 로직으로 넘기고 싶음
+            // 1. throw PossibleBorrowException
+            // 2. ?
+
+        }
+        // 도서는 대출 가능한 상태지만 회원은 대출 불가능한 상태
+        else if (book.canBorrow()) {
+            // 도서는 대출 가능한 상태라고 안내해주고싶음
+
+        }
+
+        return Reservation.builder()
+                .member(this)
+                .book(book)
+                .time(LocalDateTime.now())
+                .build();
+    }
+
+
 }

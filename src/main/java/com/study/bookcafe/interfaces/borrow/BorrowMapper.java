@@ -1,6 +1,8 @@
 package com.study.bookcafe.interfaces.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.infrastructure.borrow.ReservationEntity;
 import com.study.bookcafe.interfaces.book.BookMapper;
 import com.study.bookcafe.infrastructure.borrow.BorrowEntity;
 import com.study.bookcafe.interfaces.member.MemberMapper;
@@ -64,4 +66,20 @@ public interface BorrowMapper {
     @IterableMapping(qualifiedByName = "BorrowToBorrowDto")
     // List<Borrow> -> List<BorrowDto>
     List<BorrowDto> toBorrowDtoList(List<Borrow> borrowList);
+
+    @Named("ReservationEntityToReservation")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "memberId", source = "memberId")
+    @Mapping(target = "bookId", source = "bookId")
+    @Mapping(target = "time", source = "time")
+    // ReservationEntity -> Reservation
+    Reservation toReservation(ReservationEntity reservationEntity);
+
+    @Named("ReservationToReservationEntity")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "memberId", source = "memberId")
+    @Mapping(target = "bookId", source = "bookId")
+    @Mapping(target = "time", source = "time")
+    // Reservation -> ReservationEntity
+    ReservationEntity toReservationEntity(Reservation reservation);
 }

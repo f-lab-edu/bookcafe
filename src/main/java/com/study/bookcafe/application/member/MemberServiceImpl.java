@@ -2,6 +2,9 @@ package com.study.bookcafe.application.member;
 
 import com.study.bookcafe.application.book.BookService;
 import com.study.bookcafe.application.borrow.BorrowService;
+import com.study.bookcafe.application.exception.BorrowableException;
+import com.study.bookcafe.application.exception.NonBorrowableMemberException;
+import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.member.MemberRepository;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
@@ -38,9 +41,9 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 회원이 도서를 대출한다.
      *
-     * @param memberId      회원 ID
-     * @param bookIds    도서 ID 목록
-     * @return 대출 정보
+     * @param memberId 회원 ID
+     * @param bookIds 도서 ID 목록
+     * @return 대출
      */
     @Override
     public List<Borrow> borrowBook(long memberId, Collection<Long> bookIds) {
@@ -48,8 +51,36 @@ public class MemberServiceImpl implements MemberService {
         List<Book> books = bookService.findByIds(bookIds);
         List<Borrow> borrows = member.borrowBook(books);
 
-        if(borrows.isEmpty()) return borrows;
+        if (borrows.isEmpty()) return borrows;
 
         return borrowService.save(borrows);
     }
+
+    /**
+     * 회원이 도서 대출을 예약한다.
+     * @param memberId 회원 ID
+     * @param bookId 도서 ID
+     * @return 예약
+     */
+    @Override
+    public Reservation reserveBook(long memberId, long bookId) {
+        Member member = findById(memberId);
+        Book book = bookService.findById(bookId);
+
+        // 대출 가능한 상태 -> 대출 로직으로 안내
+        if (member.canBorrow() && book.canBorrow()) {
+            throw new BorrowableException("해당 도서는 대출 가능한 상태입니다.");
+        }
+
+        // 도서는 대출 가능한 상태지만 회원은 대출 불가능한 상태 ->  대출 가능한 상태라고 안내
+        if (book.canBorrow()) {
+            throw new NonBorrowableMemberException("해당 도서는 대출 가능한 상태이지만 회원님은 대출 가능한 상태가 아닙니다.");
+        }
+
+        Reservation reservation = member.reserveBook(book);
+
+        return borrowService.save(reservation);
+    }
+
+
 }

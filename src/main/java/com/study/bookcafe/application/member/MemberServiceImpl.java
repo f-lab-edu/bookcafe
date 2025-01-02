@@ -2,6 +2,8 @@ package com.study.bookcafe.application.member;
 
 import com.study.bookcafe.application.book.BookService;
 import com.study.bookcafe.application.borrow.BorrowService;
+import com.study.bookcafe.application.exception.BorrowableException;
+import com.study.bookcafe.application.exception.NonBorrowableMemberException;
 import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.member.MemberRepository;
 import com.study.bookcafe.domain.book.Book;
@@ -64,6 +66,16 @@ public class MemberServiceImpl implements MemberService {
     public Reservation reserveBook(long memberId, long bookId) {
         Member member = findById(memberId);
         Book book = bookService.findById(bookId);
+
+        // 대출 가능한 상태 -> 대출 로직으로 안내
+        if (member.canBorrow() && book.canBorrow()) {
+            throw new BorrowableException("해당 도서는 대출 가능한 상태입니다.");
+        }
+
+        // 도서는 대출 가능한 상태지만 회원은 대출 불가능한 상태 ->  대출 가능한 상태라고 안내
+        if (book.canBorrow()) {
+            throw new NonBorrowableMemberException("해당 도서는 대출 가능한 상태이지만 회원님은 대출 가능한 상태가 아닙니다.");
+        }
 
         Reservation reservation = member.reserveBook(book);
 

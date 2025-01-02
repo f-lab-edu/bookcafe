@@ -69,16 +69,16 @@ public interface BorrowMapper {
 
     @Named("ReservationEntityToReservation")
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "member", source = "member")
-    @Mapping(target = "book", source = "book")
+    @Mapping(target = "memberId", source = "memberId")
+    @Mapping(target = "bookId", source = "bookId")
     @Mapping(target = "time", source = "time")
     // ReservationEntity -> Reservation
     Reservation toReservation(ReservationEntity reservationEntity);
 
     @Named("ReservationToReservationEntity")
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "member", source = "member")
-    @Mapping(target = "book", source = "book")
+    @Mapping(target = "memberId", source = "memberId")
+    @Mapping(target = "bookId", source = "bookId")
     @Mapping(target = "time", source = "time")
     // Reservation -> ReservationEntity
     ReservationEntity toReservationEntity(Reservation reservation);

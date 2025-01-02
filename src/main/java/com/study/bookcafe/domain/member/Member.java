@@ -3,6 +3,7 @@ package com.study.bookcafe.domain.member;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.interfaces.member.MembersReservationDetails;
 import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDateTime;
@@ -20,6 +21,9 @@ public class Member {
 
     private LocalDateTime createDate;       // 회원 가입 일자
     private LocalDateTime updateDate;       // 회원 수정 일자
+
+    // 예약내역 목록
+    private List<MembersReservationDetails> reservations;
 
     /**
      * 회원이 대출 가능한 상태인지 알려준다.
@@ -58,25 +62,11 @@ public class Member {
      * @return 예약
      */
     public Reservation reserveBook(Book book) {
-        // 대출 가능한 상태
-        if (this.canBorrow() && book.canBorrow()) {
-            // 대출 로직으로 넘기고 싶음
-            // 1. throw PossibleBorrowException
-            // 2. ?
-
-        }
-        // 도서는 대출 가능한 상태지만 회원은 대출 불가능한 상태
-        else if (book.canBorrow()) {
-            // 도서는 대출 가능한 상태라고 안내해주고싶음
-
-        }
-
         return Reservation.builder()
-                .member(this)
-                .book(book)
+                .memberId(this.getId())
+                .bookId(book.getId())
                 .time(LocalDateTime.now())
                 .build();
     }
-
 
 }

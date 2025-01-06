@@ -1,4 +1,4 @@
-package com.study.bookcafe.borrow;
+package com.study.bookcafe.member;
 
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.book.Inventory;

@@ -3,7 +3,6 @@ package com.study.bookcafe.domain.member;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
-import com.study.bookcafe.interfaces.member.MembersReservationDetails;
 import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDateTime;
@@ -21,9 +20,6 @@ public class Member {
 
     private LocalDateTime createDate;       // 회원 가입 일자
     private LocalDateTime updateDate;       // 회원 수정 일자
-
-    // 예약내역 목록
-    private List<MembersReservationDetails> reservations;
 
     /**
      * 회원이 대출 가능한 상태인지 알려준다.

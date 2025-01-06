@@ -9,6 +9,7 @@ import com.study.bookcafe.domain.member.MemberRepository;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.borrow.BorrowDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -57,6 +58,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
+     * 회원의 대출 목록을 조회한다.
+     *
+     * @param memberId 회원 ID
+     * @return 대출 목록
+     */
+    @Override
+    public List<BorrowDetails> findBorrows(long memberId) {
+        return borrowService.findBorrows(memberId);
+    }
+
+    /**
      * 회원이 도서 대출을 예약한다.
      * @param memberId 회원 ID
      * @param bookId 도서 ID
@@ -81,6 +93,4 @@ public class MemberServiceImpl implements MemberService {
 
         return borrowService.save(reservation);
     }
-
-
 }

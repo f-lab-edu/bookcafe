@@ -57,15 +57,15 @@ public interface BorrowMapper {
 
     @IterableMapping(qualifiedByName = "BorrowToBorrowEntity")
     // List<Borrow> -> List<BorrowEntity>
-    List<BorrowEntity> toBorrowEntityList(List<Borrow> borrowList);
+    List<BorrowEntity> toBorrowEntities(List<Borrow> borrows);
 
     @IterableMapping(qualifiedByName = "BorrowEntityToBorrow")
     // List<BorrowEntity> -> List<Borrow>
-    List<Borrow> toBorrowList(List<BorrowEntity> borrowEntityList);
+    List<Borrow> toBorrows(List<BorrowEntity> borrowEntities);
 
     @IterableMapping(qualifiedByName = "BorrowToBorrowDto")
     // List<Borrow> -> List<BorrowDto>
-    List<BorrowDto> toBorrowDtoList(List<Borrow> borrowList);
+    List<BorrowDto> toBorrowDtos(List<Borrow> borrows);
 
     @Named("ReservationEntityToReservation")
     @Mapping(target = "id", source = "id")

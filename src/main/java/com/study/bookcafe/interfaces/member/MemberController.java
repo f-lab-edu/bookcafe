@@ -35,7 +35,7 @@ public class MemberController {
     @ResponseBody
     public ResponseEntity<List<BorrowDto>> borrowBook(@RequestBody RequestBorrowDto requestBorrowDto) {
         List<Borrow> borrows = memberService.borrowBook(requestBorrowDto.getMemberId(), requestBorrowDto.getBookdIdList());
-        return ResponseEntity.ok(borrowMapper.toBorrowDtoList(borrows));
+        return ResponseEntity.ok(borrowMapper.toBorrowDtos(borrows));
     }
 
 }

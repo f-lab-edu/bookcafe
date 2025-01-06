@@ -1,10 +1,10 @@
-package com.study.bookcafe.borrow;
+package com.study.bookcafe.member;
 
 import com.google.gson.Gson;
 import com.study.bookcafe.application.member.MemberService;
+import com.study.bookcafe.domain.borrow.BorrowDetails;
 import com.study.bookcafe.interfaces.common.JsonHelper;
 import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.interfaces.borrow.BorrowMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,6 @@ public class BorrowTest {
 
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private BorrowMapper borrowMapper;
 
     private final Gson gson = JsonHelper.getGson();
 
@@ -36,5 +34,16 @@ public class BorrowTest {
         borrows1.forEach(borrow -> assertThat(Borrow.successBorrow(borrow)).isEqualTo(true));
         borrows2.forEach(borrow -> assertThat(Borrow.successBorrow(borrow)).isEqualTo(true));
 
+    }
+
+    @Test
+    @DisplayName("회원의 대출 목록을 조회한다.")
+    public void testFindBorrows() {
+
+        long memberId = 1L;
+
+        List<BorrowDetails> borrows = memberService.findBorrows(memberId);
+
+        assertThat(borrows.size()).isEqualTo(2);
     }
 }

@@ -1,10 +1,10 @@
 package com.study.bookcafe.member;
 
-import com.study.bookcafe.domain.book.Book;
-import com.study.bookcafe.domain.book.Inventory;
-import com.study.bookcafe.domain.borrow.Reservation;
-import com.study.bookcafe.domain.member.Level;
-import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.command.book.Book;
+import com.study.bookcafe.domain.command.book.Inventory;
+import com.study.bookcafe.domain.command.borrow.Reservation;
+import com.study.bookcafe.domain.command.member.Level;
+import com.study.bookcafe.domain.command.member.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.sql.Date;

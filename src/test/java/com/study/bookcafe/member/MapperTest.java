@@ -1,11 +1,11 @@
 package com.study.bookcafe.member;
 
 import com.google.gson.Gson;
+import com.study.bookcafe.infrastructure.query.member.MemberEntity;
 import com.study.bookcafe.interfaces.common.JsonHelper;
-import com.study.bookcafe.domain.member.Level;
-import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.command.member.Level;
+import com.study.bookcafe.domain.command.member.Member;
 import com.study.bookcafe.interfaces.member.MemberDto;
-import com.study.bookcafe.infrastructure.member.MemberEntity;
 import com.study.bookcafe.interfaces.member.MemberMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,19 +1,19 @@
 package com.study.bookcafe.borrow;
 
 import com.google.gson.Gson;
+import com.study.bookcafe.infrastructure.query.book.BookEntity;
+import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
+import com.study.bookcafe.infrastructure.query.member.MemberEntity;
 import com.study.bookcafe.interfaces.common.JsonHelper;
-import com.study.bookcafe.domain.book.Book;
-import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.member.Level;
-import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.command.book.Book;
+import com.study.bookcafe.domain.command.borrow.Borrow;
+import com.study.bookcafe.domain.command.member.Level;
+import com.study.bookcafe.domain.command.member.Member;
 import com.study.bookcafe.interfaces.book.BookDto;
 import com.study.bookcafe.interfaces.borrow.BorrowDto;
 import com.study.bookcafe.interfaces.member.MemberDto;
-import com.study.bookcafe.infrastructure.book.BookEntity;
-import com.study.bookcafe.infrastructure.borrow.BorrowEntity;
-import com.study.bookcafe.infrastructure.member.MemberEntity;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.domain.command.borrow.Period;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;

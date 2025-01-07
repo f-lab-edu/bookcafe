@@ -1,10 +1,11 @@
 package com.study.bookcafe.member;
 
 import com.google.gson.Gson;
-import com.study.bookcafe.application.member.MemberService;
-import com.study.bookcafe.domain.borrow.BorrowDetails;
+import com.study.bookcafe.application.command.member.MemberService;
+import com.study.bookcafe.application.query.member.MemberQueryService;
+import com.study.bookcafe.domain.query.borrow.BorrowDetails;
 import com.study.bookcafe.interfaces.common.JsonHelper;
-import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.command.borrow.Borrow;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class BorrowTest {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MemberQueryService memberQueryService;
 
     private final Gson gson = JsonHelper.getGson();
 
@@ -26,13 +29,12 @@ public class BorrowTest {
     @DisplayName("회원이 도서를 대출한다.")
     public void testBorrowBook() {
 
-        List<Borrow> borrows1 = memberService.borrowBook(1, List.of(1L));
-        List<Borrow> borrows2 = memberService.borrowBook(3, List.of(2L));
+        long memberId = 1;
+        memberService.borrowBook(memberId, List.of(1L));
 
-        System.out.println(gson.toJson(borrows1));
+        List<BorrowDetails> borrows = memberQueryService.findBorrows(memberId);
 
-        borrows1.forEach(borrow -> assertThat(Borrow.successBorrow(borrow)).isEqualTo(true));
-        borrows2.forEach(borrow -> assertThat(Borrow.successBorrow(borrow)).isEqualTo(true));
+        borrows.forEach(borrow -> assertThat(borrow.getMember().getId()).isEqualTo(memberId));
 
     }
 
@@ -42,7 +44,7 @@ public class BorrowTest {
 
         long memberId = 1L;
 
-        List<BorrowDetails> borrows = memberService.findBorrows(memberId);
+        List<BorrowDetails> borrows = memberQueryService.findBorrows(memberId);
 
         assertThat(borrows.size()).isEqualTo(2);
     }

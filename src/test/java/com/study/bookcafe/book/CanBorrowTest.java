@@ -1,7 +1,7 @@
 package com.study.bookcafe.book;
 
-import com.study.bookcafe.domain.book.Book;
-import com.study.bookcafe.domain.book.Inventory;
+import com.study.bookcafe.domain.command.book.Book;
+import com.study.bookcafe.domain.command.book.Inventory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

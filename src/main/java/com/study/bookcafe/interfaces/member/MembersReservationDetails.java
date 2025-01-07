@@ -1,6 +1,6 @@
 package com.study.bookcafe.interfaces.member;
 
-import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.command.book.Book;
 import lombok.Getter;
 import lombok.Setter;
 

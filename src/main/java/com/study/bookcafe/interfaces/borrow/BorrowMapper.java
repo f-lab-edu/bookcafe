@@ -1,10 +1,10 @@
 package com.study.bookcafe.interfaces.borrow;
 
-import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.borrow.Reservation;
-import com.study.bookcafe.infrastructure.borrow.ReservationEntity;
+import com.study.bookcafe.domain.command.borrow.Borrow;
+import com.study.bookcafe.domain.command.borrow.Reservation;
+import com.study.bookcafe.infrastructure.command.borrow.ReservationEntity;
+import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.interfaces.book.BookMapper;
-import com.study.bookcafe.infrastructure.borrow.BorrowEntity;
 import com.study.bookcafe.interfaces.member.MemberMapper;
 import jdk.jfr.Name;
 import org.mapstruct.*;
@@ -57,15 +57,15 @@ public interface BorrowMapper {
 
     @IterableMapping(qualifiedByName = "BorrowToBorrowEntity")
     // List<Borrow> -> List<BorrowEntity>
-    List<BorrowEntity> toBorrowEntityList(List<Borrow> borrowList);
+    List<BorrowEntity> toBorrowEntities(List<Borrow> borrows);
 
     @IterableMapping(qualifiedByName = "BorrowEntityToBorrow")
     // List<BorrowEntity> -> List<Borrow>
-    List<Borrow> toBorrowList(List<BorrowEntity> borrowEntityList);
+    List<Borrow> toBorrows(List<BorrowEntity> borrowEntities);
 
     @IterableMapping(qualifiedByName = "BorrowToBorrowDto")
     // List<Borrow> -> List<BorrowDto>
-    List<BorrowDto> toBorrowDtoList(List<Borrow> borrowList);
+    List<BorrowDto> toBorrowDtos(List<Borrow> borrows);
 
     @Named("ReservationEntityToReservation")
     @Mapping(target = "id", source = "id")

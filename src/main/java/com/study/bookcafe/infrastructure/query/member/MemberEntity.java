@@ -1,14 +1,12 @@
-package com.study.bookcafe.interfaces.member;
+package com.study.bookcafe.infrastructure.query.member;
 
 import com.study.bookcafe.domain.command.member.Level;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 @Builder
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class MemberDto {
+public class MemberEntity {
     private long id;                        // 회원 ID
     private String name;                    // 회원 이름
     private Level level;                    // 회원 등급

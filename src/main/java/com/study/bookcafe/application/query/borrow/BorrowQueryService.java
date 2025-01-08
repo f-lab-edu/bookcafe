@@ -11,6 +11,6 @@ public interface BorrowQueryService {
     List<BorrowDetails> findBorrows(long memberId);
 
     // 도서 예약 조회
-    List<MembersReservationDetails> findMembersReservations(long memberId);
+    List<MembersReservationDetails> findMembersReservationDetails(long memberId);
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 @Repository
 public class TestBorrowRepository implements BorrowRepository {
-
     private final BorrowMapper borrowMapper;
 
     public TestBorrowRepository(BorrowMapper borrowMapper) {
@@ -46,7 +45,7 @@ public class TestBorrowRepository implements BorrowRepository {
         MembersReservationDetails membersReservationDetails = TestBorrowQueryStorage.membersReservations.get(memberId).stream()
                 .filter(reservation -> reservation.getId() == reservationId)
                 .findFirst()
-                .get();
+                .orElse(null);
 
         TestBorrowQueryStorage.membersReservations.get(memberId).remove(membersReservationDetails);
     }

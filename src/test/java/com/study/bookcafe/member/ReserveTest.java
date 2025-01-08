@@ -59,9 +59,9 @@ public class ReserveTest {
 
     @Test
     @DisplayName("회원의 도서 예약 목록을 조회한다.")
-    public void findMembersReservationsTest() {
+    public void findMembersReservationDetailsTest() {
         long memberId = 1L;
-        List<MembersReservationDetails> membersReservations = memberQueryService.findReservations(memberId);
+        List<MembersReservationDetails> membersReservations = memberQueryService.findMembersReservationDetails(memberId);
         assertThat(membersReservations.size()).isEqualTo(TestBorrowQueryStorage.membersReservations.size());
     }
 
@@ -75,7 +75,7 @@ public class ReserveTest {
         memberService.cancelReservation(reservationId);
 
         // 예약 취소 후 회원의 예약 목록
-        List<MembersReservationDetails> membersReservations = memberQueryService.findReservations(memberId);
+        List<MembersReservationDetails> membersReservations = memberQueryService.findMembersReservationDetails(memberId);
 
         // 예약 목록에서 삭제됐는지 검증
         assertThat(membersReservations.stream()

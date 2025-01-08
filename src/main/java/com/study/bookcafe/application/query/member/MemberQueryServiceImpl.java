@@ -49,7 +49,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
      * @return 예약 목록
      */
     @Override
-    public List<MembersReservationDetails> findReservations(long memberId) {
-        return borrowQueryService.findMembersReservations(memberId);
+    public List<MembersReservationDetails> findMembersReservationDetails(long memberId) {
+        return borrowQueryService.findMembersReservationDetails(memberId);
     }
 }

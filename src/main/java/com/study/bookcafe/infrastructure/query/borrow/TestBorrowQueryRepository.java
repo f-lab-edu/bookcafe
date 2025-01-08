@@ -29,7 +29,7 @@ public class TestBorrowQueryRepository implements BorrowQueryRepository {
     }
 
     @Override
-    public List<MembersReservationDetails> findMembersReservations(long memberId) {
+    public List<MembersReservationDetails> findMembersReservationDetails(long memberId) {
         return TestBorrowQueryStorage.membersReservations.get(memberId);
     }
 

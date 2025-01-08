@@ -27,8 +27,8 @@ public class BorrowQueryServiceImpl implements BorrowQueryService {
     }
 
     @Override
-    public List<MembersReservationDetails> findMembersReservations(long memberId) {
-        return borrowQueryRepository.findMembersReservations(memberId);
+    public List<MembersReservationDetails> findMembersReservationDetails(long memberId) {
+        return borrowQueryRepository.findMembersReservationDetails(memberId);
     }
 
 }

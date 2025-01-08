@@ -8,6 +8,6 @@ public interface BorrowQueryRepository {
 
     BorrowDetails findById(long borrowId);
     List<BorrowDetails> findByMemberId(long memberId);
-    List<MembersReservationDetails> findMembersReservations(long memberId);
+    List<MembersReservationDetails> findMembersReservationDetails(long memberId);
 
 }

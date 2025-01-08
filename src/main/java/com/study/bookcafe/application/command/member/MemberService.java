@@ -13,4 +13,7 @@ public interface MemberService {
 
     // 도서 예약
     void reserveBook(long memberId, long bookId);
+
+    // 도서 예약 취소
+    void cancelReservation(long reservationId);
 }

@@ -12,4 +12,6 @@ public interface BorrowService {
 
     // 도서 예약 저장
     void save(Reservation reservation);
+    // 도서 예약 취소
+    void cancelReservation(long reservationId);
 }

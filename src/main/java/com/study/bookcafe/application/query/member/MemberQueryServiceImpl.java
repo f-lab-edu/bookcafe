@@ -4,6 +4,7 @@ import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.domain.query.borrow.BorrowDetails;
 import com.study.bookcafe.domain.command.member.Member;
 import com.study.bookcafe.domain.command.member.MemberRepository;
+import com.study.bookcafe.interfaces.member.MembersReservationDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.List;
 public class MemberQueryServiceImpl implements MemberQueryService {
 
     private final MemberRepository memberRepository;
-    private final BorrowQueryService borrowService;
+    private final BorrowQueryService borrowQueryService;
 
-    public MemberQueryServiceImpl(MemberRepository memberRepository, BorrowQueryService borrowService) {
+    public MemberQueryServiceImpl(MemberRepository memberRepository, BorrowQueryService borrowQueryService) {
         this.memberRepository = memberRepository;
-        this.borrowService = borrowService;
+        this.borrowQueryService = borrowQueryService;
     }
 
     /**
@@ -38,6 +39,17 @@ public class MemberQueryServiceImpl implements MemberQueryService {
      */
     @Override
     public List<BorrowDetails> findBorrows(long memberId) {
-        return borrowService.findBorrows(memberId);
+        return borrowQueryService.findBorrows(memberId);
+    }
+
+    /**
+     * 회원의 예약 목록을 조회한다.
+     *
+     * @param memberId 회원 ID
+     * @return 예약 목록
+     */
+    @Override
+    public List<MembersReservationDetails> findReservations(long memberId) {
+        return borrowQueryService.findMembersReservations(memberId);
     }
 }

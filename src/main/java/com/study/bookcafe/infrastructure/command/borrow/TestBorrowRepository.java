@@ -6,7 +6,7 @@ import com.study.bookcafe.domain.command.borrow.BorrowRepository;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.interfaces.member.MembersReservationDetails;
+import com.study.bookcafe.domain.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;

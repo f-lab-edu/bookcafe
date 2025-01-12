@@ -8,7 +8,7 @@ import com.study.bookcafe.domain.command.borrow.Reservation;
 import com.study.bookcafe.domain.command.member.Level;
 import com.study.bookcafe.domain.command.member.Member;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
-import com.study.bookcafe.interfaces.member.MembersReservationDetails;
+import com.study.bookcafe.domain.query.member.MembersReservationDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class ReserveTest {
     public void findMembersReservationDetailsTest() {
         long memberId = 1L;
         List<MembersReservationDetails> membersReservations = memberQueryService.findMembersReservationDetails(memberId);
-        assertThat(membersReservations.size()).isEqualTo(TestBorrowQueryStorage.membersReservations.size());
+        assertThat(membersReservations.size()).isEqualTo(TestBorrowQueryStorage.membersReservations.get(memberId).size());
     }
 
     @Test

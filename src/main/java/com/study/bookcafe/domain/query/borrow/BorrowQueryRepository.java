@@ -1,6 +1,6 @@
 package com.study.bookcafe.domain.query.borrow;
 
-import com.study.bookcafe.interfaces.member.MembersReservationDetails;
+import com.study.bookcafe.domain.query.member.MembersReservationDetails;
 
 import java.util.List;
 

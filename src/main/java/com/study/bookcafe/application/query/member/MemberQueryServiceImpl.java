@@ -4,7 +4,7 @@ import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.domain.query.borrow.BorrowDetails;
 import com.study.bookcafe.domain.command.member.Member;
 import com.study.bookcafe.domain.command.member.MemberRepository;
-import com.study.bookcafe.interfaces.member.MembersReservationDetails;
+import com.study.bookcafe.domain.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,15 +1,14 @@
-package com.study.bookcafe.interfaces.book;
+package com.study.bookcafe.domain.query.book;
 
-import com.study.bookcafe.domain.command.member.Member;
+import com.study.bookcafe.domain.query.member.MemberView;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class BooksReservationDetails {
     private long id;                // 예약 번호
-    private Member member;          // 회원
+    private MemberView member;      // 회원
     private LocalDateTime time;     // 예약 시간
 }

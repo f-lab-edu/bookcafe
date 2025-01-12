@@ -1,6 +1,6 @@
 package com.study.bookcafe.interfaces.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Period;
+import com.study.bookcafe.domain.borrow.Period;
 import com.study.bookcafe.interfaces.member.MemberDto;
 import com.study.bookcafe.interfaces.book.BookDto;
 import lombok.*;

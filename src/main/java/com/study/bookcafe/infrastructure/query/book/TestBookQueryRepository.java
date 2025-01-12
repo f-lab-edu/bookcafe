@@ -1,7 +1,7 @@
 package com.study.bookcafe.infrastructure.query.book;
 
-import com.study.bookcafe.domain.query.book.BookQueryRepository;
-import com.study.bookcafe.domain.query.book.BookView;
+import com.study.bookcafe.query.book.BookQueryRepository;
+import com.study.bookcafe.query.book.BookView;
 import com.study.bookcafe.interfaces.book.BookMapper;
 import org.springframework.stereotype.Repository;
 

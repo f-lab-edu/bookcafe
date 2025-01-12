@@ -1,7 +1,7 @@
 package com.study.bookcafe.infrastructure.query.member;
 
-import com.study.bookcafe.domain.query.member.MemberQueryRepository;
-import com.study.bookcafe.domain.query.member.MemberView;
+import com.study.bookcafe.query.member.MemberQueryRepository;
+import com.study.bookcafe.query.member.MemberView;
 import com.study.bookcafe.interfaces.member.MemberMapper;
 import org.springframework.stereotype.Repository;
 

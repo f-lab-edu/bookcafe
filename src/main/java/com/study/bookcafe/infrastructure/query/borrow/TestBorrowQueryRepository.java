@@ -1,9 +1,9 @@
 package com.study.bookcafe.infrastructure.query.borrow;
 
-import com.study.bookcafe.domain.query.borrow.BorrowDetails;
-import com.study.bookcafe.domain.query.borrow.BorrowQueryRepository;
+import com.study.bookcafe.query.borrow.BorrowDetails;
+import com.study.bookcafe.query.borrow.BorrowQueryRepository;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.domain.query.member.MembersReservationDetails;
+import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 

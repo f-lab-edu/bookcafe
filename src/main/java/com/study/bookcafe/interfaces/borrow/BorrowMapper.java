@@ -1,7 +1,7 @@
 package com.study.bookcafe.interfaces.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Borrow;
-import com.study.bookcafe.domain.command.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.infrastructure.command.borrow.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.interfaces.book.BookMapper;

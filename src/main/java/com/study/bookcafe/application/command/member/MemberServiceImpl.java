@@ -4,11 +4,11 @@ import com.study.bookcafe.application.command.book.BookService;
 import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.exception.BorrowableException;
 import com.study.bookcafe.application.exception.NonBorrowableMemberException;
-import com.study.bookcafe.domain.command.book.Book;
-import com.study.bookcafe.domain.command.borrow.Borrow;
-import com.study.bookcafe.domain.command.borrow.Reservation;
-import com.study.bookcafe.domain.command.member.Member;
-import com.study.bookcafe.domain.command.member.MemberRepository;
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

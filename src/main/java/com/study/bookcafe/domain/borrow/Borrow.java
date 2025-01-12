@@ -1,7 +1,7 @@
-package com.study.bookcafe.domain.command.borrow;
+package com.study.bookcafe.domain.borrow;
 
-import com.study.bookcafe.domain.command.book.Book;
-import com.study.bookcafe.domain.command.member.Member;
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.member.Member;
 import lombok.*;
 import java.time.LocalDateTime;
 

@@ -1,6 +1,6 @@
 package com.study.bookcafe.infrastructure.query.book;
 
-import com.study.bookcafe.domain.query.book.BookView;
+import com.study.bookcafe.query.book.BookView;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

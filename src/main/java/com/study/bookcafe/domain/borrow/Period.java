@@ -1,6 +1,6 @@
-package com.study.bookcafe.domain.command.borrow;
+package com.study.bookcafe.domain.borrow;
 
-import com.study.bookcafe.domain.command.member.Level;
+import com.study.bookcafe.domain.member.Level;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import java.time.LocalDate;

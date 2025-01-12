@@ -1,6 +1,6 @@
-package com.study.bookcafe.domain.query.book;
+package com.study.bookcafe.query.book;
 
-import com.study.bookcafe.domain.query.member.MemberView;
+import com.study.bookcafe.query.member.MemberView;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;

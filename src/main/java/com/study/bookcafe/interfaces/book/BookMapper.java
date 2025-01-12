@@ -1,6 +1,6 @@
 package com.study.bookcafe.interfaces.book;
 
-import com.study.bookcafe.domain.command.book.Book;
+import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.infrastructure.query.book.BookEntity;
 import org.mapstruct.*;
 

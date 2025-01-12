@@ -1,12 +1,12 @@
 package com.study.bookcafe.infrastructure.command.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Reservation;
-import com.study.bookcafe.domain.command.borrow.Borrow;
-import com.study.bookcafe.domain.command.borrow.BorrowRepository;
+import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.domain.query.member.MembersReservationDetails;
+import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;

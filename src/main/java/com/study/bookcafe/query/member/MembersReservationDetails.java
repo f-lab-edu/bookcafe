@@ -1,6 +1,6 @@
-package com.study.bookcafe.domain.query.member;
+package com.study.bookcafe.query.member;
 
-import com.study.bookcafe.domain.query.book.BookView;
+import com.study.bookcafe.query.book.BookView;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

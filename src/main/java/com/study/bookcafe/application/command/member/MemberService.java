@@ -1,6 +1,6 @@
 package com.study.bookcafe.application.command.member;
 
-import com.study.bookcafe.domain.command.member.Member;
+import com.study.bookcafe.domain.member.Member;
 import java.util.Collection;
 
 public interface MemberService {

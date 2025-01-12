@@ -1,8 +1,8 @@
 package com.study.bookcafe.infrastructure.query.member;
 
-import com.study.bookcafe.domain.command.member.Level;
-import com.study.bookcafe.domain.command.member.Member;
-import com.study.bookcafe.domain.query.member.MemberView;
+import com.study.bookcafe.domain.member.Level;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.query.member.MemberView;
 
 public class MemberTestSets {
 

@@ -1,8 +1,8 @@
 package com.study.bookcafe.application.command.borrow;
 
-import com.study.bookcafe.domain.command.borrow.BorrowRepository;
-import com.study.bookcafe.domain.command.borrow.Borrow;
-import com.study.bookcafe.domain.command.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.BorrowRepository;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 

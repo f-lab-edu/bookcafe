@@ -1,7 +1,7 @@
 package com.study.bookcafe.application.command.book;
 
-import com.study.bookcafe.domain.command.book.Book;
-import com.study.bookcafe.domain.command.book.BookRepository;
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookRepository;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;

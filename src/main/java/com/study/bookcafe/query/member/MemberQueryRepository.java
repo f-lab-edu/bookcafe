@@ -1,4 +1,4 @@
-package com.study.bookcafe.domain.query.member;
+package com.study.bookcafe.query.member;
 
 
 public interface MemberQueryRepository {

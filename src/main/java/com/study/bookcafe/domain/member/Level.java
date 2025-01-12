@@ -1,4 +1,4 @@
-package com.study.bookcafe.domain.command.member;
+package com.study.bookcafe.domain.member;
 
 import lombok.Getter;
 

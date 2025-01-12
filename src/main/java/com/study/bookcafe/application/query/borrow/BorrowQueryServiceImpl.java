@@ -1,8 +1,8 @@
 package com.study.bookcafe.application.query.borrow;
 
-import com.study.bookcafe.domain.query.borrow.BorrowDetails;
-import com.study.bookcafe.domain.query.borrow.BorrowQueryRepository;
-import com.study.bookcafe.domain.query.member.MembersReservationDetails;
+import com.study.bookcafe.query.borrow.BorrowDetails;
+import com.study.bookcafe.query.borrow.BorrowQueryRepository;
+import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

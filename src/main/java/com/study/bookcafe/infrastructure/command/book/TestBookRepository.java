@@ -1,7 +1,7 @@
 package com.study.bookcafe.infrastructure.command.book;
 
-import com.study.bookcafe.domain.command.book.Book;
-import com.study.bookcafe.domain.command.book.BookRepository;
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookRepository;
 import com.study.bookcafe.infrastructure.query.book.BookEntity;
 import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.interfaces.book.BookMapper;

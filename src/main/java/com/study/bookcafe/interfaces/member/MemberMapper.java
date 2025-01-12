@@ -1,6 +1,6 @@
 package com.study.bookcafe.interfaces.member;
 
-import com.study.bookcafe.domain.command.member.Member;
+import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.infrastructure.query.member.MemberEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,4 +1,4 @@
-package com.study.bookcafe.domain.query.book;
+package com.study.bookcafe.query.book;
 
 import java.util.Collection;
 import java.util.List;

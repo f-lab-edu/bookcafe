@@ -1,10 +1,10 @@
 package com.study.bookcafe.infrastructure.query.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Reservation;
-import com.study.bookcafe.domain.query.borrow.BorrowDetails;
+import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
-import com.study.bookcafe.domain.query.member.MembersReservationDetails;
+import com.study.bookcafe.query.member.MembersReservationDetails;
 import java.time.LocalDateTime;
 
 public class BorrowTestSets {

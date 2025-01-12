@@ -1,7 +1,7 @@
 package com.study.bookcafe.infrastructure.query.book;
 
-import com.study.bookcafe.domain.command.book.Inventory;
-import com.study.bookcafe.domain.query.book.BookView;
+import com.study.bookcafe.domain.book.Inventory;
+import com.study.bookcafe.query.book.BookView;
 
 import java.sql.Date;
 import java.time.LocalDate;

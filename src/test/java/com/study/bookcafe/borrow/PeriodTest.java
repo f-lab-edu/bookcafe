@@ -1,6 +1,6 @@
 package com.study.bookcafe.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Period;
+import com.study.bookcafe.domain.borrow.Period;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

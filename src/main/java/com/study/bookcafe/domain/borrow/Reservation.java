@@ -1,4 +1,4 @@
-package com.study.bookcafe.domain.command.borrow;
+package com.study.bookcafe.domain.borrow;
 
 import lombok.Builder;
 import lombok.Getter;

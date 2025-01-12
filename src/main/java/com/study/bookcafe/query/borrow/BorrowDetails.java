@@ -1,8 +1,8 @@
-package com.study.bookcafe.domain.query.borrow;
+package com.study.bookcafe.query.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Period;
-import com.study.bookcafe.domain.query.book.BookView;
-import com.study.bookcafe.domain.query.member.MemberView;
+import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.query.book.BookView;
+import com.study.bookcafe.query.member.MemberView;
 import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDateTime;

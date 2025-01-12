@@ -1,7 +1,7 @@
 package com.study.bookcafe.application.command.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Borrow;
-import com.study.bookcafe.domain.command.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
 import java.util.Collection;
 
 public interface BorrowService {

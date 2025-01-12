@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TestBorrowRepository implements BorrowRepository {
@@ -42,11 +43,13 @@ public class TestBorrowRepository implements BorrowRepository {
     public void cancelReservation(long reservationId) {
         long memberId = 1L;
 
-        MembersReservationDetails membersReservationDetails = TestBorrowQueryStorage.membersReservations.get(memberId).stream()
+        Optional<MembersReservationDetails> membersReservationDetails =  TestBorrowQueryStorage.membersReservations.get(memberId).stream()
                 .filter(reservation -> reservation.getId() == reservationId)
-                .findFirst()
-                .orElse(null);
+                .findFirst();
 
-        TestBorrowQueryStorage.membersReservations.get(memberId).remove(membersReservationDetails);
+        membersReservationDetails.ifPresent(
+                TestBorrowQueryStorage.membersReservations.get(memberId)::remove
+        );
+
     }
 }

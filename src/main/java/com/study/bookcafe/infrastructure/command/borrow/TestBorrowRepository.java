@@ -43,13 +43,11 @@ public class TestBorrowRepository implements BorrowRepository {
     public void cancelReservation(long reservationId) {
         long memberId = 1L;
 
-        Optional<MembersReservationDetails> membersReservationDetails =  TestBorrowQueryStorage.membersReservations.get(memberId).stream()
+        final var targetReservationDetails =  TestBorrowQueryStorage.membersReservations.get(memberId);
+
+        targetReservationDetails.stream()
                 .filter(reservation -> reservation.getId() == reservationId)
-                .findFirst();
-
-        membersReservationDetails.ifPresent(
-                TestBorrowQueryStorage.membersReservations.get(memberId)::remove
-        );
-
+                .findFirst()
+                .ifPresent(targetReservationDetails::remove);
     }
 }

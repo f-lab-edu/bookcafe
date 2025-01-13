@@ -1,6 +1,6 @@
 package com.study.bookcafe.infrastructure.query.borrow;
 
-import com.study.bookcafe.domain.command.borrow.Period;
+import com.study.bookcafe.domain.borrow.Period;
 import com.study.bookcafe.infrastructure.query.book.BookEntity;
 import com.study.bookcafe.infrastructure.query.member.MemberEntity;
 import lombok.Builder;

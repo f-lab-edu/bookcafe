@@ -1,7 +1,7 @@
 package com.study.bookcafe.application.query.book;
 
-import com.study.bookcafe.domain.query.book.BookQueryRepository;
-import com.study.bookcafe.domain.query.book.BookView;
+import com.study.bookcafe.query.book.BookQueryRepository;
+import com.study.bookcafe.query.book.BookView;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;

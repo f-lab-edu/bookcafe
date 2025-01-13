@@ -1,6 +1,6 @@
 package com.study.bookcafe.application.command.book;
 
-import com.study.bookcafe.domain.command.book.Book;
+import com.study.bookcafe.domain.book.Book;
 import java.util.Collection;
 import java.util.List;
 

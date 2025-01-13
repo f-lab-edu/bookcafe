@@ -1,7 +1,7 @@
 package com.study.bookcafe.interfaces.member;
 
 import com.study.bookcafe.application.query.member.MemberQueryService;
-import com.study.bookcafe.domain.command.member.Member;
+import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.interfaces.borrow.BorrowDto;
 import com.study.bookcafe.interfaces.borrow.RequestBorrowDto;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;

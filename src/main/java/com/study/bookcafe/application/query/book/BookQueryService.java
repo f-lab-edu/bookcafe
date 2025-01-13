@@ -1,6 +1,6 @@
 package com.study.bookcafe.application.query.book;
 
-import com.study.bookcafe.domain.query.book.BookView;
+import com.study.bookcafe.query.book.BookView;
 
 import java.util.Collection;
 import java.util.List;

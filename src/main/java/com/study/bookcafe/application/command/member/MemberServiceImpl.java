@@ -4,12 +4,11 @@ import com.study.bookcafe.application.command.book.BookService;
 import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.exception.BorrowableException;
 import com.study.bookcafe.application.exception.NonBorrowableMemberException;
-import com.study.bookcafe.domain.command.book.Book;
-import com.study.bookcafe.domain.command.borrow.Borrow;
-import com.study.bookcafe.domain.command.borrow.Reservation;
-import com.study.bookcafe.domain.command.member.Member;
-import com.study.bookcafe.domain.command.member.MemberRepository;
-import com.study.bookcafe.domain.query.borrow.BorrowDetails;
+import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -58,6 +57,7 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원이 도서 대출을 예약한다.
+     *
      * @param memberId 회원 ID
      * @param bookId 도서 ID
      */
@@ -80,4 +80,15 @@ public class MemberServiceImpl implements MemberService {
 
         borrowService.save(reservation);
     }
+
+    /**
+     * 회원이 도서 예약을 취소한다.
+     *
+     * @param reservationId 예약 ID
+     */
+    @Override
+    public void cancelReservation(long reservationId) {
+        borrowService.cancelReservation(reservationId);
+    }
+
 }

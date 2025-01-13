@@ -1,6 +1,6 @@
 package com.study.bookcafe.interfaces.book;
 
-import com.study.bookcafe.domain.command.book.Inventory;
+import com.study.bookcafe.domain.book.Inventory;
 import lombok.*;
 
 import java.sql.Date;

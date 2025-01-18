@@ -5,7 +5,7 @@ import lombok.Getter;
 public enum Level {
 
     LIBRARIAN(2, 10,null, 2),          // 사서 회원
-    WORM(1, 5,null, 1),                // 책벌레 회원
+    WORM(1, 5,null, 2),                // 책벌레 회원
     BASIC(0, 3, WORM, 1);                    // 일반 회원
 
     private final int value;                      // 등급 값

@@ -1,8 +1,12 @@
 package com.study.bookcafe.member;
 
 import com.google.gson.Gson;
+import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.query.member.MemberQueryService;
+import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
+import com.study.bookcafe.interfaces.borrow.BorrowDto;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.interfaces.common.JsonHelper;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -21,6 +27,8 @@ public class BorrowTest {
     private MemberService memberService;
     @Autowired
     private MemberQueryService memberQueryService;
+    @Autowired
+    private BorrowService borrowService;
 
     private final Gson gson = JsonHelper.getGson();
 
@@ -46,5 +54,25 @@ public class BorrowTest {
         List<BorrowDetails> borrows = memberQueryService.findBorrows(memberId);
 
         assertThat(borrows.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("회원이 도서 대출을 연장한다.")
+    public void extendBorrow() {
+
+        long memberId = 1L;
+        long bookId = 1L;
+
+        Optional<Borrow> targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, false);
+        Borrow borrow = targetBorrow.orElseThrow();
+        LocalDate before = borrow.getPeriod().getTo();
+
+        // extend borrow
+        memberService.extendBook(memberId, bookId);
+
+        BorrowDto extendedBorrow = TestBorrowQueryStorage.borrowDtos.get(borrow.getId());
+        LocalDate after = extendedBorrow.getPeriod().getTo();
+
+        assertThat(before.plusWeeks(1)).isEqualTo(after);
     }
 }

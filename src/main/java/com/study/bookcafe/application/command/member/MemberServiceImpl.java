@@ -56,6 +56,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
+     * 회원이 대출을 연장한다.
+     *
+     * @param memberId 회원 ID
+     * @param bookId 도서 ID
+     */
+    @Override
+    public void extendBook(long memberId, long bookId) {
+        final var borrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, false);
+
+        borrow.ifPresent(targetBorrow -> {
+            targetBorrow.extend();
+
+            // 1. Borrow 통째로 update
+            // 2. 연장된 대출기간만 update
+            // 3. update 객체 생성
+
+            if (targetBorrow.isExtended()) borrowService.updatePeriod(targetBorrow);
+        });
+    }
+
+    /**
      * 회원이 도서 대출을 예약한다.
      *
      * @param memberId 회원 ID

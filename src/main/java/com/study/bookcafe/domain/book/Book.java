@@ -24,4 +24,13 @@ public class Book {
     public boolean canBorrow() {
         return this.getInventory() != null && this.getInventory().isOnStock();
     }
+
+    /**
+     * 도서에 예약이 있는지 확인한다.
+     *
+     * @return 현재 도서에 대한 예약이 있는지 여부
+     */
+    public boolean haveReservation() {
+        return this.getInventory() != null && this.getInventory().getReservationCount() > 0;
+    }
 }

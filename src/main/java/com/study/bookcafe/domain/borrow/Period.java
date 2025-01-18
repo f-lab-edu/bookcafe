@@ -2,10 +2,12 @@ package com.study.bookcafe.domain.borrow;
 
 import com.study.bookcafe.domain.member.Level;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import java.time.LocalDate;
 
 @EqualsAndHashCode
+@Getter
 public class Period {
     /*
         - 대출 일자가 반납 일자보다 더 이전인 것을 보장할 책임

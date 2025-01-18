@@ -6,7 +6,6 @@ import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -22,15 +21,15 @@ public class TestBorrowRepository implements BorrowRepository {
     }
 
     public void save(Borrow borrow) {
-        BorrowEntity borrowEntity = TestBorrowQueryStorage.borrows.get(borrow.getId());
+        BorrowEntity borrowEntity = TestBorrowQueryStorage.borrowEntities.get(borrow.getId());
         borrowMapper.toBorrow(borrowEntity);
     }
 
     @Override
     public void save(Collection<Borrow> borrows) {
         List<BorrowEntity> borrowEntities = borrows
-                .stream().filter(borrow -> TestBorrowQueryStorage.borrows.containsKey(borrow.getId()))
-                .map(borrow -> TestBorrowQueryStorage.borrows.get(borrow.getId())).toList();
+                .stream().filter(borrow -> TestBorrowQueryStorage.borrowEntities.containsKey(borrow.getId()))
+                .map(borrow -> TestBorrowQueryStorage.borrowEntities.get(borrow.getId())).toList();
         borrowMapper.toBorrows(borrowEntities);
     }
 
@@ -49,5 +48,24 @@ public class TestBorrowRepository implements BorrowRepository {
                 .filter(reservation -> reservation.getId() == reservationId)
                 .findFirst()
                 .ifPresent(targetReservationDetails::remove);
+    }
+
+    @Override
+    public Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean isExtended) {
+        final var targetBorrows = TestBorrowQueryStorage.membersBorrows.get(memberId);
+
+        return targetBorrows.stream()
+                .filter(borrow -> borrow.getBook().getId() == bookId)
+                .filter(borrow -> borrow.isExtended() == isExtended)
+                .findFirst();
+    }
+
+    @Override
+    public void updatePeriod(Borrow borrow) {
+        BorrowEntity borrowEntity = borrowMapper.toBorrowEntity(borrow);
+
+        final var targetBorrows = TestBorrowQueryStorage.borrowDtos.get(borrowEntity.getId());
+
+        targetBorrows.setPeriod(borrow.getPeriod());
     }
 }

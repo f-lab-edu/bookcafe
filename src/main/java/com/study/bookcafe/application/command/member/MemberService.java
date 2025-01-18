@@ -11,6 +11,9 @@ public interface MemberService {
     // 도서 대출
     void borrowBook(long memberId, Collection<Long> bookIds);
 
+    // 도서 대출 연장
+    void extendBook(long memberId, long bookId);
+
     // 도서 예약
     void reserveBook(long memberId, long bookId);
 

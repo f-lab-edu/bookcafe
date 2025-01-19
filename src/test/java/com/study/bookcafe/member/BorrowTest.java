@@ -63,7 +63,7 @@ public class BorrowTest {
         long memberId = 1L;
         long bookId = 1L;
 
-        Optional<Borrow> targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, false);
+        Optional<Borrow> targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, true);
         Borrow borrow = targetBorrow.orElseThrow();
         LocalDate before = borrow.getPeriod().getTo();
 

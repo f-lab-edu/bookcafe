@@ -51,12 +51,12 @@ public class TestBorrowRepository implements BorrowRepository {
     }
 
     @Override
-    public Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean isExtended) {
+    public Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend) {
         final var targetBorrows = TestBorrowQueryStorage.membersBorrows.get(memberId);
 
         return targetBorrows.stream()
                 .filter(borrow -> borrow.getBook().getId() == bookId)
-                .filter(borrow -> borrow.isExtended() == isExtended)
+                .filter(borrow -> borrow.haveExtendableCount() == canExtend)
                 .findFirst();
     }
 

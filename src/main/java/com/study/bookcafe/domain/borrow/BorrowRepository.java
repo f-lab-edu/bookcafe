@@ -9,6 +9,6 @@ public interface BorrowRepository {
     void save(Collection<Borrow> borrows);
     void save(Reservation reservation);
     void cancelReservation(long reservationId);
-    Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean isExtended);
+    Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend);
     void updatePeriod(Borrow borrow);
 }

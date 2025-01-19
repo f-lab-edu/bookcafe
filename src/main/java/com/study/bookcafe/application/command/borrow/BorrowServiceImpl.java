@@ -16,8 +16,8 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean isExtended) {
-        return borrowRepository.findBorrowByMemberIdAndBookId(memberId, bookId, isExtended);
+    public Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend) {
+        return borrowRepository.findBorrowByMemberIdAndBookId(memberId, bookId, canExtend);
     }
 
     /**

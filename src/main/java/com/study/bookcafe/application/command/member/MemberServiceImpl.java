@@ -63,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public void extendBook(long memberId, long bookId) {
-        final var borrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, false);
+        final var borrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, true);
 
         borrow.ifPresent(targetBorrow -> {
             targetBorrow.extend();
@@ -72,7 +72,7 @@ public class MemberServiceImpl implements MemberService {
             // 2. 연장된 대출기간만 update
             // 3. update 객체 생성
 
-            if (targetBorrow.isExtended()) borrowService.updatePeriod(targetBorrow);
+            borrowService.updatePeriod(targetBorrow);
         });
     }
 

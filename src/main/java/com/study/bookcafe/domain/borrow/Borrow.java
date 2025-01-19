@@ -16,7 +16,7 @@ public class Borrow {
     private Book book;                      // 도서
     private LocalDateTime time;             // 대출 시간
     private Period period;                  // 대출 기간
-    private int extendCount;                // 연장 횟수
+    private int extendedCount;              // 대출 연장한 횟수
 
     public Borrow(@NonNull Member member, @NonNull Book book, @NonNull LocalDateTime from) {
         this.member = member;
@@ -40,26 +40,26 @@ public class Borrow {
     }
 
     private void increaseExtendCount() {
-        this.extendCount++;
+        this.extendedCount++;
     }
 
     /**
-     * 연장했는지 확인한다.
+     * 연장 가능한 횟수가 남아있는지 확인한다.
      * <p>
      * 대출 연장은 1회 1주일만 가능하다.
      *
-     * @return 연장 여부
+     * @return 연장 가능한지 여부
      */
-    public boolean isExtended() {
-        return extendCount > 0;
+    public boolean haveExtendableCount() {
+        return this.getMember().getLevel().haveExtendableCount(extendedCount);
     }
 
     /**
      * 대출을 연장한다.
      */
     public void extend() {
-        // 이미 연장했으므로 불가
-        if (isExtended()) return;
+        // 연장 가능한 횟수가 남아있지 않으므로 불가
+        if (!haveExtendableCount()) return;
 
         // 도서에 예약이 있으므로 불가
         if (this.getBook().haveReservation()) return;

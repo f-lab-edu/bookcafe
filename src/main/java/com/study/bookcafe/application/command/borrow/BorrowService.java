@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface BorrowService {
 
     // 도서 대출 조회
-    Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean isExtended);
+    Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend);
 
     // 도서 대출 저장
     void save(Borrow borrow);

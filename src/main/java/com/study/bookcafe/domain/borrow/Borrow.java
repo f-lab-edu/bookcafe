@@ -3,7 +3,7 @@ package com.study.bookcafe.domain.borrow;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.member.Member;
 import lombok.*;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 @Builder
@@ -60,7 +60,7 @@ public class Borrow {
     public void extend() {
         if (!canExtend()) return;
 
-        Period extendedPeriod = this.getPeriod().getExtended(this.getMember().getLevel());
+        Period extendedPeriod = this.getPeriod().createExtended(this.getMember().getLevel());
 
         extendPeriod(extendedPeriod);
         increaseExtendCount();
@@ -74,13 +74,8 @@ public class Borrow {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isPassHalfofPeriod() {
-        LocalDate now = LocalDate.now();
-
-        int halfPeriod = this.getMember().getLevel().getBorrowPeriod() * 7 / 2;
-        LocalDate targetDate = this.getPeriod().getFrom().plusDays(halfPeriod);
-
-        return now.isEqual(targetDate) || now.isAfter(targetDate);
+    public boolean isExtendableDate() {
+        return this.getPeriod().isExtendable();
     }
 
     private boolean canExtend() {
@@ -91,7 +86,7 @@ public class Borrow {
         if (this.getBook().haveReservation()) return false;
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
-        if (!isPassHalfofPeriod()) return false;
+        if (!isExtendableDate()) return false;
 
         return true;
     }

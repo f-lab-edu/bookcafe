@@ -2,12 +2,10 @@ package com.study.bookcafe.domain.borrow;
 
 import com.study.bookcafe.domain.member.Level;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NonNull;
 import java.time.LocalDate;
 
 @EqualsAndHashCode
-@Getter
 public class Period {
     /*
         - 대출 일자가 반납 일자보다 더 이전인 것을 보장할 책임
@@ -35,8 +33,16 @@ public class Period {
         return new Period(from, level);
     }
 
-    public Period getExtended(Level level) {
-        return new Period(from, this.to.plusWeeks(level.getExtendPeriod()));
+    public Period createExtended(Level level) {
+        return new Period(from, to.plusWeeks(level.getExtendPeriod()));
+    }
+
+    public boolean isExtendable() {
+        long epochDay = (from.toEpochDay() + to.toEpochDay()) / 2;
+        LocalDate targetDate = LocalDate.ofEpochDay(epochDay);
+        LocalDate now = LocalDate.now();
+
+        return targetDate.isEqual(now) || targetDate.isBefore(now);
     }
 
 }

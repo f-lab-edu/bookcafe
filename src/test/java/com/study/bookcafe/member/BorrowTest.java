@@ -5,8 +5,8 @@ import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.query.member.MemberQueryService;
 import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Period;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
-import com.study.bookcafe.interfaces.borrow.BorrowDto;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.interfaces.common.JsonHelper;
 import org.junit.jupiter.api.DisplayName;
@@ -60,19 +60,22 @@ public class BorrowTest {
     @DisplayName("회원이 도서 대출을 연장한다.")
     public void extendBorrow() {
 
+        // before
+        LocalDate targetBefore = LocalDate.now().minusDays(3);
+        LocalDate targetAfter = targetBefore.plusWeeks(2);
+        Period before = new Period(targetBefore, targetAfter);
+
+        // after
         long memberId = 1L;
         long bookId = 1L;
 
         Optional<Borrow> targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, true);
         Borrow borrow = targetBorrow.orElseThrow();
-        LocalDate before = borrow.getPeriod().getTo();
 
         // extend borrow
         memberService.extendBook(memberId, bookId);
+        Period after = TestBorrowQueryStorage.borrowDtos.get(borrow.getId()).getPeriod();
 
-        BorrowDto extendedBorrow = TestBorrowQueryStorage.borrowDtos.get(borrow.getId());
-        LocalDate after = extendedBorrow.getPeriod().getTo();
-
-        assertThat(before.plusWeeks(1)).isEqualTo(after);
+        assertThat(before).isEqualTo(after);
     }
 }

@@ -36,9 +36,9 @@ public class PeriodTest {
     public void checkBorrowExtensionsPeriodByMemberShipLevel() {
         LocalDate borrowDate = LocalDate.now();
 
-        Period basicExtendedPeriod = Period.of(borrowDate, Level.BASIC).getExtended(Level.BASIC);
-        Period wormExtendedPeriod = Period.of(borrowDate, Level.WORM).getExtended(Level.WORM);
-        Period librarianExtendedPeriod = Period.of(borrowDate, Level.LIBRARIAN).getExtended(Level.LIBRARIAN);
+        Period basicExtendedPeriod = Period.of(borrowDate, Level.BASIC).createExtended(Level.BASIC);
+        Period wormExtendedPeriod = Period.of(borrowDate, Level.WORM).createExtended(Level.WORM);
+        Period librarianExtendedPeriod = Period.of(borrowDate, Level.LIBRARIAN).createExtended(Level.LIBRARIAN);
 
         Period newBasicPeriod = new Period(borrowDate, borrowDate.plusWeeks(Level.BASIC.getBorrowPeriod()).plusWeeks(Level.BASIC.getExtendPeriod()));
         Period newWormPeriod = new Period(borrowDate, borrowDate.plusWeeks(Level.WORM.getBorrowPeriod()).plusWeeks(Level.WORM.getExtendPeriod()));
@@ -48,5 +48,21 @@ public class PeriodTest {
         assertThat(wormExtendedPeriod).isEqualTo(newWormPeriod);
         assertThat(librarianExtendedPeriod).isEqualTo(newLibrarianPeriod);
 
+    }
+
+    @Test
+    @DisplayName("대출 연장은 대출 기간의 50%가 경과해야 가능하다.")
+    public void checkPassHalfOfBorrowPeriod() {
+        LocalDate now = LocalDate.now();
+
+        Period period1 = Period.of(now.minusDays(3), Level.BASIC);
+        Period period2 = Period.of(now.minusDays(2), Level.BASIC);
+        Period period3 = Period.of(now.minusDays(7), Level.WORM);
+        Period period4 = Period.of(now.minusDays(6), Level.WORM);
+
+        assertThat(period1.isExtendable()).isTrue();
+        assertThat(period2.isExtendable()).isFalse();
+        assertThat(period3.isExtendable()).isTrue();
+        assertThat(period4.isExtendable()).isFalse();
     }
 }

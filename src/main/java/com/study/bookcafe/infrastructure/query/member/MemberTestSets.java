@@ -2,6 +2,7 @@ package com.study.bookcafe.infrastructure.query.member;
 
 import com.study.bookcafe.domain.member.Level;
 import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.interfaces.member.MemberDto;
 import com.study.bookcafe.query.member.MemberView;
 
 public class MemberTestSets {
@@ -17,5 +18,9 @@ public class MemberTestSets {
     public static final MemberView BASIC_MEMBER_VIEW = MemberView.builder().id(1L).name("슈카").level(Level.BASIC).borrowCount(0).build();
     public static final MemberView WORM_MEMBER_VIEW = MemberView.builder().id(2L).name("머스크").level(Level.WORM).borrowCount(3).build();
     public static final MemberView LIBRARIAN_MEMBER_VIEW = MemberView.builder().id(3L).name("트럼프").level(Level.LIBRARIAN).borrowCount(5).build();
+
+    public static final MemberDto BASIC_MEMBER_DTO = MemberDto.builder().id(1L).name("슈카").level(Level.BASIC).borrowCount(0).build();
+    public static final MemberDto WORM_MEMBER_DTO = MemberDto.builder().id(2L).name("머스크").level(Level.WORM).borrowCount(3).build();
+    public static final MemberDto LIBRARIAN_MEMBER_DTO = MemberDto.builder().id(3L).name("트럼프").level(Level.LIBRARIAN).borrowCount(5).build();
 
 }

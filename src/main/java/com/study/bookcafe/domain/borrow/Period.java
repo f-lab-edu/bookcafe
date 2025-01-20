@@ -33,4 +33,16 @@ public class Period {
         return new Period(from, level);
     }
 
+    public Period createExtended(Level level) {
+        return new Period(from, to.plusWeeks(level.getExtendPeriod()));
+    }
+
+    public boolean isExtendable() {
+        long epochDay = (from.toEpochDay() + to.toEpochDay()) / 2;
+        LocalDate targetDate = LocalDate.ofEpochDay(epochDay).minusDays(1);
+        LocalDate now = LocalDate.now();
+
+        return now.isAfter(targetDate);
+    }
+
 }

@@ -4,23 +4,27 @@ import lombok.Getter;
 
 public enum Level {
 
-    LIBRARIAN(2, 10,null, 1, 1),          // 사서 회원
-    WORM(1, 5,null, 1, 1),                // 책벌레 회원
-    BASIC(0, 3, WORM, 1, 1);                    // 일반 회원
+    LIBRARIAN(2, 10,null, 1, 2, 1),          // 사서 회원
+    WORM(1, 5,null, 1, 1, 1),                // 책벌레 회원
+    BASIC(0, 3, WORM, 1, 1, 1);                    // 일반 회원
 
     private final int value;                      // 등급 값
     private final int maximumBorrowCount;         // 최대 대출 권수
     private final Level next;                     // 다음 등급
     private final int maximumExtendCount;         // 최대 대출 연장 횟수
-    @Getter
-    private final int borrowPeriod;         // 대출 연장 기간
 
-    Level(int value, int maximumBorrowCount, Level next, int maximumExtendCount, int borrowPeriod) {
+    @Getter
+    private final int borrowPeriod;               // 대출 기간 (week)
+    @Getter
+    private final int extendPeriod;               // 연장 기간 (week)
+
+    Level(int value, int maximumBorrowCount, Level next, int maximumExtendCount, int borrowPeriod, int extendPeriod) {
         this.value = value;
         this.maximumBorrowCount = maximumBorrowCount;
         this.next = next;
         this.maximumExtendCount = maximumExtendCount;
         this.borrowPeriod = borrowPeriod;
+        this.extendPeriod = extendPeriod;
     }
 
     /**

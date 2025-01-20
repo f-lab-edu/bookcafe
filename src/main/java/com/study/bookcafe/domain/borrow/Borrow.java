@@ -58,18 +58,9 @@ public class Borrow {
      * 대출을 연장한다.
      */
     public void extend() {
-        // 연장 가능한 횟수가 남아있지 않으므로 불가
-        if (!haveExtendableCount()) return;
+        if (!canExtend()) return;
 
-        // 도서에 예약이 있으므로 불가
-        if (this.getBook().haveReservation()) return;
-
-        // 대출 연장이 가능한 날짜가 아니므로 불가
-        if (!isPassHalfofPeriod()) return;
-
-        LocalDate from = this.getPeriod().getFrom();
-        LocalDate extendedTo = this.getPeriod().getTo().plusWeeks(1);
-        Period extendedPeriod = new Period(from, extendedTo);
+        Period extendedPeriod = this.getPeriod().getExtended(this.getMember().getLevel());
 
         extendPeriod(extendedPeriod);
         increaseExtendCount();
@@ -90,5 +81,18 @@ public class Borrow {
         LocalDate targetDate = this.getPeriod().getFrom().plusDays(halfPeriod);
 
         return now.isEqual(targetDate) || now.isAfter(targetDate);
+    }
+
+    private boolean canExtend() {
+        // 연장 가능한 횟수가 남아있지 않으므로 불가
+        if (!haveExtendableCount()) return false;
+
+        // 도서에 예약이 있으므로 불가
+        if (this.getBook().haveReservation()) return false;
+
+        // 대출 연장이 가능한 날짜가 아니므로 불가
+        if (!isPassHalfofPeriod()) return false;
+
+        return true;
     }
 }

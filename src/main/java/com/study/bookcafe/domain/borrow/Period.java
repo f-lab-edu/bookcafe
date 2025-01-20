@@ -35,4 +35,8 @@ public class Period {
         return new Period(from, level);
     }
 
+    public Period getExtended(Level level) {
+        return new Period(from, this.to.plusWeeks(level.getExtendPeriod()));
+    }
+
 }

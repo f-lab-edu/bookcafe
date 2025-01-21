@@ -7,6 +7,7 @@ import com.study.bookcafe.domain.book.Inventory;
 import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.member.Level;
 import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +47,7 @@ public class ReserveTest {
                 .publisher("창비")
                 .publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
                 .price(35000)
-                .inventory(new Inventory(5))
+                .inventory(BookTestSets.BORROWABLE_INVENTORY)
                 .build();
 
         Reservation reservation = member.reserveBook(book);

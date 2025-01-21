@@ -10,23 +10,28 @@ import java.time.LocalDate;
 
 public class BookTestSets {
 
+    public static final Inventory BORROWABLE_INVENTORY = new Inventory(5, 1, 0);
+    public static final Inventory UNBORROWABLE_INVENTORY = new Inventory(1, 1, 1);
+    public static final Inventory RESERVED_INVENTORY = new Inventory(3, 3, 2);
+
+
     public static final Book VEGETARIAN_BOOK = Book.builder().id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비").publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-            .price(35000).inventory(new Inventory(5)).build();
+            .price(35000).inventory(BORROWABLE_INVENTORY).build();
     public static final Book WHITE_BOOK = Book.builder().id(2L).ISBN(9788954651134L).title("흰").author("한강").publisher("문학동네").publishDate(Date.valueOf(LocalDate.of(2018, 4, 25)))
-            .price(13000).inventory(new Inventory(0)).build();
+            .price(13000).inventory(UNBORROWABLE_INVENTORY).build();
 
     public static final BookEntity VEGETARIAN_BOOK_ENTITY = BookEntity.builder().id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비").publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-            .price(35000).inventory(new Inventory(5)).build();
+            .price(35000).inventory(BORROWABLE_INVENTORY).build();
     public static final BookEntity WHITE_BOOK_ENTITY = BookEntity.builder().id(2L).ISBN(9788954651134L).title("흰").author("한강").publisher("문학동네").publishDate(Date.valueOf(LocalDate.of(2018, 4, 25)))
-            .price(13000).inventory(new Inventory(0)).build();
+            .price(13000).inventory(UNBORROWABLE_INVENTORY).build();
 
     public static final BookView VEGETARIAN_BOOK_VIEW = BookView.builder().id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비").publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-            .price(35000).inventory(new Inventory(5)).build();
+            .price(35000).inventory(BORROWABLE_INVENTORY).build();
     public static final BookView WHITE_BOOK_VIEW = BookView.builder().id(2L).ISBN(9788954651134L).title("흰").author("한강").publisher("문학동네").publishDate(Date.valueOf(LocalDate.of(2018, 4, 25)))
-            .price(13000).inventory(new Inventory(0)).build();
+            .price(13000).inventory(UNBORROWABLE_INVENTORY).build();
 
     public static final BookDto VEGETARIAN_BOOK_DTO = BookDto.builder().id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비").publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-            .price(35000).inventory(new Inventory(5)).build();
+            .price(35000).inventory(BORROWABLE_INVENTORY).build();
     public static final BookDto WHITE_BOOK_DTO = BookDto.builder().id(2L).ISBN(9788954651134L).title("흰").author("한강").publisher("문학동네").publishDate(Date.valueOf(LocalDate.of(2018, 4, 25)))
-            .price(13000).inventory(new Inventory(0)).build();
+            .price(13000).inventory(UNBORROWABLE_INVENTORY).build();
 }

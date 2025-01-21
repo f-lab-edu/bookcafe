@@ -2,6 +2,7 @@ package com.study.bookcafe.book;
 
 import com.google.gson.Gson;
 import com.study.bookcafe.infrastructure.query.book.BookEntity;
+import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.interfaces.common.JsonHelper;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.book.Inventory;
@@ -21,50 +22,30 @@ public class MapperTest {
     private final Gson gson = JsonHelper.getGson();
 
     @Test
-    @DisplayName("Mapper 테스트 : Book -> Book")
+    @DisplayName("Mapper 테스트 : Book -> BookDto")
     public void checkMapperBookToBookDto() {
-        Book book = Book.builder()
-                .id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비")
-                .publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-                .price(35000).inventory(new Inventory(5)).build();
-        BookDto bookDto = bookMapper.toBookDto(book);
-
+        BookDto bookDto = bookMapper.toBookDto(BookTestSets.VEGETARIAN_BOOK);
         assertThat(bookDto).isNotNull();
     }
 
     @Test
     @DisplayName("Mapper 테스트 : BookDto -> Book")
     public void checkMapperBookDtoToBook() {
-        BookDto bookDto = BookDto.builder()
-                .id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비")
-                .publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-                .price(35000).inventory(new Inventory(5)).build();
-        Book book = bookMapper.toBook(bookDto);
-
+        Book book = bookMapper.toBook(BookTestSets.VEGETARIAN_BOOK_DTO);
         assertThat(book).isNotNull();
     }
 
     @Test
     @DisplayName("Mapper 테스트 : Book -> BookEntity")
     public void checkMapperBookToBookEntity() {
-        Book book = Book.builder()
-                .id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비")
-                .publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-                .price(35000).inventory(new Inventory(5)).build();
-        BookEntity bookEntity = bookMapper.toBookEntity(book);
-
+        BookEntity bookEntity = bookMapper.toBookEntity(BookTestSets.WHITE_BOOK);
         assertThat(bookEntity).isNotNull();
     }
 
     @Test
     @DisplayName("Mapper 테스트 : BookEntity -> Book")
     public void checkMapperBookEntityToBook() {
-        BookEntity bookEntity = BookEntity.builder()
-                .id(1L).ISBN(9788936433598L).title("채식주의자").author("한강").publisher("창비")
-                .publishDate(Date.valueOf(LocalDate.of(2007, 10, 30)))
-                .price(35000).inventory(new Inventory(5)).build();
-        Book book = bookMapper.toBook(bookEntity);
-
+        Book book = bookMapper.toBook(BookTestSets.WHITE_BOOK_ENTITY);
         assertThat(book).isNotNull();
     }
 }

@@ -44,6 +44,18 @@ public class Borrow {
     }
 
     /**
+     * 대출을 연장한다.
+     */
+    public void extend() {
+        if (!canExtend()) return;
+
+        Period extendedPeriod = this.getPeriod().createExtended(this.getMember().getLevel());
+
+        extendPeriod(extendedPeriod);
+        increaseExtendCount();
+    }
+
+    /**
      * 연장 가능한 횟수가 남아있는지 확인한다.
      * <p>
      * 대출 연장은 1회 1주일만 가능하다.
@@ -54,16 +66,8 @@ public class Borrow {
         return this.getMember().getLevel().haveExtendableCount(extendedCount);
     }
 
-    /**
-     * 대출을 연장한다.
-     */
-    public void extend() {
-        if (!canExtend()) return;
-
-        Period extendedPeriod = this.getPeriod().createExtended(this.getMember().getLevel());
-
-        extendPeriod(extendedPeriod);
-        increaseExtendCount();
+    public boolean haveReservation() {
+        return this.getBook().haveReservation();
     }
 
     /**
@@ -83,7 +87,7 @@ public class Borrow {
         if (!haveExtendableCount()) return false;
 
         // 도서에 예약이 있으므로 불가
-        if (this.getBook().haveReservation()) return false;
+        if (haveReservation()) return false;
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
         if (!isExtendableDate()) return false;

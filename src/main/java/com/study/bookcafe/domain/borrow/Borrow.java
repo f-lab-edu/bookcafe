@@ -49,7 +49,7 @@ public class Borrow {
     public void extend() {
         if (!canExtend()) return;
 
-        Period extendedPeriod = this.getPeriod().createExtended(this.getMember().getLevel());
+        Period extendedPeriod = this.getPeriod().extend(this.getMember().getLevel());
 
         extendPeriod(extendedPeriod);
         increaseExtendCount();

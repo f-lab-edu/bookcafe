@@ -4,6 +4,7 @@ import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.member.Member;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -15,14 +16,14 @@ public class Borrow {
     private Member member;                  // 회원
     private Book book;                      // 도서
     private LocalDateTime time;             // 대출 시간
-    private Period period;                  // 대출 기간
+    private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extendedCount;              // 대출 연장한 횟수
 
     public Borrow(@NonNull Member member, @NonNull Book book, @NonNull LocalDateTime from) {
         this.member = member;
         this.book = book;
         this.time = from;
-        this.period = Period.of(from.toLocalDate(), member.getLevel());
+        this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
     }
 
     /**
@@ -35,8 +36,8 @@ public class Borrow {
         return borrow != null;
     }
 
-    private void extendPeriod(Period period) {
-        this.period = period;
+    private void extendPeriod(BorrowPeriod borrowPeriod) {
+        this.borrowPeriod = borrowPeriod;
     }
 
     private void increaseExtendCount() {
@@ -46,10 +47,10 @@ public class Borrow {
     /**
      * 대출을 연장한다.
      */
-    public void extend() {
-        if (!canExtend()) return;
+    public void extend(LocalDate now) {
+        if (!canExtend(now)) return;
 
-        Period extendedPeriod = this.getPeriod().extend(this.getMember().getLevel());
+        BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend(this.getMember().getLevel());
 
         extendPeriod(extendedPeriod);
         increaseExtendCount();
@@ -78,11 +79,11 @@ public class Borrow {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isExtendableDate() {
-        return this.getPeriod().isExtendable();
+    public boolean isExtendableDate(LocalDate now) {
+        return this.getBorrowPeriod().isExtendable(now);
     }
 
-    private boolean canExtend() {
+    private boolean canExtend(LocalDate now) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
         if (!haveExtendableCount()) return false;
 
@@ -90,7 +91,7 @@ public class Borrow {
         if (haveReservation()) return false;
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
-        if (!isExtendableDate()) return false;
+        if (!isExtendableDate(now)) return false;
 
         return true;
     }

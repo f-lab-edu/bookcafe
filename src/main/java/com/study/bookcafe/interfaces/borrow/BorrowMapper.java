@@ -24,7 +24,7 @@ public interface BorrowMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberDto"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookToBookDto"})
     @Mapping(target = "time", source = "time")
-    @Mapping(target = "period", source = "period")
+    @Mapping(target = "borrowPeriod", source = "borrowPeriod")
     // Borrow -> BorrowDto
     BorrowDto toBorrowDto(Borrow borrow);
 
@@ -33,7 +33,7 @@ public interface BorrowMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberDtoToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookDtoToBook"})
     @Mapping(target = "time", source = "time")
-    @Mapping(target = "period", source = "period")
+    @Mapping(target = "borrowPeriod", source = "borrowPeriod")
     // BorrowDto -> Borrow
     Borrow toBorrow(BorrowDto borrowDto);
 
@@ -42,7 +42,7 @@ public interface BorrowMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberEntity"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookToBookEntity"})
     @Mapping(target = "time", source = "time")
-    @Mapping(target = "period", source = "period")
+    @Mapping(target = "borrowPeriod", source = "borrowPeriod")
     // Borrow -> BorrowEntity
     BorrowEntity toBorrowEntity(Borrow borrow);
 
@@ -51,7 +51,7 @@ public interface BorrowMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberEntityToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookEntityToBook"})
     @Mapping(target = "time", source = "time")
-    @Mapping(target = "period", source = "period")
+    @Mapping(target = "borrowPeriod", source = "borrowPeriod")
     // BorrowEntity -> Borrow
     Borrow toBorrow(BorrowEntity borrowEntity);
 

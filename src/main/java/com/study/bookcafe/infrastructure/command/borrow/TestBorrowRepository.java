@@ -66,6 +66,6 @@ public class TestBorrowRepository implements BorrowRepository {
 
         final var targetBorrows = TestBorrowQueryStorage.borrowDtos.get(borrowEntity.getId());
 
-        targetBorrows.setPeriod(borrow.getPeriod());
+        targetBorrows.setBorrowPeriod(borrow.getBorrowPeriod());
     }
 }

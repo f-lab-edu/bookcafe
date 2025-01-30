@@ -1,6 +1,6 @@
 package com.study.bookcafe.borrow;
 
-import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.domain.member.Level;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +17,8 @@ public class PeriodTest {
     @Test
     @DisplayName("반납일자는 대출일자보다 이후여야 한다.")
     public void ofTest() {
-        Period period1 = new Period(date1, date2);
-        Period period2 = new Period(date2, date2);
+        BorrowPeriod period1 = new BorrowPeriod(date1, date2);
+        BorrowPeriod period2 = new BorrowPeriod(date2, date2);
 
         assertThat(period1).isNotNull();
         assertThat(period2).isNotNull();
@@ -27,8 +27,8 @@ public class PeriodTest {
     @Test
     @DisplayName("반납일자가 대출일자보다 이전이거나 반납일자 또는 대출일자가 null이면 예외가 발생한다.")
     public void ofExceptionTest() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Period(date2, date1));
-        Assertions.assertThrows(NullPointerException.class, () -> new Period(null, null));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new BorrowPeriod(date2, date1));
+        Assertions.assertThrows(NullPointerException.class, () -> new BorrowPeriod(null, null));
     }
 
     @Test
@@ -36,13 +36,13 @@ public class PeriodTest {
     public void checkBorrowExtensionsPeriodByMemberShipLevel() {
         LocalDate borrowDate = LocalDate.now();
 
-        Period basicExtendedPeriod = Period.of(borrowDate, Level.BASIC).createExtended(Level.BASIC);
-        Period wormExtendedPeriod = Period.of(borrowDate, Level.WORM).createExtended(Level.WORM);
-        Period librarianExtendedPeriod = Period.of(borrowDate, Level.LIBRARIAN).createExtended(Level.LIBRARIAN);
+        BorrowPeriod basicExtendedPeriod = BorrowPeriod.of(borrowDate, Level.BASIC).extend(Level.BASIC);
+        BorrowPeriod wormExtendedPeriod = BorrowPeriod.of(borrowDate, Level.WORM).extend(Level.WORM);
+        BorrowPeriod librarianExtendedPeriod = BorrowPeriod.of(borrowDate, Level.LIBRARIAN).extend(Level.LIBRARIAN);
 
-        Period newBasicPeriod = new Period(borrowDate, borrowDate.plusWeeks(Level.BASIC.getBorrowPeriod()).plusWeeks(Level.BASIC.getExtendPeriod()));
-        Period newWormPeriod = new Period(borrowDate, borrowDate.plusWeeks(Level.WORM.getBorrowPeriod()).plusWeeks(Level.WORM.getExtendPeriod()));
-        Period newLibrarianPeriod = new Period(borrowDate, borrowDate.plusWeeks(Level.LIBRARIAN.getBorrowPeriod()).plusWeeks(Level.LIBRARIAN.getExtendPeriod()));
+        BorrowPeriod newBasicPeriod = new BorrowPeriod(borrowDate, borrowDate.plusWeeks(Level.BASIC.getBorrowPeriod()).plusWeeks(Level.BASIC.getExtendPeriod()));
+        BorrowPeriod newWormPeriod = new BorrowPeriod(borrowDate, borrowDate.plusWeeks(Level.WORM.getBorrowPeriod()).plusWeeks(Level.WORM.getExtendPeriod()));
+        BorrowPeriod newLibrarianPeriod = new BorrowPeriod(borrowDate, borrowDate.plusWeeks(Level.LIBRARIAN.getBorrowPeriod()).plusWeeks(Level.LIBRARIAN.getExtendPeriod()));
 
         assertThat(basicExtendedPeriod).isEqualTo(newBasicPeriod);
         assertThat(wormExtendedPeriod).isEqualTo(newWormPeriod);
@@ -55,14 +55,14 @@ public class PeriodTest {
     public void checkPassHalfOfBorrowPeriod() {
         LocalDate now = LocalDate.now();
 
-        Period period1 = Period.of(now.minusDays(3), Level.BASIC);
-        Period period2 = Period.of(now.minusDays(2), Level.BASIC);
-        Period period3 = Period.of(now.minusDays(7), Level.WORM);
-        Period period4 = Period.of(now.minusDays(6), Level.WORM);
+        BorrowPeriod period1 = BorrowPeriod.of(now.minusDays(3), Level.BASIC);
+        BorrowPeriod period2 = BorrowPeriod.of(now.minusDays(2), Level.BASIC);
+        BorrowPeriod period3 = BorrowPeriod.of(now.minusDays(7), Level.WORM);
+        BorrowPeriod period4 = BorrowPeriod.of(now.minusDays(6), Level.WORM);
 
-        assertThat(period1.isExtendable()).isTrue();
-        assertThat(period2.isExtendable()).isFalse();
-        assertThat(period3.isExtendable()).isTrue();
-        assertThat(period4.isExtendable()).isFalse();
+        assertThat(period1.isExtendable(now)).isTrue();
+        assertThat(period2.isExtendable(now)).isFalse();
+        assertThat(period3.isExtendable(now)).isTrue();
+        assertThat(period4.isExtendable(now)).isFalse();
     }
 }

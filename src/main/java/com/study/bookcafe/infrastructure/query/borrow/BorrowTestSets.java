@@ -1,7 +1,7 @@
 package com.study.bookcafe.infrastructure.query.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.member.Level;
 import com.study.bookcafe.interfaces.borrow.BorrowDto;
@@ -17,15 +17,15 @@ public class BorrowTestSets {
 
     public static LocalDateTime now = LocalDateTime.now();
 
-    public static final Period BASIC_PERIOD = Period.of(LocalDate.now().minusDays(3), Level.BASIC);
-    public static final Period WORM_PERIOD = Period.of(LocalDate.now().minusDays(8), Level.WORM);
+    public static final BorrowPeriod BASIC_PERIOD = BorrowPeriod.of(LocalDate.now().minusDays(3), Level.BASIC);
+    public static final BorrowPeriod WORM_PERIOD = BorrowPeriod.of(LocalDate.now().minusDays(8), Level.WORM);
 
     /************************* Borrow *************************/
     public static final Borrow BASIC_VEGETARIAN_BORROW = Borrow.builder()
             .id(1)
             .member(MemberTestSets.BASIC_MEMBER)
             .book(BookTestSets.VEGETARIAN_BOOK)
-            .period(BASIC_PERIOD)
+            .borrowPeriod(BASIC_PERIOD)
             .time(now)
             .build();
 
@@ -33,7 +33,7 @@ public class BorrowTestSets {
             .id(2)
             .member(MemberTestSets.WORM_MEMBER)
             .book(BookTestSets.WHITE_BOOK)
-            .period(WORM_PERIOD)
+            .borrowPeriod(WORM_PERIOD)
             .time(now)
             .build();
 
@@ -41,7 +41,7 @@ public class BorrowTestSets {
             .id(1)
             .member(MemberTestSets.BASIC_MEMBER_ENTITY)
             .book(BookTestSets.VEGETARIAN_BOOK_ENTITY)
-            .period(BASIC_PERIOD)
+            .borrowPeriod(BASIC_PERIOD)
             .time(now)
             .build();
 
@@ -49,7 +49,7 @@ public class BorrowTestSets {
             .id(2)
             .member(MemberTestSets.WORM_MEMBER_ENTITY)
             .book(BookTestSets.WHITE_BOOK_ENTITY)
-            .period(WORM_PERIOD)
+            .borrowPeriod(WORM_PERIOD)
             .time(now)
             .build();
 
@@ -57,7 +57,7 @@ public class BorrowTestSets {
             .id(1)
             .member(MemberTestSets.BASIC_MEMBER_DTO)
             .book(BookTestSets.VEGETARIAN_BOOK_DTO)
-            .period(BASIC_PERIOD)
+            .borrowPeriod(BASIC_PERIOD)
             .time(now)
             .build();
 
@@ -65,7 +65,7 @@ public class BorrowTestSets {
             .id(2)
             .member(MemberTestSets.WORM_MEMBER_DTO)
             .book(BookTestSets.WHITE_BOOK_DTO)
-            .period(WORM_PERIOD)
+            .borrowPeriod(WORM_PERIOD)
             .time(now)
             .build();
 
@@ -74,7 +74,7 @@ public class BorrowTestSets {
             .id(1)
             .member(MemberTestSets.BASIC_MEMBER_VIEW)
             .book(BookTestSets.VEGETARIAN_BOOK_VIEW)
-            .period(BASIC_PERIOD)
+            .borrowPeriod(BASIC_PERIOD)
             .time(now)
             .build();
 
@@ -82,7 +82,7 @@ public class BorrowTestSets {
             .id(2)
             .member(MemberTestSets.BASIC_MEMBER_VIEW)
             .book(BookTestSets.WHITE_BOOK_VIEW)
-            .period(BASIC_PERIOD)
+            .borrowPeriod(BASIC_PERIOD)
             .time(now)
             .build();
 

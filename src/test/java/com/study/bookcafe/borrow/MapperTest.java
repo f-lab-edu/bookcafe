@@ -1,6 +1,7 @@
 package com.study.bookcafe.borrow;
 
 import com.google.gson.Gson;
+import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.infrastructure.query.book.BookEntity;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.member.MemberEntity;
@@ -13,7 +14,6 @@ import com.study.bookcafe.interfaces.book.BookDto;
 import com.study.bookcafe.interfaces.borrow.BorrowDto;
 import com.study.bookcafe.interfaces.member.MemberDto;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.domain.borrow.Period;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -43,7 +43,7 @@ public class MapperTest {
             return Borrow.builder()
                     .member(Member.builder().id(1).build())
                     .book(Book.builder().id(1).ISBN(9788936433598L).build())
-                    .period(Period.of(LocalDate.now(), Level.BASIC))
+                    .borrowPeriod(BorrowPeriod.of(LocalDate.now(), Level.BASIC))
                     .time(LocalDateTime.now())
                     .build();
         }
@@ -53,7 +53,7 @@ public class MapperTest {
             return BorrowDto.builder()
                     .member(MemberDto.builder().id(1).build())
                     .book(BookDto.builder().id(1).ISBN(9788936433598L).build())
-                    .period(Period.of(LocalDate.now(), Level.BASIC))
+                    .borrowPeriod(BorrowPeriod.of(LocalDate.now(), Level.BASIC))
                     .time(LocalDateTime.now())
                     .build();
         }
@@ -63,7 +63,7 @@ public class MapperTest {
             return BorrowEntity.builder()
                     .member(MemberEntity.builder().id(1).build())
                     .book(BookEntity.builder().id(1).ISBN(9788936433598L).build())
-                    .period(Period.of(LocalDate.now(), Level.BASIC))
+                    .borrowPeriod(BorrowPeriod.of(LocalDate.now(), Level.BASIC))
                     .time(LocalDateTime.now())
                     .build();
         }

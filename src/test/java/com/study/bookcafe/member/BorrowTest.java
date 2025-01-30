@@ -5,7 +5,7 @@ import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.query.member.MemberQueryService;
 import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.interfaces.common.JsonHelper;
@@ -63,7 +63,7 @@ public class BorrowTest {
         // before
         LocalDate targetBefore = LocalDate.now().minusDays(3);
         LocalDate targetAfter = targetBefore.plusWeeks(2);
-        Period before = new Period(targetBefore, targetAfter);
+        BorrowPeriod before = new BorrowPeriod(targetBefore, targetAfter);
 
         // after
         long memberId = 1L;
@@ -74,7 +74,7 @@ public class BorrowTest {
 
         // extend borrow
         memberService.extendBook(memberId, bookId);
-        Period after = TestBorrowQueryStorage.borrowDtos.get(borrow.getId()).getPeriod();
+        BorrowPeriod after = TestBorrowQueryStorage.borrowDtos.get(borrow.getId()).getBorrowPeriod();
 
         assertThat(before).isEqualTo(after);
     }

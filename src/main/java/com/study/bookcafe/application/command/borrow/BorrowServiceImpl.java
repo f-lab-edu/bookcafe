@@ -5,6 +5,7 @@ import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class BorrowServiceImpl implements BorrowService {
@@ -12,6 +13,11 @@ public class BorrowServiceImpl implements BorrowService {
 
     public BorrowServiceImpl(BorrowRepository borrowRepository) {
         this.borrowRepository = borrowRepository;
+    }
+
+    @Override
+    public Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend) {
+        return borrowRepository.findBorrowByMemberIdAndBookId(memberId, bookId, canExtend);
     }
 
     /**
@@ -32,6 +38,11 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     public void save(Collection<Borrow> borrows) {
         borrowRepository.save(borrows);
+    }
+
+    @Override
+    public void updatePeriod(Borrow borrow) {
+        borrowRepository.updatePeriod(borrow);
     }
 
     /**

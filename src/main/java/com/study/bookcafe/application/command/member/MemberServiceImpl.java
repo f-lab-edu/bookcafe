@@ -11,6 +11,7 @@ import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -53,6 +54,28 @@ public class MemberServiceImpl implements MemberService {
         if (borrows.isEmpty()) return;
 
         borrowService.save(borrows);
+    }
+
+    /**
+     * 회원이 대출을 연장한다.
+     *
+     * @param memberId 회원 ID
+     * @param bookId 도서 ID
+     */
+    @Override
+    public void extendBook(long memberId, long bookId) {
+        final var borrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, true);
+
+        borrow.ifPresent(targetBorrow -> {
+            LocalDate now = LocalDate.now();
+            targetBorrow.extend(now);
+
+            // 1. Borrow 통째로 update
+            // 2. 연장된 대출기간만 update
+            // 3. update 객체 생성
+
+            borrowService.updatePeriod(targetBorrow);
+        });
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.study.bookcafe.infrastructure.query.borrow;
 
-import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.infrastructure.query.book.BookEntity;
 import com.study.bookcafe.infrastructure.query.member.MemberEntity;
 import lombok.Builder;
@@ -19,5 +19,5 @@ public class BorrowEntity {
     private BookEntity book;                // 도서
     @NonNull
     private LocalDateTime time;             // 대출 시간
-    private Period period;                  // 대출 기간
+    private BorrowPeriod borrowPeriod;      // 대출 기간
 }

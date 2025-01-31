@@ -36,7 +36,7 @@ public class Borrow {
         return borrow != null;
     }
 
-    private void extendPeriod(BorrowPeriod borrowPeriod) {
+    private void updateExtendedPeriod(BorrowPeriod borrowPeriod) {
         this.borrowPeriod = borrowPeriod;
     }
 
@@ -52,7 +52,7 @@ public class Borrow {
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend(this.getMember().getLevel());
 
-        extendPeriod(extendedPeriod);
+        updateExtendedPeriod(extendedPeriod);
         increaseExtendCount();
     }
 

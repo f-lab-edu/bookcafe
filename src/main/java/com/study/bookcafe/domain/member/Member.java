@@ -3,6 +3,7 @@ package com.study.bookcafe.domain.member;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.borrow.Borrow;
+import com.study.bookcafe.domain.borrow.Return;
 import lombok.Builder;
 import lombok.Getter;
 import java.time.LocalDateTime;
@@ -62,6 +63,14 @@ public class Member {
                 .memberId(this.getId())
                 .bookId(book.getId())
                 .time(LocalDateTime.now())
+                .build();
+    }
+
+    public Return returnBook(final Book book) {
+        return Return.builder()
+                .member(this)
+                .book(book)
+                .date(LocalDateTime.now())
                 .build();
     }
 

@@ -2,6 +2,7 @@ package com.study.bookcafe.infrastructure.query.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.Return;
 import com.study.bookcafe.interfaces.borrow.BorrowDto;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.query.member.MembersReservationDetails;
@@ -60,6 +61,11 @@ public class TestBorrowQueryStorage {
     // memberId, reservation
     public static final Map<Long, List<MembersReservationDetails>> membersReservations = new HashMap<>(){{
         put(1L, new ArrayList<>(List.of(BorrowTestSets.MEMBERS_RESERVATION_DETAILS_1, BorrowTestSets.MEMBERS_RESERVATION_DETAILS_2)));
+    }};
+
+    public static final Map<Long, List<Return>> membersBorrowsHistory = new HashMap<>(){{
+        put(1L, new ArrayList<>());
+        put(2L, new ArrayList<>());
     }};
 
 }

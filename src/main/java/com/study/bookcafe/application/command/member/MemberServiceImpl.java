@@ -7,6 +7,7 @@ import com.study.bookcafe.application.exception.NonBorrowableMemberException;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.Return;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
      * @return 회원
      */
     @Override
-    public Member findById(long memberId) {
+    public Member findById(final long memberId) {
         return memberRepository.findById(memberId);
     }
 
@@ -112,6 +113,18 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void cancelReservation(long reservationId) {
         borrowService.cancelReservation(reservationId);
+    }
+
+    @Override
+    public void returnBook(final long memberId, final long bookId) {
+        final var targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId);
+
+        targetBorrow.ifPresent(borrow -> {
+            final Member member = findById(memberId);
+            final Return returnInfo = member.returnBook(borrow.getBook());
+
+            borrowService.returnBook(returnInfo);
+        });
     }
 
 }

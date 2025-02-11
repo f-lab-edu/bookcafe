@@ -4,9 +4,13 @@ import com.google.gson.Gson;
 import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.query.member.MemberQueryService;
+import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
+import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
+import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.interfaces.common.JsonHelper;
 import org.junit.jupiter.api.DisplayName;
@@ -77,5 +81,15 @@ public class BorrowTest {
         BorrowPeriod after = TestBorrowQueryStorage.borrowDtos.get(borrow.getId()).getBorrowPeriod();
 
         assertThat(before).isEqualTo(after);
+    }
+
+    @Test
+    @DisplayName("회원이 도서를 반납한다.")
+    public void returnBook() {
+        Member member = MemberTestSets.BASIC_MEMBER;
+        Book book = BookTestSets.VEGETARIAN_BOOK;
+
+        memberService.returnBook(member.getId(), book.getId());
+        assertThat(TestBorrowQueryStorage.membersBorrowsHistory.get(member.getId()).size()).isEqualTo(1);
     }
 }

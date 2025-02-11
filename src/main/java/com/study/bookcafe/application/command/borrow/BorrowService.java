@@ -2,6 +2,8 @@ package com.study.bookcafe.application.command.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
+import com.study.bookcafe.domain.borrow.Return;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ public interface BorrowService {
 
     // 도서 대출 조회
     Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend);
+    Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId);
 
     // 도서 대출 저장
     void save(Borrow borrow);
@@ -21,4 +24,6 @@ public interface BorrowService {
     void save(Reservation reservation);
     // 도서 예약 취소
     void cancelReservation(long reservationId);
+
+    void returnBook(Return returnInfo) ;
 }

@@ -72,8 +72,8 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public void returnBook(final Return returnInfo) {
-        borrowRepository.returnBook(returnInfo);
+    public void save(final Return returnInfo) {
+        borrowRepository.save(returnInfo);
     }
 
 }

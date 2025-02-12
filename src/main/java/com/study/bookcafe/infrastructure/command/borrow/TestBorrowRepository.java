@@ -82,7 +82,7 @@ public class TestBorrowRepository implements BorrowRepository {
 
     @Transactional
     @Override
-    public void returnBook(final Return returnInfo) {
+    public void save(final Return returnInfo) {
         final var borrows = TestBorrowQueryStorage.membersBorrows.get(returnInfo.getMember().getId());
 
         borrows.removeIf(borrow -> borrow.getBook().getId() == returnInfo.getBook().getId());

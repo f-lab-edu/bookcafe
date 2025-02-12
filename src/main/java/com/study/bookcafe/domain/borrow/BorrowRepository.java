@@ -12,5 +12,5 @@ public interface BorrowRepository {
     Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend);
     Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId);
     void updatePeriod(Borrow borrow);
-    void returnBook(Return returnInfo);
+    void save(Return returnInfo);
 }

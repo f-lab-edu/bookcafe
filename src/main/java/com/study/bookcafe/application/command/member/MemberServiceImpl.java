@@ -123,7 +123,7 @@ public class MemberServiceImpl implements MemberService {
             final Member member = findById(memberId);
             final Return returnInfo = member.returnBook(borrow.getBook());
 
-            borrowService.returnBook(returnInfo);
+            borrowService.save(returnInfo);
         });
     }
 

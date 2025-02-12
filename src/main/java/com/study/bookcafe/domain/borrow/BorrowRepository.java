@@ -10,5 +10,7 @@ public interface BorrowRepository {
     void save(Reservation reservation);
     void cancelReservation(long reservationId);
     Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId, boolean canExtend);
+    Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId);
     void updatePeriod(Borrow borrow);
+    void save(Return returnInfo);
 }

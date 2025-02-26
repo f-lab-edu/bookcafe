@@ -16,8 +16,8 @@ public class BookTest {
         Book book1 = BookTestSets.VEGETARIAN_BOOK;
         Book book2 = BookTestSets.WHITE_BOOK;
 
-        assertThat(book1.canBorrow()).isEqualTo(true);
-        assertThat(book2.canBorrow()).isEqualTo(false);
+        assertThat(book1.isBorrowable()).isEqualTo(true);
+        assertThat(book2.isBorrowable()).isEqualTo(false);
 
     }
 

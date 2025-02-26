@@ -22,7 +22,7 @@ public class Book {
      *
      * @return 현재 도서의 대출 가능한 재고가 있는지 여부
      */
-    public boolean canBorrow() {
+    public boolean isBorrowable() {
         return findInventory()
                 .map(Inventory::isOnStock)
                 .orElse(false);
@@ -41,5 +41,9 @@ public class Book {
 
     public Optional<Inventory> findInventory() {
         return Optional.ofNullable(this.getInventory());
+    }
+
+    public void increaseBorrowedCount() {
+        this.getInventory().increaseBorrowedCount();
     }
 }

@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Builder
 @Getter
@@ -17,7 +18,7 @@ public class Borrow {
     private Book book;                      // 도서
     private LocalDateTime time;             // 대출 시간
     private BorrowPeriod borrowPeriod;      // 대출 기간
-    private int extendedCount;              // 대출 연장한 횟수
+    private int extensionCount;             // 대출 연장한 횟수
 
     public Borrow(@NonNull Member member, @NonNull Book book, @NonNull LocalDateTime from) {
         this.member = member;
@@ -26,14 +27,14 @@ public class Borrow {
         this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
     }
 
-    /**
-     * 대출이 성공했는지 확인한다.
-     *
-     * @param borrow 대출
-     * @return 대출이 성공했는지 여부
-     */
-    public static boolean successBorrow(Borrow borrow) {
-        return borrow != null;
+    public static Optional<Borrow> of(Member member, Book book) {
+        if(!member.canBorrow()) throw new IllegalStateException("회원의 잔여 대출 가능 횟수가 없습니다.");
+        if(!book.isBorrowable()) throw new IllegalStateException("해당 도서는 이미 모두 대출되었습니다.");
+
+        member.increaseBorrowCount();
+        book.increaseBorrowedCount();
+
+        return Optional.of(new Borrow(member, book, LocalDateTime.now()));
     }
 
     private void updateExtendedPeriod(BorrowPeriod borrowPeriod) {
@@ -41,13 +42,13 @@ public class Borrow {
     }
 
     private void increaseExtendCount() {
-        this.extendedCount++;
+        this.extensionCount++;
     }
 
     /**
      * 대출을 연장한다.
      */
-    public void extend(LocalDate now) {
+    public void extendPeriod(LocalDate now) {
         if (!canExtend(now)) return;
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend(this.getMember().getLevel());
@@ -64,7 +65,7 @@ public class Borrow {
      * @return 연장 가능한지 여부
      */
     public boolean haveExtendableCount() {
-        return this.getMember().getLevel().haveExtendableCount(extendedCount);
+        return this.getMember().getLevel().haveExtendableCount(extensionCount);
     }
 
     public boolean haveReservation() {
@@ -85,13 +86,13 @@ public class Borrow {
 
     private boolean canExtend(LocalDate now) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
-        if (!haveExtendableCount()) return false;
+        if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
         // 도서에 예약이 있으므로 불가
-        if (haveReservation()) return false;
+        if (haveReservation()) throw new IllegalStateException("연장하려는 도서에 예약이 있습니다.");
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
-        if (!isExtendableDate(now)) return false;
+        if (!isExtendableDate(now)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
 
         return true;
     }

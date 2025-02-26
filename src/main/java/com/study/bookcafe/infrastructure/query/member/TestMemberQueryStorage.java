@@ -18,6 +18,16 @@ public class TestMemberQueryStorage {
                     member -> member
             ));
 
+    public static Map<Long, MemberEntity> memberEntities =
+            Stream.of(
+                    MemberTestSets.BASIC_MEMBER_ENTITY,
+                    MemberTestSets.WORM_MEMBER_ENTITY,
+                    MemberTestSets.LIBRARIAN_MEMBER_ENTITY
+            ).collect(Collectors.toMap(
+                    MemberEntity::getId,
+                    memberEntity -> memberEntity
+            ));
+
     /************************* Query *************************/
     public static Map<Long, MemberView> memberViews =
             Stream.of(

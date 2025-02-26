@@ -1,19 +1,28 @@
 package com.study.bookcafe.application.command.borrow;
 
+import com.study.bookcafe.application.command.book.BookService;
+import com.study.bookcafe.application.command.member.MemberService;
+import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.borrow.Return;
+import com.study.bookcafe.domain.member.Member;
 import org.springframework.stereotype.Service;
-import java.util.Collection;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
 public class BorrowServiceImpl implements BorrowService {
     private final BorrowRepository borrowRepository;
+    private final MemberService memberService;
+    private final BookService bookService;
 
-    public BorrowServiceImpl(BorrowRepository borrowRepository) {
+    public BorrowServiceImpl(BorrowRepository borrowRepository, MemberService memberService, BookService bookService) {
         this.borrowRepository = borrowRepository;
+        this.memberService = memberService;
+        this.bookService = bookService;
     }
 
     @Override
@@ -26,29 +35,24 @@ public class BorrowServiceImpl implements BorrowService {
         return borrowRepository.findBorrowByMemberIdAndBookId(memberId, bookId);
     }
 
-    /**
-     * 새로운 대출을 저장한다.
-     *
-     * @param borrow  대출 정보
-     */
     @Override
-    public void save(Borrow borrow) {
-        borrowRepository.save(borrow);
-    }
+    public void borrow(long memberId, long bookId) {
+        Member member = memberService.findById(memberId);
+        Book book = bookService.findById(bookId);
 
-    /**
-     * 새로운 여러 대출들을 저장한다.
-     *
-     * @param borrows 대출 목록
-     */
-    @Override
-    public void save(Collection<Borrow> borrows) {
-        borrowRepository.save(borrows);
+        Borrow.of(member, book).ifPresent(borrowRepository::save);
     }
 
     @Override
-    public void updatePeriod(Borrow borrow) {
-        borrowRepository.updatePeriod(borrow);
+    public void extend(long memberId, long bookId) {
+        final var borrow = findBorrowByMemberIdAndBookId(memberId, bookId, true);
+
+        borrow.ifPresent(targetBorrow -> {
+            LocalDate now = LocalDate.now();
+            targetBorrow.extendPeriod(now);
+
+            borrowRepository.updatePeriod(targetBorrow);
+        });
     }
 
     /**

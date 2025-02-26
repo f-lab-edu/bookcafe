@@ -4,8 +4,10 @@ import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.domain.borrow.Return;
+import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
+import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +24,14 @@ public class TestBorrowRepository implements BorrowRepository {
         this.borrowMapper = borrowMapper;
     }
 
+    @Transactional
+    @Override
     public void save(Borrow borrow) {
-        BorrowEntity borrowEntity = TestBorrowQueryStorage.borrowEntities.get(borrow.getId());
-        borrowMapper.toBorrow(borrowEntity);
+        BorrowEntity borrowEntity = borrowMapper.toBorrowEntity(borrow);
+
+        TestBorrowQueryStorage.borrowEntities.put(borrowEntity.getId(), borrowEntity);
+        TestMemberQueryStorage.memberEntities.put(borrowEntity.getMember().getId(), borrowEntity.getMember());
+        TestBookQueryStorage.bookEntities.put(borrowEntity.getBook().getId(), borrowEntity.getBook());
     }
 
     @Override

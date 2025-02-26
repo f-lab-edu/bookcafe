@@ -5,20 +5,24 @@ import lombok.Getter;
 @Getter
 public class Inventory {
     private int stock;                      // 재고
-    private int borrowed;                   // 대출 중인 권수
+    private int borrowedCount;              // 대출 중인 권수
     private int reservationCount;           // 예약 건수
 
-    public Inventory(int stock, int borrowed, int reservationCount) {
+    public Inventory(int stock, int borrowedCount, int reservationCount) {
         this.stock = stock;
-        this.borrowed = borrowed;
+        this.borrowedCount = borrowedCount;
         this.reservationCount = reservationCount;
     }
 
     public boolean isOnStock() {
-        return stock - borrowed > 0;
+        return stock - borrowedCount > 0;
     }
 
     public boolean haveReservation() {
         return reservationCount > 0;
+    }
+
+    public void increaseBorrowedCount() {
+        this.borrowedCount++;
     }
 }

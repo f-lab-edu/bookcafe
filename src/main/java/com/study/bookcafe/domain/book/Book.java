@@ -46,4 +46,7 @@ public class Book {
     public void increaseBorrowedCount() {
         this.getInventory().increaseBorrowedCount();
     }
+    public void increaseReservationCount() {
+        this.getInventory().increaseBorrowedCount();
+    }
 }

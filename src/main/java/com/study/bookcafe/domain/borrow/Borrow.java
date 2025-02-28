@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Builder
 @Getter
@@ -27,14 +26,14 @@ public class Borrow {
         this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
     }
 
-    public static Optional<Borrow> of(Member member, Book book) {
+    public static Borrow of(final Member member, final Book book) {
         if(!member.canBorrow()) throw new IllegalStateException("회원의 잔여 대출 가능 횟수가 없습니다.");
         if(!book.isBorrowable()) throw new IllegalStateException("해당 도서는 이미 모두 대출되었습니다.");
 
         member.increaseBorrowCount();
         book.increaseBorrowedCount();
 
-        return Optional.of(new Borrow(member, book, LocalDateTime.now()));
+        return new Borrow(member, book, LocalDateTime.now());
     }
 
     private void updateExtendedPeriod(BorrowPeriod borrowPeriod) {

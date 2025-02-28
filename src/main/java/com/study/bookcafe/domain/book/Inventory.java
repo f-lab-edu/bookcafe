@@ -25,4 +25,7 @@ public class Inventory {
     public void increaseBorrowedCount() {
         this.borrowedCount++;
     }
+    public void increaseReservationCount() {
+        this.reservationCount++;
+    }
 }

@@ -16,12 +16,13 @@ public class Reservation {
     private LocalDateTime time;     // 예약 시간
 
     public static Reservation of(final Member member, final Book book) {
-        // 대출 가능한 상태 -> 대출 로직으로 안내
-        if (member.canBorrow() && book.isBorrowable()) throw new IllegalStateException("해당 도서는 대출 가능한 상태입니다.");
+        if (book.isBorrowable()) {
+            if (member.isBorrowable()) throw new IllegalStateException("해당 도서는 대출 가능한 상태입니다.");
+            // 도서가 대출 가능한 상태일 경우, 예약은 불가능
+            else throw new IllegalStateException("해당 도서는 대출 가능한 상태이지만 회원님은 대출 가능한 상태가 아닙니다.");
+        }
 
-        // 도서는 대출 가능한 상태지만 회원은 대출 불가능한 상태 ->  대출 가능한 상태라고 안내
-        if (book.isBorrowable()) throw new IllegalStateException("해당 도서는 대출 가능한 상태이지만 회원님은 대출 가능한 상태가 아닙니다.");
-
+        member.increaseReservationCount();
         book.increaseReservationCount();
 
         return Reservation.builder()

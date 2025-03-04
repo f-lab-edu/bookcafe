@@ -27,7 +27,7 @@ public class Borrow {
     }
 
     public static Borrow of(final Member member, final Book book) {
-        if(!member.canBorrow()) throw new IllegalStateException("회원의 잔여 대출 가능 횟수가 없습니다.");
+        if(!member.isBorrowable()) throw new IllegalStateException("회원의 대출 가능 권수가 없습니다.");
         if(!book.isBorrowable()) throw new IllegalStateException("해당 도서는 이미 모두 대출되었습니다.");
 
         member.increaseBorrowCount();

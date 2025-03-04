@@ -1,7 +1,6 @@
 package com.study.bookcafe.domain.member;
 
 import com.study.bookcafe.domain.book.Book;
-import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.borrow.Return;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +14,7 @@ public class Member {
     private String name;                    // 회원 이름
     private Level level;                    // 회원 등급
     private int borrowCount;                // 현재 대출 권수
+    private int reservationCount;           // 현재 예약 권수
 
     private LocalDateTime createDate;       // 회원 가입 일자
     private LocalDateTime updateDate;       // 회원 수정 일자
@@ -24,26 +24,24 @@ public class Member {
      *
      * @return 현재 회원의 대출 가능 권수가 남았는지 여부
      */
-    public boolean canBorrow() {
-        return this.getLevel().isBookBorrowCountLeft(getBorrowCount());
+    public boolean isBorrowable() {
+        return this.getLevel().isBorrowCountLeft(getBorrowCount());
+    }
+
+    public boolean isReservable() {
+        return this.getLevel().isReservationCountLeft(getReservationCount());
     }
 
     public void increaseBorrowCount() {
+        if (!this.isBorrowable()) throw new IllegalStateException("회원의 대출 가능 권수가 없습니다.");
+
         this.borrowCount++;
     }
 
-    /**
-     * 회원이 도서 대출을 예약한다.
-     *
-     * @param book 도서
-     * @return 예약
-     */
-    public Reservation reserveBook(Book book) {
-        return Reservation.builder()
-                .memberId(this.getId())
-                .bookId(book.getId())
-                .time(LocalDateTime.now())
-                .build();
+    public void increaseReservationCount() {
+        if (!this.isReservable()) throw new IllegalStateException("회원의 예약 가능 권수가 없습니다.");
+
+        this.reservationCount++;
     }
 
     public Return returnBook(final Book book) {

@@ -36,13 +36,13 @@ public enum Level {
     public boolean isBorrowCountLeft(final int borrowCount) {
         if (borrowCount < 0) throw new IllegalArgumentException("대출 권수는 0보다 작을 수 없습니다.");
 
-        return this.maximumBorrowCount > borrowCount;
+        return this.maximumBorrowCount - borrowCount > 0;
     }
 
     public boolean isReservationCountLeft(final int reservationCount) {
         if (reservationCount < 0) throw new IllegalArgumentException("예약 권수는 0보다 작을 수 없습니다.");
 
-        return this.maximumReservationCount > reservationCount;
+        return this.maximumReservationCount - reservationCount > 0;
     }
 
     /**

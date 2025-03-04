@@ -23,7 +23,7 @@ public class Reservation {
         }
 
         member.increaseReservationCount();
-        book.increaseReservationCount();
+        book.increaseReservedCount();
 
         return Reservation.builder()
                 .member(member)

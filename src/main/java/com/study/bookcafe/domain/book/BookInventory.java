@@ -4,7 +4,9 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 
 @Getter
-public class Inventory {
+public class BookInventory {
+    private int id;
+
     @PositiveOrZero(message = "재고는 0 이상이어야 합니다.")
     private int stock;                      // 재고
     @PositiveOrZero(message = "대출 건수는 0 이상이어야 합니다.")
@@ -14,11 +16,11 @@ public class Inventory {
 
     private final int MAXIMUM_RESERVATION_COUNT = 5;
 
-    public Inventory(int stock) {
+    public BookInventory(int stock) {
         this.stock = stock;
     }
 
-    public Inventory(int stock, int borrowedCount, int reservedCount) {
+    public BookInventory(int stock, int borrowedCount, int reservedCount) {
         this.stock = stock;
         this.borrowedCount = borrowedCount;
         this.reservedCount = reservedCount;

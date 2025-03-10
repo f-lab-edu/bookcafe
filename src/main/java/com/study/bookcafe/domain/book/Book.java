@@ -7,10 +7,12 @@ import lombok.Getter;
 @Builder
 @Getter
 public class Book {
+    private final long id;                        // 도서 번호
+
     @NotNull(message = "도서 정보는 필수 값입니다.")
-    private final BookInfo bookInfo;
+    private BookInfo info;
     @NotNull(message = "도서 재고는 필수 값입니다.")
-    private final Inventory inventory;
+    private BookInventory inventory;
 
     /**
      * 도서가 대출 가능한 상태인지 확인한다.

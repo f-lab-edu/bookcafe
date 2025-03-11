@@ -1,41 +1,27 @@
 package com.study.bookcafe.domain.book;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Value;
+import java.sql.Date;
 
+@Value
 @Builder
-@Getter
 public class Book {
-    private final long id;                        // 도서 번호
-
-    @NotNull(message = "도서 정보는 필수 값입니다.")
-    private BookInfo info;
-    @NotNull(message = "도서 재고는 필수 값입니다.")
-    private BookInventory inventory;
-
-    /**
-     * 도서가 대출 가능한 상태인지 확인한다.
-     *
-     * @return 현재 도서의 대출 가능한 재고가 있는지 여부
-     */
-    public boolean isBorrowable() {
-        return this.getInventory().isOnStock();
-    }
-
-    /**
-     * 도서에 예약이 있는지 확인한다.
-     *
-     * @return 현재 도서에 대한 예약이 있는지 여부
-     */
-    public boolean haveReservation() {
-        return this.getInventory().haveReservation();
-    }
-
-    public void increaseBorrowedCount() {
-        this.getInventory().increaseBorrowedCount();
-    }
-    public void increaseReservedCount() {
-        this.getInventory().increaseReservedCount();
-    }
+    @Positive(message = "잘못된 ISBN 입니다.")
+    @NotNull(message = "ISBN은 필수 값입니다.")
+    long ISBN;                      // 국제표준도서번호
+    @NotBlank(message = "도서명은 필수 값입니다.")
+    String title;                   // 도서 명
+    @NotBlank(message = "저자명은 필수 값입니다.")
+    String author;                  // 저자 명
+    String translator;              // 역자 명
+    @NotBlank(message = "출판사명은 필수 값입니다.")
+    String publisher;               // 출판사 명
+    @NotNull(message = "출판일은 필수 값입니다.")
+    Date publishDate;               // 출판일
+    @Positive(message = "잘못된 도서 가격입니다.")
+    int price;                      // 도서 가격
 }

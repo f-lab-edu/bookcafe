@@ -19,7 +19,10 @@ public class Borrow {
     private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extensionCount;             // 대출 연장한 횟수
 
-    public Borrow(@NonNull Member member, @NonNull BookInventory book, @NonNull LocalDateTime from) {
+    public Borrow(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        member.increaseBorrowCount();
+        book.increaseBorrowedCount();
+
         this.member = member;
         this.book = book;
         this.time = from;
@@ -27,13 +30,10 @@ public class Borrow {
     }
 
     public static Borrow of(final Member member, final BookInventory book) {
-        member.increaseBorrowCount();
-        book.increaseBorrowedCount();
-
         return new Borrow(member, book, LocalDateTime.now());
     }
 
-    private void updateExtendedPeriod(BorrowPeriod borrowPeriod) {
+    private void updateExtendedPeriod(final BorrowPeriod borrowPeriod) {
         this.borrowPeriod = borrowPeriod;
     }
 
@@ -44,7 +44,7 @@ public class Borrow {
     /**
      * 대출을 연장한다.
      */
-    public void extendPeriod(LocalDate now) {
+    public void extendPeriod(final LocalDate now) {
         if (!canExtend(now)) return;
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend(this.getMember().getLevel());
@@ -76,7 +76,7 @@ public class Borrow {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isExtendableDate(LocalDate now) {
+    public boolean isExtendableDate(final LocalDate now) {
         return this.getBorrowPeriod().isExtendable(now);
     }
 

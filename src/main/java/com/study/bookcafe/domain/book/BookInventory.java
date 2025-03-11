@@ -1,10 +1,16 @@
 package com.study.bookcafe.domain.book;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 
 @Getter
-public class Inventory {
+public class BookInventory {
+    private int id;                         // 인벤토리 ID
+    private long bookId;                    // 도서 ID
+    @NotNull(message = "도서는 필수 값입니다.")
+    private Book book;                      // 도서
+
     @PositiveOrZero(message = "재고는 0 이상이어야 합니다.")
     private int stock;                      // 재고
     @PositiveOrZero(message = "대출 건수는 0 이상이어야 합니다.")
@@ -14,17 +20,21 @@ public class Inventory {
 
     private final int MAXIMUM_RESERVATION_COUNT = 5;
 
-    public Inventory(int stock) {
+    public BookInventory(Book book, int stock) {
+        this.book = book;
         this.stock = stock;
     }
 
-    public Inventory(int stock, int borrowedCount, int reservedCount) {
-        this.stock = stock;
-        this.borrowedCount = borrowedCount;
-        this.reservedCount = reservedCount;
+    /**
+     * 도서가 대출 가능한 상태인지 확인한다.
+     *
+     * @return 현재 도서의 대출 가능한 재고가 있는지 여부
+     */
+    public boolean isBorrowable() {
+        return this.isOnStock();
     }
 
-    public boolean isOnStock() {
+    private boolean isOnStock() {
         return stock - borrowedCount > 0;
     }
 

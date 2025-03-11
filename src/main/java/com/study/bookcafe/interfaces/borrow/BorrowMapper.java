@@ -1,8 +1,6 @@
 package com.study.bookcafe.interfaces.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.borrow.Reservation;
-import com.study.bookcafe.infrastructure.command.borrow.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.interfaces.book.BookMapper;
 import com.study.bookcafe.interfaces.member.MemberMapper;
@@ -19,67 +17,57 @@ import java.util.List;
 )
 public interface BorrowMapper {
 
+    // Borrow -> BorrowDto
     @Named("BorrowToBorrowDto")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberDto"})
-    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookToBookDto"})
+    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryToBookInventoryDto"})
     @Mapping(target = "time", source = "time")
     @Mapping(target = "borrowPeriod", source = "borrowPeriod")
-    // Borrow -> BorrowDto
+    @Mapping(target = "extensionCount", source = "extensionCount")
     BorrowDto toBorrowDto(Borrow borrow);
 
+    // BorrowDto -> Borrow
     @Name("BorrowDtoToBorrow")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberDtoToMember"})
-    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookDtoToBook"})
+    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryDtoToBookInventory"})
     @Mapping(target = "time", source = "time")
     @Mapping(target = "borrowPeriod", source = "borrowPeriod")
-    // BorrowDto -> Borrow
+    @Mapping(target = "extensionCount", source = "extensionCount")
     Borrow toBorrow(BorrowDto borrowDto);
 
+    // Borrow -> BorrowEntity
     @Named("BorrowToBorrowEntity")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberEntity"})
-    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookToBookEntity"})
+    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryToBookInventoryEntity"})
     @Mapping(target = "time", source = "time")
     @Mapping(target = "borrowPeriod", source = "borrowPeriod")
-    // Borrow -> BorrowEntity
+    @Mapping(target = "extensionCount", source = "extensionCount")
     BorrowEntity toBorrowEntity(Borrow borrow);
 
+    // BorrowEntity -> Borrow
     @Named("BorrowEntityToBorrow")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberEntityToMember"})
-    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookEntityToBook"})
+    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryEntityToBookInventory"})
     @Mapping(target = "time", source = "time")
     @Mapping(target = "borrowPeriod", source = "borrowPeriod")
-    // BorrowEntity -> Borrow
+    @Mapping(target = "extensionCount", source = "extensionCount")
     Borrow toBorrow(BorrowEntity borrowEntity);
 
-    @IterableMapping(qualifiedByName = "BorrowToBorrowEntity")
     // List<Borrow> -> List<BorrowEntity>
+    @IterableMapping(qualifiedByName = "BorrowToBorrowEntity")
     List<BorrowEntity> toBorrowEntities(List<Borrow> borrows);
 
-    @IterableMapping(qualifiedByName = "BorrowEntityToBorrow")
     // List<BorrowEntity> -> List<Borrow>
+    @IterableMapping(qualifiedByName = "BorrowEntityToBorrow")
     List<Borrow> toBorrows(List<BorrowEntity> borrowEntities);
 
-    @IterableMapping(qualifiedByName = "BorrowToBorrowDto")
     // List<Borrow> -> List<BorrowDto>
+    @IterableMapping(qualifiedByName = "BorrowToBorrowDto")
     List<BorrowDto> toBorrowDtos(List<Borrow> borrows);
 
-    @Named("ReservationEntityToReservation")
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "memberId", source = "memberId")
-    @Mapping(target = "bookId", source = "bookId")
-    @Mapping(target = "time", source = "time")
-    // ReservationEntity -> Reservation
-    Reservation toReservation(ReservationEntity reservationEntity);
 
-    @Named("ReservationToReservationEntity")
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "memberId", source = "memberId")
-    @Mapping(target = "bookId", source = "bookId")
-    @Mapping(target = "time", source = "time")
-    // Reservation -> ReservationEntity
-    ReservationEntity toReservationEntity(Reservation reservation);
 }

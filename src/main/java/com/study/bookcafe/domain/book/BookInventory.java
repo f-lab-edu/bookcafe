@@ -2,11 +2,13 @@ package com.study.bookcafe.domain.book;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class BookInventory {
-    private int id;                         // 인벤토리 ID
+    private long id;                        // 인벤토리 ID
     private long bookId;                    // 도서 ID
     @NotNull(message = "도서는 필수 값입니다.")
     private Book book;                      // 도서
@@ -19,11 +21,6 @@ public class BookInventory {
     private int reservedCount;              // 예약 건수
 
     private final int MAXIMUM_RESERVATION_COUNT = 5;
-
-    public BookInventory(Book book, int stock) {
-        this.book = book;
-        this.stock = stock;
-    }
 
     /**
      * 도서가 대출 가능한 상태인지 확인한다.

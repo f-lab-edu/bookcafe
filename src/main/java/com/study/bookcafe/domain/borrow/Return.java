@@ -1,6 +1,6 @@
 package com.study.bookcafe.domain.borrow;
 
-import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,6 @@ import java.time.LocalDateTime;
 @Getter
 public class Return {
     private Member member;
-    private Book book;
+    private BookInventory book;
     private LocalDateTime date;
 }

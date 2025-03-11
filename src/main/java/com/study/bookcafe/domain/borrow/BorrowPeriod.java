@@ -1,14 +1,14 @@
 package com.study.bookcafe.domain.borrow;
 
 import com.study.bookcafe.domain.member.Level;
-import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.Value;
 import java.time.LocalDate;
 
-@EqualsAndHashCode
+@Value
 public class BorrowPeriod {
 
-    private final Period period;
+    Period period;
 
     public static BorrowPeriod of(@NonNull LocalDate from, Level level) {
         return new BorrowPeriod(from, level);

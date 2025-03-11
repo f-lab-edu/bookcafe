@@ -1,6 +1,6 @@
 package com.study.bookcafe.domain.borrow;
 
-import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.member.Member;
 import lombok.*;
 
@@ -14,19 +14,19 @@ import java.time.LocalDateTime;
 public class Borrow {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
-    private Book book;                      // 도서
+    private BookInventory book;             // 도서
     private LocalDateTime time;             // 대출 시간
     private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extensionCount;             // 대출 연장한 횟수
 
-    public Borrow(@NonNull Member member, @NonNull Book book, @NonNull LocalDateTime from) {
+    public Borrow(@NonNull Member member, @NonNull BookInventory book, @NonNull LocalDateTime from) {
         this.member = member;
         this.book = book;
         this.time = from;
         this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
     }
 
-    public static Borrow of(final Member member, final Book book) {
+    public static Borrow of(final Member member, final BookInventory book) {
         member.increaseBorrowCount();
         book.increaseBorrowedCount();
 

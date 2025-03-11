@@ -1,6 +1,7 @@
 package com.study.bookcafe.domain.member;
 
 import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Return;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,7 +45,7 @@ public class Member {
         this.reservationCount++;
     }
 
-    public Return returnBook(final Book book) {
+    public Return returnBook(final BookInventory book) {
         return Return.builder()
                 .member(this)
                 .book(book)

@@ -1,8 +1,10 @@
 package com.study.bookcafe.borrow;
 
 import com.google.gson.Gson;
+import com.study.bookcafe.book.BookTest;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
-import com.study.bookcafe.infrastructure.query.book.BookEntity;
+import com.study.bookcafe.infrastructure.query.book.BookInventoryEntity;
+import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.member.MemberEntity;
 import com.study.bookcafe.interfaces.common.JsonHelper;
@@ -42,7 +44,7 @@ public class MapperTest {
         public Borrow createBorrow() {
             return Borrow.builder()
                     .member(Member.builder().id(1).build())
-                    .book(Book.builder().id(1).ISBN(9788936433598L).build())
+                    .book(BookTestSets.VEGETARIAN_BOOK_INVENTORY)
                     .borrowPeriod(BorrowPeriod.of(LocalDate.now(), Level.BASIC))
                     .time(LocalDateTime.now())
                     .build();
@@ -52,7 +54,7 @@ public class MapperTest {
         public BorrowDto createBorrowDto() {
             return BorrowDto.builder()
                     .member(MemberDto.builder().id(1).build())
-                    .book(BookDto.builder().id(1).ISBN(9788936433598L).build())
+                    .book(BookTestSets.VEGETARIAN_BOOK_INVENTORY_DTO)
                     .borrowPeriod(BorrowPeriod.of(LocalDate.now(), Level.BASIC))
                     .time(LocalDateTime.now())
                     .build();
@@ -62,7 +64,7 @@ public class MapperTest {
         public BorrowEntity createBorrowEntity() {
             return BorrowEntity.builder()
                     .member(MemberEntity.builder().id(1).build())
-                    .book(BookEntity.builder().id(1).ISBN(9788936433598L).build())
+                    .book(BookTestSets.VEGETARIAN_BOOK_INVENTORY_ENTITY)
                     .borrowPeriod(BorrowPeriod.of(LocalDate.now(), Level.BASIC))
                     .time(LocalDateTime.now())
                     .build();

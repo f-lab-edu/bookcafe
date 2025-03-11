@@ -1,6 +1,6 @@
 package com.study.bookcafe.domain.borrow;
 
-import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.member.Member;
 import lombok.*;
 
@@ -14,26 +14,26 @@ import java.time.LocalDateTime;
 public class Borrow {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
-    private Book book;                      // 도서
+    private BookInventory book;             // 도서
     private LocalDateTime time;             // 대출 시간
     private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extensionCount;             // 대출 연장한 횟수
 
-    public Borrow(@NonNull Member member, @NonNull Book book, @NonNull LocalDateTime from) {
+    public Borrow(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        member.increaseBorrowCount();
+        book.increaseBorrowedCount();
+
         this.member = member;
         this.book = book;
         this.time = from;
         this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
     }
 
-    public static Borrow of(final Member member, final Book book) {
-        member.increaseBorrowCount();
-        book.increaseBorrowedCount();
-
+    public static Borrow of(final Member member, final BookInventory book) {
         return new Borrow(member, book, LocalDateTime.now());
     }
 
-    private void updateExtendedPeriod(BorrowPeriod borrowPeriod) {
+    private void updateExtendedPeriod(final BorrowPeriod borrowPeriod) {
         this.borrowPeriod = borrowPeriod;
     }
 
@@ -44,7 +44,7 @@ public class Borrow {
     /**
      * 대출을 연장한다.
      */
-    public void extendPeriod(LocalDate now) {
+    public void extendPeriod(final LocalDate now) {
         if (!canExtend(now)) return;
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend(this.getMember().getLevel());
@@ -76,7 +76,7 @@ public class Borrow {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isExtendableDate(LocalDate now) {
+    public boolean isExtendableDate(final LocalDate now) {
         return this.getBorrowPeriod().isExtendable(now);
     }
 

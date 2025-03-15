@@ -1,6 +1,5 @@
 package com.study.bookcafe.infrastructure.command.borrow;
 
-import com.study.bookcafe.domain.borrow.Reservation;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.domain.borrow.Return;
@@ -8,12 +7,11 @@ import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
+import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -31,27 +29,14 @@ public class TestBorrowRepository implements BorrowRepository {
 
         TestBorrowQueryStorage.borrowEntities.put(borrowEntity.getId(), borrowEntity);
         TestMemberQueryStorage.memberEntities.put(borrowEntity.getMember().getId(), borrowEntity.getMember());
-        TestBookQueryStorage.bookEntities.put(borrowEntity.getBook().getId(), borrowEntity.getBook());
-    }
-
-    @Override
-    public void save(Collection<Borrow> borrows) {
-        List<BorrowEntity> borrowEntities = borrows
-                .stream().filter(borrow -> TestBorrowQueryStorage.borrowEntities.containsKey(borrow.getId()))
-                .map(borrow -> TestBorrowQueryStorage.borrowEntities.get(borrow.getId())).toList();
-        borrowMapper.toBorrows(borrowEntities);
-    }
-
-    @Override
-    public void save(Reservation reservation) {
-        TestBorrowQueryStorage.reservations.put(reservation.getMemberId(), reservation);
+        TestBookQueryStorage.bookInventoryEntities.put(borrowEntity.getBook().getId(), borrowEntity.getBook());
     }
 
     @Override
     public void cancelReservation(long reservationId) {
         long memberId = 1L;
 
-        final var targetReservationDetails =  TestBorrowQueryStorage.membersReservations.get(memberId);
+        final var targetReservationDetails =  TestReservationQueryStorage.membersReservationViews.get(memberId);
 
         targetReservationDetails.stream()
                 .filter(reservation -> reservation.getId() == reservationId)
@@ -92,7 +77,7 @@ public class TestBorrowRepository implements BorrowRepository {
     public void save(final Return returnInfo) {
         final var borrows = TestBorrowQueryStorage.membersBorrows.get(returnInfo.getMember().getId());
 
-        borrows.removeIf(borrow -> borrow.getBook().getId() == returnInfo.getBook().getId());
+        borrows.removeIf(borrow -> borrow.getBook().getId() == returnInfo.getBook().getBookId());
         TestBorrowQueryStorage.membersBorrowsHistory.get(returnInfo.getMember().getId()).add(returnInfo);
     }
 }

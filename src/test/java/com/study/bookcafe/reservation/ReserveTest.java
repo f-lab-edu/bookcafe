@@ -2,7 +2,7 @@ package com.study.bookcafe.reservation;
 
 import com.study.bookcafe.application.command.reservation.ReservationService;
 import com.study.bookcafe.application.query.reservation.ReservationQueryService;
-import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
@@ -31,9 +31,9 @@ public class ReserveTest {
     public void reserveTest() {
 
         Member member = MemberTestSets.BASIC_MEMBER;
-        Book book = BookTestSets.VEGETARIAN_BOOK;
+        BookInventory book = BookTestSets.VEGETARIAN_BOOK_INVENTORY;
 
-        Assertions.assertThrows(IllegalStateException.class, () -> reservationService.reserve(member.getId(), book.getId()));
+        Assertions.assertThrows(IllegalStateException.class, () -> reservationService.reserve(member.getId(), book.getBookId()));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ReserveTest {
         long reservationId = 1L;
 
         // 예약 취소
-        reservationService.cancelReservation(reservationId);
+        reservationService.cancel(reservationId);
 
         // 예약 취소 후 회원의 예약 목록
         List<ReservationView> membersReservations = reservationQueryService.findMembersReservationDetails(memberId);

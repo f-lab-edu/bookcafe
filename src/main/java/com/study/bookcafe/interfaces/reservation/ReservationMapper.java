@@ -18,16 +18,16 @@ import org.mapstruct.ReportingPolicy;
 public interface ReservationMapper {
     @Named("ReservationEntityToReservation")
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "member", source = "member")
-    @Mapping(target = "book", source = "book")
+    @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberEntityToMember"})
+    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryEntityToBookInventory"})
     @Mapping(target = "time", source = "time")
     // ReservationEntity -> Reservation
     Reservation toReservation(ReservationEntity reservationEntity);
 
     @Named("ReservationToReservationEntity")
     @Mapping(target = "id", source = "id")
-    @Mapping(target = "member", source = "member")
-    @Mapping(target = "book", source = "book")
+    @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberEntity"})
+    @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryToBookInventoryEntity"})
     @Mapping(target = "time", source = "time")
     // Reservation -> ReservationEntity
     ReservationEntity toReservationEntity(Reservation reservation);

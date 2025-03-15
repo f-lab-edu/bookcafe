@@ -2,7 +2,6 @@ package com.study.bookcafe.application.query.borrow;
 
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.query.borrow.BorrowQueryRepository;
-import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,11 +23,6 @@ public class BorrowQueryServiceImpl implements BorrowQueryService {
     @Override
     public List<BorrowDetails> findBorrows(long memberId) {
         return borrowQueryRepository.findByMemberId(memberId);
-    }
-
-    @Override
-    public List<MembersReservationDetails> findMembersReservationDetails(long memberId) {
-        return borrowQueryRepository.findMembersReservationDetails(memberId);
     }
 
 }

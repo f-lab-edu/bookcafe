@@ -3,7 +3,6 @@ package com.study.bookcafe.infrastructure.query.borrow;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.query.borrow.BorrowQueryRepository;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
-import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -27,10 +26,4 @@ public class TestBorrowQueryRepository implements BorrowQueryRepository {
                 .filter(borrow -> borrow.getMember().getId() == memberId)
                 .toList();
     }
-
-    @Override
-    public List<MembersReservationDetails> findMembersReservationDetails(long memberId) {
-        return TestBorrowQueryStorage.membersReservations.get(memberId);
-    }
-
 }

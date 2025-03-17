@@ -37,6 +37,19 @@ public class ReserveTest {
     }
 
     @Test
+    @DisplayName("도서 예약을 조회한다.")
+    public void findByIdTest() {
+        long reservationId_1 = 2L;
+        long reservationId_2 = 10L;
+
+        // 존재하는 예약
+        assertThat(reservationService.findById(reservationId_1)).isNotNull();
+
+        // 존재하지 않는 예약
+        assertThatThrownBy(() -> reservationService.findById(reservationId_2)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     @DisplayName("도서 예약 목록을 조회한다.")
     public void findMembersReservationDetailsTest() {
         long memberId = MemberTestSets.BASIC_MEMBER.getId();

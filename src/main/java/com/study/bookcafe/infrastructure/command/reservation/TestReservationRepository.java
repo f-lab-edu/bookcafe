@@ -21,14 +21,8 @@ public class TestReservationRepository implements ReservationRepository {
 
     @Override
     public Optional<Reservation> findById(final long reservationId) {
-        ReservationEntity reservationEntity = TestReservationQueryStorage.reservationEntities.get(reservationId);
-
-        if (reservationEntity == null) {
-            return Optional.empty();
-        }
-        else {
-            return Optional.ofNullable(reservationMapper.toReservation(reservationEntity));
-        }
+        return Optional.ofNullable(TestReservationQueryStorage.reservationEntities.get(reservationId))
+                .map(reservationMapper::toReservation);
     }
 
     @Override

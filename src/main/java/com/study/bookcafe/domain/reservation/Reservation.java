@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Reservation {
     private long id;                // 예약 번호
     private Member member;          // 회원
-    private BookInventory book;              // 도서
+    private BookInventory book;     // 도서
     private LocalDateTime time;     // 예약 시간
 
     public static Reservation of(final Member member, final BookInventory bookInventory) {

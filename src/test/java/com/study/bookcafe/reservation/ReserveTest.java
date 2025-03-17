@@ -47,19 +47,19 @@ public class ReserveTest {
     @Test
     @DisplayName("도서 예약을 취소한다.")
     public void cancelReserveTest() {
-        long memberId = 1L;
-        long reservationId = 1L;
+        long reservationId_1 = 1L;
+        long reservationId_2 = 10L;
+
+        // 예약 확인
+        assertThat(reservationService.findById(reservationId_1)).isNotNull();
 
         // 예약 취소
-        reservationService.cancel(reservationId);
-
-        // 예약 취소 후 회원의 예약 목록
-        List<ReservationView> membersReservations = reservationQueryService.findMembersReservationDetails(memberId);
+        reservationService.cancel(reservationId_1);
 
         // 예약 목록에서 삭제됐는지 검증
-        assertThat(membersReservations.stream()
-                        .filter(reservation -> reservation.getId() == reservationId)
-                        .count()).isEqualTo(0);
+        assertThatThrownBy(() -> reservationService.findById(reservationId_1)).isInstanceOf(IllegalArgumentException.class);
 
+        // 존재하지 않는 예약 번호로 조회
+        assertThatThrownBy(() -> reservationService.cancel(reservationId_2)).isInstanceOf(IllegalArgumentException.class);
     }
 }

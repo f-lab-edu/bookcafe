@@ -4,6 +4,7 @@ import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
+import com.study.bookcafe.infrastructure.query.reservation.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import com.study.bookcafe.interfaces.reservation.ReservationMapper;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,14 @@ public class TestReservationRepository implements ReservationRepository {
 
     @Override
     public Optional<Reservation> findById(final long reservationId) {
-        return Optional.ofNullable(TestReservationQueryStorage.reservations.get(reservationId));
+        ReservationEntity reservationEntity = TestReservationQueryStorage.reservationEntities.get(reservationId);
+
+        if (reservationEntity == null) {
+            return Optional.empty();
+        }
+        else {
+            return Optional.ofNullable(reservationMapper.toReservation(reservationEntity));
+        }
     }
 
     @Override
@@ -33,10 +41,9 @@ public class TestReservationRepository implements ReservationRepository {
     }
 
     @Override
-    public void delete(final Reservation reservation) {
-        final var reservationEntity = reservationMapper.toReservationEntity(reservation);
-
-        TestReservationQueryStorage.membersReservationViews.get(reservationEntity.getMember().getId())
-                .removeIf(target -> target.getId() == reservationEntity.getId());
+    public void deleteById(final long reservationId) {
+        findById(reservationId)
+                .map(reservation -> TestReservationQueryStorage.reservationEntities.remove(reservation.getId()))
+                .orElseThrow(() -> new IllegalArgumentException("예약 정보를 찾을 수 없습니다."));
     }
 }

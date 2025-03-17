@@ -37,9 +37,4 @@ public class TestReservationQueryStorage {
         put(MemberTestSets.BASIC_MEMBER_VIEW.getId(), new ArrayList<>(List.of(ReservationTestSets.BASIC_MEMBER_RESERVATION_VIEW)));
         put(MemberTestSets.WORM_MEMBER.getId(), new ArrayList<>(List.of(ReservationTestSets.WORM_MEMBER_RESERVATION_VIEW)));
     }};
-
-    // memberId, reservation
-//    public static final Map<Long, List<MembersReservationDetails>> membersReservations = new HashMap<>(){{
-//        put(MemberTestSets.BASIC_MEMBER.getId(), new ArrayList<>(List.of(BorrowTestSets.MEMBERS_RESERVATION_DETAILS_1, BorrowTestSets.MEMBERS_RESERVATION_DETAILS_2)));
-//    }};
 }

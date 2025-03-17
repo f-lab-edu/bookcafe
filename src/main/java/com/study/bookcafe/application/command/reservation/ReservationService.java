@@ -5,5 +5,5 @@ import com.study.bookcafe.domain.reservation.Reservation;
 public interface ReservationService {
     Reservation findById(long reservationId);
     void reserve(long memberId, long bookId);
-    void cancelReservation(long reservationId);
+    void cancel(long reservationId);
 }

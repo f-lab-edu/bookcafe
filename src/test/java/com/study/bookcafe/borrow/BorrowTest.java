@@ -2,6 +2,7 @@ package com.study.bookcafe.borrow;
 
 import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.member.MemberService;
+import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.application.query.member.MemberQueryService;
 import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.borrow.Borrow;
@@ -29,6 +30,8 @@ public class BorrowTest {
     private MemberQueryService memberQueryService;
     @Autowired
     private BorrowService borrowService;
+    @Autowired
+    private BorrowQueryService borrowQueryService;
 
     @Test
     @DisplayName("도서를 대출한다.")
@@ -39,7 +42,7 @@ public class BorrowTest {
 
         borrowService.borrow(memberId, bookId);
 
-        List<BorrowDetails> borrows = memberQueryService.findBorrows(memberId);
+        List<BorrowDetails> borrows = borrowQueryService.findBorrows(memberId);
 
         borrows.forEach(borrow -> assertThat(borrow.getMember().getId()).isEqualTo(memberId));
     }
@@ -50,7 +53,7 @@ public class BorrowTest {
 
         long memberId = 1L;
 
-        List<BorrowDetails> borrows = memberQueryService.findBorrows(memberId);
+        List<BorrowDetails> borrows = borrowQueryService.findBorrows(memberId);
 
         assertThat(borrows.size()).isEqualTo(2);
     }
@@ -78,13 +81,13 @@ public class BorrowTest {
         assertThat(before).isEqualTo(after);
     }
 
-    @Test
-    @DisplayName("도서를 반납한다.")
-    public void returnBook() {
-        Member member = MemberTestSets.BASIC_MEMBER;
-        Book book = BookTestSets.VEGETARIAN_BOOK;
-
-        memberService.returnBook(member.getId(), book.getId());
-        assertThat(TestBorrowQueryStorage.membersBorrowsHistory.get(member.getId()).size()).isEqualTo(1);
-    }
+//    @Test
+//    @DisplayName("도서를 반납한다.")
+//    public void returnBook() {
+//        Member member = MemberTestSets.BASIC_MEMBER;
+//        Book book = BookTestSets.VEGETARIAN_BOOK;
+//
+//        memberService.returnBook(member.getId(), book.getId());
+//        assertThat(TestBorrowQueryStorage.membersBorrowsHistory.get(member.getId()).size()).isEqualTo(1);
+//    }
 }

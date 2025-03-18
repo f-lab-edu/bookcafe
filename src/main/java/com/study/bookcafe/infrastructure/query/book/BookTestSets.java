@@ -42,15 +42,15 @@ public class BookTestSets {
     public static final BookInventoryEntity VEGETARIAN_BOOK_INVENTORY_ENTITY = BookInventoryEntity.builder()
             .id(1L).bookId(1L).book(VEGETARIAN_BOOK_ENTITY).stock(5).borrowedCount(1).reservedCount(0).build();
     public static final BookInventoryEntity WHITE_BOOK_INVENTORY_ENTITY = BookInventoryEntity.builder()
-            .id(1L).bookId(1L).book(WHITE_BOOK_ENTITY).stock(2).borrowedCount(2).reservedCount(1).build();
+            .id(2L).bookId(2L).book(WHITE_BOOK_ENTITY).stock(2).borrowedCount(2).reservedCount(1).build();
 
     public static final BookInventoryView VEGETARIAN_BOOK_INVENTORY_VIEW = BookInventoryView.builder()
             .id(1L).bookId(1L).bookView(VEGETARIAN_BOOK_VIEW).stock(5).borrowedCount(1).reservedCount(0).build();
     public static final BookInventoryView WHITE_BOOK_INVENTORY_VIEW = BookInventoryView.builder()
-            .id(1L).bookId(1L).bookView(WHITE_BOOK_VIEW).stock(2).borrowedCount(2).reservedCount(1).build();
+            .id(2L).bookId(2L).bookView(WHITE_BOOK_VIEW).stock(2).borrowedCount(2).reservedCount(1).build();
 
     public static final BookInventoryDto VEGETARIAN_BOOK_INVENTORY_DTO = BookInventoryDto.builder()
             .id(1L).bookId(1L).book(VEGETARIAN_BOOK_DTO).stock(5).borrowedCount(1).reservedCount(0).build();
     public static final BookInventoryDto WHITE_BOOK_INVENTORY_DTO = BookInventoryDto.builder()
-            .id(1L).bookId(1L).book(WHITE_BOOK_DTO).stock(2).borrowedCount(2).reservedCount(1).build();
+            .id(2L).bookId(2L).book(WHITE_BOOK_DTO).stock(2).borrowedCount(2).reservedCount(1).build();
 }

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 public class Borrow {
     private long id;                        // 대출 ID
@@ -18,6 +17,8 @@ public class Borrow {
     private LocalDateTime time;             // 대출 시간
     private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extensionCount;             // 대출 연장한 횟수
+
+    private final int MAXIMUM_EXTENSION_COUNT = 1;
 
     public Borrow(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
         member.increaseBorrowCount();
@@ -38,6 +39,8 @@ public class Borrow {
     }
 
     private void increaseExtendCount() {
+        if (extensionCount >= MAXIMUM_EXTENSION_COUNT) throw new IllegalStateException("대출의 연장 가능한 횟수가 없습니다.");
+
         this.extensionCount++;
     }
 

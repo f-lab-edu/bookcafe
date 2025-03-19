@@ -1,6 +1,5 @@
 package com.study.bookcafe.domain.member;
 
-import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Return;
 import lombok.Builder;
@@ -43,6 +42,16 @@ public class Member {
         if (!this.isReservable()) throw new IllegalStateException("회원의 예약 가능 권수가 없습니다.");
 
         this.reservationCount++;
+    }
+
+    public void decreaseReservationCount() {
+        if (!this.haveReservationCount()) throw new IllegalStateException("회원의 예약 건수가 없습니다.");
+
+        this.reservationCount--;
+    }
+
+    private boolean haveReservationCount() {
+        return getReservationCount() > 0;
     }
 
     public Return returnBook(final BookInventory book) {

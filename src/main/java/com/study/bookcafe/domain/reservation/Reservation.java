@@ -35,4 +35,9 @@ public class Reservation {
         this.book = bookInventory;
         this.time = LocalDateTime.now();
     }
+
+    public void decreaseReservationCount() {
+        member.decreaseReservationCount();
+        book.decreaseReservedCount();
+    }
 }

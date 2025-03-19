@@ -36,6 +36,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void cancel(final long reservationId) {
-        reservationRepository.deleteById(reservationId);
+        Reservation reservation = findById(reservationId);
+        reservation.decreaseReservationCount();
+
+        reservationRepository.delete(reservation);
     }
 }

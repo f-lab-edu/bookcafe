@@ -4,7 +4,6 @@ import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
-import com.study.bookcafe.infrastructure.query.reservation.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import com.study.bookcafe.interfaces.reservation.ReservationMapper;
 import org.springframework.stereotype.Repository;
@@ -32,6 +31,21 @@ public class TestReservationRepository implements ReservationRepository {
         TestReservationQueryStorage.reservationEntities.put(reservationEntity.getId(), reservationEntity);
         TestMemberQueryStorage.memberEntities.put(reservationEntity.getMember().getId(), reservationEntity.getMember());
         TestBookQueryStorage.bookInventoryEntities.put(reservationEntity.getBook().getId(), reservationEntity.getBook());
+    }
+
+    @Override
+    public void delete(final Reservation reservation) {
+        final var reservationEntity = reservationMapper.toReservationEntity(reservation);
+
+        this.deleteById(reservationEntity.getId());
+
+        Optional.ofNullable(TestMemberQueryStorage.memberEntities.get(reservationEntity.getMember().getId()))
+                .map(memberEntity -> TestMemberQueryStorage.memberEntities.put(memberEntity.getId(), reservationEntity.getMember()))
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+
+        Optional.ofNullable(TestBookQueryStorage.bookInventoryEntities.get(reservationEntity.getBook().getId()))
+                .map(bookEntity -> TestBookQueryStorage.bookInventoryEntities.put(bookEntity.getId(), reservationEntity.getBook()))
+                .orElseThrow(() -> new IllegalArgumentException("도서 정보를 찾을 수 없습니다."));
     }
 
     @Override

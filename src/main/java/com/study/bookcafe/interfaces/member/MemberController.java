@@ -4,6 +4,7 @@ import com.study.bookcafe.application.query.member.MemberQueryService;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.interfaces.borrow.BorrowMapper;
 import com.study.bookcafe.application.command.member.MemberService;
+import com.study.bookcafe.query.member.MemberView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,10 @@ public class MemberController {
         this.memberQueryService = memberQueryService;
     }
 
-    @GetMapping("/member/{id}")
-    @ResponseBody
-    public ResponseEntity<MemberDto> member(@PathVariable long id) {
-        Member member = memberQueryService.findById(id);
-        return ResponseEntity.ok(memberMapper.toMemberDto(member));
-    }
+//    @GetMapping("/member/{id}")
+//    @ResponseBody
+//    public ResponseEntity<MemberDto> member(@PathVariable long id) {
+//        MemberView member = memberQueryService.findById(id);
+//        return ResponseEntity.ok(memberMapper.toMemberDto(member));
+//    }
 }

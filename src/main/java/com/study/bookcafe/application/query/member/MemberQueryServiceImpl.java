@@ -4,6 +4,8 @@ import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.member.MemberRepository;
+import com.study.bookcafe.query.member.MemberQueryRepository;
+import com.study.bookcafe.query.member.MemberView;
 import com.study.bookcafe.query.member.MembersReservationDetails;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,11 @@ import java.util.List;
 @Service
 public class MemberQueryServiceImpl implements MemberQueryService {
 
-    private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
     private final BorrowQueryService borrowQueryService;
 
-    public MemberQueryServiceImpl(MemberRepository memberRepository, BorrowQueryService borrowQueryService) {
-        this.memberRepository = memberRepository;
+    public MemberQueryServiceImpl(MemberQueryRepository memberQueryRepository, BorrowQueryService borrowQueryService) {
+        this.memberQueryRepository = memberQueryRepository;
         this.borrowQueryService = borrowQueryService;
     }
 
@@ -27,29 +29,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
      * @return 회원
      */
     @Override
-    public Member findById(long memberId) {
-        return memberRepository.findById(memberId);
-    }
-
-    /**
-     * 회원의 대출 목록을 조회한다.
-     *
-     * @param memberId 회원 ID
-     * @return 대출 목록
-     */
-    @Override
-    public List<BorrowDetails> findBorrows(long memberId) {
-        return borrowQueryService.findBorrows(memberId);
-    }
-
-    /**
-     * 회원의 예약 목록을 조회한다.
-     *
-     * @param memberId 회원 ID
-     * @return 예약 목록
-     */
-    @Override
-    public List<MembersReservationDetails> findMembersReservationDetails(long memberId) {
-        return borrowQueryService.findMembersReservationDetails(memberId);
+    public MemberView findById(long memberId) {
+        return memberQueryRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
     }
 }

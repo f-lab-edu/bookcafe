@@ -25,12 +25,12 @@ public class CanBorrowTest {
         Member member5 = Member.builder().name("이상혁").level(Level.LIBRARIAN).borrowCount(10).build();
         Member member6 = Member.builder().name("손흥민").level(Level.LIBRARIAN).borrowCount(9).build();
 
-        assertThat(member1.canBorrow()).isEqualTo(true);
-        assertThat(member2.canBorrow()).isEqualTo(true);
-        assertThat(member3.canBorrow()).isEqualTo(false);
-        assertThat(member4.canBorrow()).isEqualTo(true);
-        assertThat(member5.canBorrow()).isEqualTo(false);
-        assertThat(member6.canBorrow()).isEqualTo(true);
+        assertThat(member1.isBorrowable()).isEqualTo(true);
+        assertThat(member2.isBorrowable()).isEqualTo(true);
+        assertThat(member3.isBorrowable()).isEqualTo(false);
+        assertThat(member4.isBorrowable()).isEqualTo(true);
+        assertThat(member5.isBorrowable()).isEqualTo(false);
+        assertThat(member6.isBorrowable()).isEqualTo(true);
 
     }
 }

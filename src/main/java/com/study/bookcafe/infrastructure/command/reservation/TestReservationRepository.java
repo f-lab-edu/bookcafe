@@ -4,7 +4,6 @@ import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
-import com.study.bookcafe.infrastructure.query.reservation.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import com.study.bookcafe.interfaces.reservation.ReservationMapper;
 import org.springframework.stereotype.Repository;
@@ -39,5 +38,27 @@ public class TestReservationRepository implements ReservationRepository {
         findById(reservationId)
                 .map(reservation -> TestReservationQueryStorage.reservationEntities.remove(reservation.getId()))
                 .orElseThrow(() -> new IllegalArgumentException("예약 정보를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public void updateReservationCount(Reservation reservation) {
+        this.updateMemberReservationCount(reservation);
+        this.updateBookReservationCount(reservation);
+    }
+
+    private void updateMemberReservationCount(final Reservation reservation) {
+        final var reservationEntity = reservationMapper.toReservationEntity(reservation);
+
+        Optional.ofNullable(TestMemberQueryStorage.memberEntities.get(reservationEntity.getMember().getId()))
+                .map(memberEntity -> TestMemberQueryStorage.memberEntities.put(memberEntity.getId(), reservationEntity.getMember()))
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+    }
+
+    private void updateBookReservationCount(final Reservation reservation) {
+        final var reservationEntity = reservationMapper.toReservationEntity(reservation);
+
+        Optional.ofNullable(TestBookQueryStorage.bookInventoryEntities.get(reservationEntity.getBook().getId()))
+                .map(bookEntity -> TestBookQueryStorage.bookInventoryEntities.put(bookEntity.getId(), reservationEntity.getBook()))
+                .orElseThrow(() -> new IllegalArgumentException("도서 정보를 찾을 수 없습니다."));
     }
 }

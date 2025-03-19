@@ -1,6 +1,8 @@
 package com.study.bookcafe.domain.member;
 
 
+import java.util.Optional;
+
 public interface MemberRepository {
-    Member findById(long memberId);
+    Optional<Member> findById(long memberId);
 }

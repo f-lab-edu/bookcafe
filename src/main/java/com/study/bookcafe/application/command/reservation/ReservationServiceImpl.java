@@ -7,6 +7,7 @@ import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -35,7 +36,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public void cancel(final long reservationId) {
+        Reservation reservation = findById(reservationId);
+        reservation.decreaseReservationCount();
+
         reservationRepository.deleteById(reservationId);
+        reservationRepository.updateReservationCount(reservation);
     }
 }

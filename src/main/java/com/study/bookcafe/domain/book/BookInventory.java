@@ -44,9 +44,20 @@ public class BookInventory {
 
         this.borrowedCount++;
     }
+
     public void increaseReservedCount() {
         if (MAXIMUM_RESERVATION_COUNT - reservedCount <= 0) throw new IllegalStateException("해당 도서에 대한 예약이 모두 찼습니다.");
 
         this.reservedCount++;
+    }
+
+    public void decreaseReservedCount() {
+        if (!this.haveReservedCount()) throw new IllegalStateException("해당 도서에 대한 예약이 없습니다.");
+
+        this.reservedCount--;
+    }
+
+    public boolean haveReservedCount() {
+        return reservedCount > 0;
     }
 }

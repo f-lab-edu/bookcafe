@@ -5,6 +5,8 @@ import com.study.bookcafe.query.member.MemberView;
 import com.study.bookcafe.interfaces.member.MemberMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class GeneralMemberQueryRepository implements MemberQueryRepository {
 
@@ -16,7 +18,7 @@ public class GeneralMemberQueryRepository implements MemberQueryRepository {
 
 
     @Override
-    public MemberView findById(long memberId) {
-        return TestMemberQueryStorage.memberViews.get(memberId);
+    public Optional<MemberView> findById(long memberId) {
+        return Optional.ofNullable(TestMemberQueryStorage.memberViews.get(memberId));
     }
 }

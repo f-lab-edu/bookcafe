@@ -6,4 +6,5 @@ public interface ReservationRepository {
     Optional<Reservation> findById(long reservationId);
     void save(Reservation reservation);
     void deleteById(long reservationId);
+    void updateReservationCount(Reservation reservation);
 }

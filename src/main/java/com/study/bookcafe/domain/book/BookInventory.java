@@ -35,7 +35,7 @@ public class BookInventory {
         return stock - borrowedCount > 0;
     }
 
-    public boolean haveReservation() {
+    public boolean haveReservedCount() {
         return reservedCount > 0;
     }
 
@@ -55,9 +55,5 @@ public class BookInventory {
         if (!this.haveReservedCount()) throw new IllegalStateException("해당 도서에 대한 예약이 없습니다.");
 
         this.reservedCount--;
-    }
-
-    public boolean haveReservedCount() {
-        return reservedCount > 0;
     }
 }

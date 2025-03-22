@@ -2,20 +2,29 @@ package com.study.bookcafe.borrow;
 
 import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.member.MemberService;
+import com.study.bookcafe.application.command.reservation.ReservationService;
 import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.application.query.member.MemberQueryService;
+import com.study.bookcafe.book.BookTest;
 import com.study.bookcafe.domain.book.Book;
+import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
+import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
+import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
+import com.study.bookcafe.interfaces.common.JsonHelper;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -25,13 +34,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class BorrowTest {
     @Autowired
-    private MemberService memberService;
-    @Autowired
-    private MemberQueryService memberQueryService;
-    @Autowired
     private BorrowService borrowService;
     @Autowired
     private BorrowQueryService borrowQueryService;
+    @Autowired
+    private ReservationService reservationService;
 
     @Test
     @DisplayName("도서를 대출한다.")
@@ -45,6 +52,31 @@ public class BorrowTest {
         List<BorrowDetails> borrows = borrowQueryService.findBorrows(memberId);
 
         borrows.forEach(borrow -> assertThat(borrow.getMember().getId()).isEqualTo(memberId));
+    }
+
+    @Test
+    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 예약 제거 및 예약 카운트 감소")
+    public void testBorrowReservedBook() {
+
+        Member member1 = MemberTestSets.BASIC_MEMBER;
+        BookInventory book1 = BookTestSets.HANRIVER_BOOK_INVENTORY;
+        member1.increaseReservationCount();
+
+        Member member2 = MemberTestSets.WORM_MEMBER;
+        BookInventory book2 = BookTestSets.WHITE_BOOK_INVENTORY;
+        member2.increaseReservationCount();
+
+        // member1 -> book1 예약
+        reservationService.reserve(member1.getId(), book1.getBookId());
+        // member2 -> book2 예약
+        reservationService.reserve(member2.getId(), book2.getBookId());
+
+        // book2 반납 (임시)
+        BookTestSets.WHITE_BOOK_INVENTORY.decreaseBorrowedCount();
+
+        // member1 -> book2 대출
+        borrowService.borrow(member1.getId(), book2.getBookId());
+
     }
 
     @Test

@@ -14,7 +14,8 @@ public class TestBookQueryStorage {
     public static Map<Long, BookInventory> bookInventories =
             Stream.of(
                     BookTestSets.VEGETARIAN_BOOK_INVENTORY,
-                    BookTestSets.WHITE_BOOK_INVENTORY
+                    BookTestSets.WHITE_BOOK_INVENTORY,
+                    BookTestSets.HANRIVER_BOOK_INVENTORY
             ).collect(Collectors.toMap(
                     BookInventory::getId,
                     bookInventory -> bookInventory
@@ -24,7 +25,8 @@ public class TestBookQueryStorage {
     public static Map<Long, BookInventory> bookInventories2 =
             Stream.of(
                     BookTestSets.VEGETARIAN_BOOK_INVENTORY,
-                    BookTestSets.WHITE_BOOK_INVENTORY
+                    BookTestSets.WHITE_BOOK_INVENTORY,
+                    BookTestSets.HANRIVER_BOOK_INVENTORY
             ).collect(Collectors.toMap(
                     BookInventory::getBookId,
                     bookInventory -> bookInventory
@@ -33,7 +35,8 @@ public class TestBookQueryStorage {
     public static Map<Long, BookInventoryEntity> bookInventoryEntities =
             Stream.of(
                     BookTestSets.VEGETARIAN_BOOK_INVENTORY_ENTITY,
-                    BookTestSets.WHITE_BOOK_INVENTORY_ENTITY
+                    BookTestSets.WHITE_BOOK_INVENTORY_ENTITY,
+                    BookTestSets.HANRIVER_BOOK_INVENTORY_ENTITY
             ).collect(Collectors.toMap(
                     BookInventoryEntity::getId,
                     bookInventoryEntity -> bookInventoryEntity
@@ -44,7 +47,8 @@ public class TestBookQueryStorage {
     public static Map<Long, BookInventoryView> bookInventoryViews =
             Stream.of(
                     BookTestSets.VEGETARIAN_BOOK_INVENTORY_VIEW,
-                    BookTestSets.WHITE_BOOK_INVENTORY_VIEW
+                    BookTestSets.WHITE_BOOK_INVENTORY_VIEW,
+                    BookTestSets.HANRIVER_BOOK_INVENTORY_VIEW
             ).collect(Collectors.toMap(
                     BookInventoryView::getId,
                     bookInventoryView -> bookInventoryView
@@ -54,7 +58,8 @@ public class TestBookQueryStorage {
     public static Map<Long, BookInventoryView> bookInventoryViews2 =
             Stream.of(
                     BookTestSets.VEGETARIAN_BOOK_INVENTORY_VIEW,
-                    BookTestSets.WHITE_BOOK_INVENTORY_VIEW
+                    BookTestSets.WHITE_BOOK_INVENTORY_VIEW,
+                    BookTestSets.HANRIVER_BOOK_INVENTORY_VIEW
             ).collect(Collectors.toMap(
                     BookInventoryView::getBookId,
                     bookInventoryView -> bookInventoryView

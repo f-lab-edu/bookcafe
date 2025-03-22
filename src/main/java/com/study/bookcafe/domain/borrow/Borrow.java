@@ -67,8 +67,16 @@ public class Borrow {
         return this.getMember().getLevel().haveExtendableCount(extensionCount);
     }
 
+    private boolean haveMemberReservation() {
+        return this.getMember().haveReservationCount();
+    }
+
+    private boolean haveReservationForBook() {
+        return this.getBook().haveReservedCount();
+    }
+
     public boolean haveReservation() {
-        return this.getBook().haveReservation();
+        return this.haveMemberReservation() && this.haveReservationForBook();
     }
 
     /**
@@ -88,7 +96,7 @@ public class Borrow {
         if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
         // 도서에 예약이 있으므로 불가
-        if (haveReservation()) throw new IllegalStateException("연장하려는 도서에 예약이 있습니다.");
+        if (haveReservationForBook()) throw new IllegalStateException("연장하려는 도서에 예약이 있습니다.");
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
         if (!isExtendableDate(now)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");

@@ -40,7 +40,7 @@ public class BookInventory {
     }
 
     public void increaseBorrowedCount() {
-        if (!isOnStock()) throw new IllegalStateException("해당 도서는 이미 모두 대출되었습니다.");
+        if (!isBorrowable()) throw new IllegalStateException("해당 도서는 이미 모두 대출되었습니다.");
 
         this.borrowedCount++;
     }
@@ -55,5 +55,10 @@ public class BookInventory {
         if (!this.haveReservedCount()) throw new IllegalStateException("해당 도서에 대한 예약이 없습니다.");
 
         this.reservedCount--;
+    }
+
+    // 테스트
+    public void decreaseBorrowedCount() {
+        this.borrowedCount--;
     }
 }

@@ -1,30 +1,21 @@
 package com.study.bookcafe.borrow;
 
 import com.study.bookcafe.application.command.borrow.BorrowService;
-import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.command.reservation.ReservationService;
 import com.study.bookcafe.application.query.borrow.BorrowQueryService;
-import com.study.bookcafe.application.query.member.MemberQueryService;
-import com.study.bookcafe.book.BookTest;
-import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.domain.member.Member;
-import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
-import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
-import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
-import com.study.bookcafe.interfaces.common.JsonHelper;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +59,10 @@ public class BorrowTest {
 
         // member1 -> book1 예약
         reservationService.reserve(member1.getId(), book1.getBookId());
+        int beforeMemberReservationCount = member1.getReservationCount();
         // member2 -> book2 예약
         reservationService.reserve(member2.getId(), book2.getBookId());
+        int beforeBookReservationCount = book2.getReservedCount();
 
         // book2 반납 (임시)
         BookTestSets.WHITE_BOOK_INVENTORY.decreaseBorrowedCount();
@@ -77,6 +70,11 @@ public class BorrowTest {
         // member1 -> book2 대출
         borrowService.borrow(member1.getId(), book2.getBookId());
 
+        int afterMemberReservationCount = member1.getReservationCount();
+        int afterBookReservationCount = book2.getReservedCount();
+
+        assertThat(beforeMemberReservationCount).isEqualTo(afterMemberReservationCount);
+        assertThat(beforeBookReservationCount).isEqualTo(afterBookReservationCount);
     }
 
     @Test

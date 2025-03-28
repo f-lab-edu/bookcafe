@@ -9,6 +9,8 @@ import com.study.bookcafe.domain.reservation.ReservationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
@@ -28,6 +30,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public Optional<Reservation> findByMemberIdAndBookId(long memberId, long bookId) {
+        return reservationRepository.findByMemberIdAndBookId(memberId, bookId);
+    }
+
+    @Override
     public void reserve(final long memberId, final long bookId) {
         Member member = memberService.findById(memberId);
         BookInventory book = bookInventoryService.findByBookId(bookId);
@@ -38,6 +45,18 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void cancel(final long reservationId) {
+        this.delete(reservationId);
+    }
+
+    @Override
+    @Transactional
+    public void removeDueToBorrow(final long memberId, final long bookId) {
+        findByMemberIdAndBookId(memberId, bookId)
+                .ifPresent(reservation -> this.delete(reservation.getId()));
+    }
+
+    @Transactional
+    public void delete(final long reservationId) {
         Reservation reservation = findById(reservationId);
         reservation.decreaseReservationCount();
 

@@ -25,6 +25,15 @@ public class TestReservationRepository implements ReservationRepository {
     }
 
     @Override
+    public Optional<Reservation> findByMemberIdAndBookId(long memberId, long bookId) {
+        return TestReservationQueryStorage.reservationEntities.values().stream()
+                .map(reservationMapper::toReservation)
+                .filter(reservationEntity ->
+                        reservationEntity.getMember().getId() == memberId &&
+                                reservationEntity.getBook().getBookId() == bookId).findFirst();
+    }
+
+    @Override
     public void save(final Reservation reservation) {
         final var reservationEntity = reservationMapper.toReservationEntity(reservation);
 

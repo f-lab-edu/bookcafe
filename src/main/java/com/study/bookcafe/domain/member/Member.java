@@ -50,7 +50,7 @@ public class Member {
         this.reservationCount--;
     }
 
-    private boolean haveReservationCount() {
+    public boolean haveReservationCount() {
         return getReservationCount() > 0;
     }
 

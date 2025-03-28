@@ -1,6 +1,5 @@
 package com.study.bookcafe.book;
 
-import com.study.bookcafe.domain.book.Book;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +28,7 @@ public class BookTest {
         BookInventory book1 = BookTestSets.VEGETARIAN_BOOK_INVENTORY;
         BookInventory book2 = BookTestSets.WHITE_BOOK_INVENTORY;
 
-        assertThat(book1.haveReservation()).isEqualTo(false);
-        assertThat(book2.haveReservation()).isEqualTo(true);
+        assertThat(book1.haveReservedCount()).isEqualTo(false);
+        assertThat(book2.haveReservedCount()).isEqualTo(true);
     }
 }

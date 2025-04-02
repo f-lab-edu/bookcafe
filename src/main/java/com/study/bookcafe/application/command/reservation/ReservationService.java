@@ -10,4 +10,6 @@ public interface ReservationService {
     void reserve(long memberId, long bookId);
     void cancel(long reservationId);
     void removeDueToBorrow(long memberId, long bookId);
+    void delete(long reservationId);
+    void delete(Reservation reservation);
 }

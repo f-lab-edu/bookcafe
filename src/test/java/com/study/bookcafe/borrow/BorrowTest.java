@@ -94,7 +94,6 @@ public class BorrowTest {
         when(memberService.findById(member.getId())).thenReturn(member);
         when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);
         when(reservationRepository.findByMemberIdAndBookId(member.getId(), book.getBookId())).thenReturn(Optional.of(reservation));
-        when(reservationRepository.findById(reservation.getId())).thenReturn(Optional.of(reservation));
 
         reservationService = new ReservationServiceImpl(reservationRepository, memberService, bookInventoryService);
         borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);

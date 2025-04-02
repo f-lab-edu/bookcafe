@@ -32,8 +32,6 @@ public class Reservation {
         member.increaseReservationCount();
         bookInventory.increaseReservedCount();
 
-        // 임시 (테스트)
-        this.id = TestReservationQueryStorage.reservationEntities.size() + 1;
         this.member = member;
         this.book = bookInventory;
         this.time = LocalDateTime.now();

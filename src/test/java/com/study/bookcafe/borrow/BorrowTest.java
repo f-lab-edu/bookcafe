@@ -5,15 +5,19 @@ import com.study.bookcafe.application.command.borrow.BorrowService;
 import com.study.bookcafe.application.command.borrow.BorrowServiceImpl;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.command.reservation.ReservationService;
+import com.study.bookcafe.application.command.reservation.ReservationServiceImpl;
 import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.reservation.Reservation;
+import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
+import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
 import com.study.bookcafe.query.borrow.BorrowDetails;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +45,7 @@ public class BorrowTest {
     private static BookInventoryService bookInventoryService;
     private static ReservationService reservationService;
     private static BorrowQueryService borrowQueryService;
+    private static ReservationRepository reservationRepository;
 
     @BeforeAll
     public static void createTestDouble() {
@@ -49,6 +54,7 @@ public class BorrowTest {
         bookInventoryService = mock(BookInventoryService.class);
         reservationService = mock(ReservationService.class);
         borrowQueryService = mock(BorrowQueryService.class);
+        reservationRepository = mock(ReservationRepository.class);
     }
 
     @Test
@@ -77,26 +83,37 @@ public class BorrowTest {
     }
 
     @Test
-    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 예약 제거 및 예약 카운트 감소")
+    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 예약 제거 및 예약 카운트 차감")
     public void testBorrowReservedBook() {
 
-        Member member1 = MemberTestSets.createBasicMember();
-        BookInventory book1 = BookTestSets.createHanRiverBookInventory();
+        // given (Mock 설정)
+        Member member = MemberTestSets.createBasicMember();
+        BookInventory book = BookTestSets.createWhiteBookInventory();
+        Reservation reservation = Reservation.of(member, book);
 
-        Member member2 = MemberTestSets.createWormMember();
-        BookInventory book2 = BookTestSets.createWhiteBookInventory();
+        when(memberService.findById(member.getId())).thenReturn(member);
+        when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);
+        when(reservationRepository.findByMemberIdAndBookId(member.getId(), book.getBookId())).thenReturn(Optional.of(reservation));
+        when(reservationRepository.findById(reservation.getId())).thenReturn(Optional.of(reservation));
 
-        // member1 -> book1 예약
-        reservationService.reserve(member1.getId(), book1.getBookId());
-        // member2 -> book2 예약
-        reservationService.reserve(member2.getId(), book2.getBookId());
-        // book2 반납
-        BookTestSets.WHITE_BOOK_INVENTORY.decreaseBorrowedCount();
-
-        // member1 -> book2 대출
-        borrowService.borrow(member1.getId(), book2.getBookId());
+        reservationService = new ReservationServiceImpl(reservationRepository, memberService, bookInventoryService);
+        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
 
 
+        // when (테스트 실행)
+        reservationService.reserve(member.getId(), book.getBookId());
+        int beforeReservationCount = member.getReservationCount();
+        book.decreaseBorrowedCount(); // book 반납
+
+        borrowService.borrow(member.getId(), book.getBookId());
+
+        // then (결과 검증)
+        ArgumentCaptor<Reservation> reservationCaptor = ArgumentCaptor.forClass(Reservation.class);
+        verify(reservationRepository).updateReservationCount(reservationCaptor.capture());
+        Reservation targetReservation = reservationCaptor.getValue();
+
+        assertThat(targetReservation.getMember()).isEqualTo(member);
+        assertThat(member.getReservationCount()).isEqualTo(beforeReservationCount - 1);
     }
 
     @Test

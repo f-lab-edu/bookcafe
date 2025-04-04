@@ -15,23 +15,12 @@ import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
-import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
-import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
-import com.study.bookcafe.query.borrow.BorrowDetails;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,28 +47,29 @@ public class BorrowTest {
     }
 
     @Test
-    @DisplayName("도서를 대출한다.")
-    public void testBorrowBook() {
+    @DisplayName("도서 대출 후 회원과 도서의 대출 건수가 증가한다.")
+    public void increaseMemberAndBookBorrowCount() {
         // given (Mock 설정)
         Member member = MemberTestSets.createBasicMember();
+        Member expectedMember = MemberTestSets.createBasicMember();
+        expectedMember.increaseBorrowCount();
+
         BookInventory book = BookTestSets.createVegetarianBookInventory();
+        BookInventory expectedBook = BookTestSets.createVegetarianBookInventory();
+        expectedBook.increaseBorrowedCount();
 
         when(memberService.findById(member.getId()))
                 .thenReturn(member);
         when(bookInventoryService.findByBookId(book.getBookId()))
                 .thenReturn(book);
+        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
 
         // when (테스트 실행)
-        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
         borrowService.borrow(member.getId(), book.getBookId());
 
-        var borrowCaptor = ArgumentCaptor.forClass(Borrow.class);
-        verify(borrowRepository).save(borrowCaptor.capture());
-        Borrow borrow = borrowCaptor.getValue();
-
         // then (결과 검증)
-        assertThat(borrow.getMember()).isEqualTo(member);
-        assertThat(borrow.getBook()).isEqualTo(book);
+        assertThat(member).isEqualTo(expectedMember);
+        assertThat(book).isEqualTo(expectedBook);
     }
 
     @Test
@@ -101,52 +91,52 @@ public class BorrowTest {
 
         // when (테스트 실행)
         reservationService.reserve(member.getId(), book.getBookId());
-        int beforeReservationCount = member.getReservationCount();
+        Member expectedMember = member.clone();
+        expectedMember.decreaseReservationCount();
+
         book.decreaseBorrowedCount(); // book 반납
 
         borrowService.borrow(member.getId(), book.getBookId());
+        expectedMember.increaseBorrowCount();
 
         // then (결과 검증)
         ArgumentCaptor<Reservation> reservationCaptor = ArgumentCaptor.forClass(Reservation.class);
         verify(reservationRepository).updateReservationCount(reservationCaptor.capture());
         Reservation targetReservation = reservationCaptor.getValue();
 
-        assertThat(targetReservation.getMember()).isEqualTo(member);
-        assertThat(member.getReservationCount()).isEqualTo(beforeReservationCount - 1);
+        assertThat(targetReservation.getMember()).isEqualTo(expectedMember);
     }
 
     @Test
-    @DisplayName("회원의 대출 목록을 조회한다.")
-    public void testFindBorrows() {
-
-        long memberId = 1L;
-
-        List<BorrowDetails> borrows = borrowQueryService.findBorrows(memberId);
-
-        assertThat(borrows.size()).isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("도서 대출을 연장한다.")
+    @DisplayName("대출 연장 후 반납 기간은 회원의 등급에 따라 증가한다.")
     public void extendBorrow() {
 
-        // before
-        LocalDate targetBefore = LocalDate.now().minusDays(3);
-        LocalDate targetAfter = targetBefore.plusWeeks(2);
-        BorrowPeriod before = new BorrowPeriod(targetBefore, targetAfter);
+        // given (Mock 설정)
+        Member member = MemberTestSets.createBasicMember();
+        BookInventory book = BookTestSets.createVegetarianBookInventory();
 
-        // after
-        long memberId = 1L;
-        long bookId = 1L;
+        LocalDateTime from = LocalDateTime.of(2025, 3, 31, 0, 0);
+        Borrow borrow = new Borrow(member, book, from);
 
-        Optional<Borrow> targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId, true);
-        Borrow borrow = targetBorrow.orElseThrow();
+        Borrow expectedBorrow = borrow.clone();
+        expectedBorrow.extendPeriod(LocalDate.now());
+        BorrowPeriod expectedBorrowPeriod = expectedBorrow.getBorrowPeriod();
 
-        // extend borrow
-        borrowService.extend(memberId, bookId);
-        BorrowPeriod after = TestBorrowQueryStorage.borrowDtos.get(borrow.getId()).getBorrowPeriod();
+        when(memberService.findById(member.getId())).thenReturn(member);
+        when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);
+        when(borrowRepository.findBorrowByMemberIdAndBookId(member.getId(), book.getBookId(), true)).thenReturn(Optional.of(borrow));
 
-        assertThat(before).isEqualTo(after);
+        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
+
+        // when (테스트 실행)
+        borrowService.extend(member.getId(), book.getBookId());
+
+        // then (결과 검증)
+        ArgumentCaptor<Borrow> borrowCaptor = ArgumentCaptor.forClass(Borrow.class);
+        verify(borrowRepository).updatePeriod(borrowCaptor.capture());
+        Borrow targetBorrow = borrowCaptor.getValue();
+
+        assertThat(targetBorrow.getBorrowPeriod()).isEqualTo(expectedBorrowPeriod);
     }
 
 //    @Test

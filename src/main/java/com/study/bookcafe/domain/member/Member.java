@@ -3,12 +3,14 @@ package com.study.bookcafe.domain.member;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Return;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class Member {
+@EqualsAndHashCode
+public class Member implements Cloneable {
     private long id;                        // 회원 ID
     private String password;                // 회원 Password
     private String name;                    // 회원 이름
@@ -62,4 +64,12 @@ public class Member {
                 .build();
     }
 
+    @Override
+    public Member clone() {
+        try {
+            return (Member) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

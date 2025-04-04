@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @AllArgsConstructor
-public class Borrow {
+public class Borrow implements Cloneable {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
     private BookInventory book;             // 도서
@@ -102,5 +102,14 @@ public class Borrow {
         if (!isExtendableDate(now)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
 
         return true;
+    }
+
+    @Override
+    public Borrow clone() {
+        try {
+            return (Borrow) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

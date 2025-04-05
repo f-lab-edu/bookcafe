@@ -11,11 +11,13 @@ import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
+import com.study.bookcafe.domain.member.Level;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
+import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
 
@@ -33,7 +35,6 @@ public class BorrowTest {
     private static MemberService memberService;
     private static BookInventoryService bookInventoryService;
     private static ReservationService reservationService;
-    private static BorrowQueryService borrowQueryService;
     private static ReservationRepository reservationRepository;
 
     @BeforeAll
@@ -42,7 +43,6 @@ public class BorrowTest {
         memberService = mock(MemberService.class);
         bookInventoryService = mock(BookInventoryService.class);
         reservationService = mock(ReservationService.class);
-        borrowQueryService = mock(BorrowQueryService.class);
         reservationRepository = mock(ReservationRepository.class);
     }
 
@@ -88,16 +88,13 @@ public class BorrowTest {
         reservationService = new ReservationServiceImpl(reservationRepository, memberService, bookInventoryService);
         borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
 
-
         // when (테스트 실행)
         reservationService.reserve(member.getId(), book.getBookId());
-        Member expectedMember = member.clone();
-        expectedMember.decreaseReservationCount();
+        Member expectedMember = Member.builder().id(1L).name("슈카").level(Level.BASIC).borrowCount(1).reservationCount(2).build();
 
         book.decreaseBorrowedCount(); // book 반납
 
         borrowService.borrow(member.getId(), book.getBookId());
-        expectedMember.increaseBorrowCount();
 
         // then (결과 검증)
         ArgumentCaptor<Reservation> reservationCaptor = ArgumentCaptor.forClass(Reservation.class);
@@ -118,9 +115,10 @@ public class BorrowTest {
         LocalDateTime from = LocalDateTime.of(2025, 3, 31, 0, 0);
         Borrow borrow = new Borrow(member, book, from);
 
-        Borrow expectedBorrow = borrow.clone();
-        expectedBorrow.extendPeriod(LocalDate.now());
-        BorrowPeriod expectedBorrowPeriod = expectedBorrow.getBorrowPeriod();
+        BorrowPeriod expectedBorrowPeriod = new BorrowPeriod(from.toLocalDate(), from.toLocalDate()
+                .plusWeeks(Level.BASIC.getBorrowPeriod())
+                .plusWeeks(Level.BASIC.getExtendPeriod())
+        );
 
         when(memberService.findById(member.getId())).thenReturn(member);
         when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);

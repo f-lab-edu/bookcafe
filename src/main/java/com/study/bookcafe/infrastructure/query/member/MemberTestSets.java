@@ -23,4 +23,13 @@ public class MemberTestSets {
     public static final MemberDto WORM_MEMBER_DTO = MemberDto.builder().id(2L).name("머스크").level(Level.WORM).borrowCount(3).build();
     public static final MemberDto LIBRARIAN_MEMBER_DTO = MemberDto.builder().id(3L).name("트럼프").level(Level.LIBRARIAN).borrowCount(5).build();
 
+    public static Member createBasicMember() {
+        return Member.builder().id(1L).name("슈카").level(Level.BASIC).borrowCount(0).reservationCount(1).build();
+    }
+    public static Member createWormMember() {
+        return Member.builder().id(2L).name("머스크").level(Level.WORM).borrowCount(3).reservationCount(2).build();
+    }
+    public static Member createLibrarianMember() {
+        return Member.builder().id(3L).name("트럼프").level(Level.LIBRARIAN).borrowCount(5).build();
+    }
 }

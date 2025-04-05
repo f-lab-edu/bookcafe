@@ -51,16 +51,21 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void removeDueToBorrow(final long memberId, final long bookId) {
-        findByMemberIdAndBookId(memberId, bookId)
-                .ifPresent(reservation -> this.delete(reservation.getId()));
+        findByMemberIdAndBookId(memberId, bookId).ifPresent(this::delete);
     }
 
+    @Override
     @Transactional
     public void delete(final long reservationId) {
-        Reservation reservation = findById(reservationId);
+        this.delete(findById(reservationId));
+    }
+
+    @Override
+    @Transactional
+    public void delete(final Reservation reservation) {
         reservation.decreaseReservationCount();
 
-        reservationRepository.deleteById(reservationId);
+        reservationRepository.deleteById(reservation.getId());
         reservationRepository.updateReservationCount(reservation);
     }
 }

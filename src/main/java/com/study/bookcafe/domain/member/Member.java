@@ -3,11 +3,13 @@ package com.study.bookcafe.domain.member;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Return;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Builder
 @Getter
+@EqualsAndHashCode
 public class Member {
     private long id;                        // 회원 ID
     private String password;                // 회원 Password
@@ -61,5 +63,4 @@ public class Member {
                 .date(LocalDateTime.now())
                 .build();
     }
-
 }

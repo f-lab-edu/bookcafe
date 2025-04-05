@@ -70,4 +70,17 @@ public class BookTestSets {
             .id(2L).bookId(2L).book(WHITE_BOOK_DTO).stock(2).borrowedCount(2).reservedCount(1).build();
     public static final BookInventoryDto HANRIVER_BOOK_INVENTORY_DTO = BookInventoryDto.builder()
             .id(3L).bookId(3L).book(HANRIVER_BOOK_DTO).stock(5).borrowedCount(5).reservedCount(0).build();
+
+    public static BookInventory createVegetarianBookInventory() {
+        return BookInventory.builder()
+                .id(1L).bookId(1L).book(VEGETARIAN_BOOK).stock(5).borrowedCount(1).reservedCount(0).build();
+    }
+    public static BookInventory createWhiteBookInventory() {
+        return BookInventory.builder()
+                .id(2L).bookId(2L).book(WHITE_BOOK).stock(2).borrowedCount(2).reservedCount(1).build();
+    }
+    public static BookInventory createHanRiverBookInventory() {
+        return BookInventory.builder()
+                .id(3L).bookId(3L).book(HANRIVER_BOOK).stock(5).borrowedCount(5).reservedCount(0).build();
+    }
 }

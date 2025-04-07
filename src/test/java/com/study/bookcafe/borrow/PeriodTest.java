@@ -11,12 +11,12 @@ import static org.assertj.core.api.Assertions.*;
 
 public class PeriodTest {
 
-    LocalDate date1 = LocalDate.of(2024, 12, 7);
-    LocalDate date2 = LocalDate.of(2024, 12, 8);
+    private final LocalDate date1 = LocalDate.of(2024, 12, 7);
+    private final LocalDate date2 = LocalDate.of(2024, 12, 8);
 
     @Test
     @DisplayName("반납일자는 대출일자보다 이후여야 한다.")
-    public void ofTest() {
+    public void returnDateMustBeLaterThanTheBorrowDate() {
         BorrowPeriod period1 = new BorrowPeriod(date1, date2);
         BorrowPeriod period2 = new BorrowPeriod(date2, date2);
 
@@ -26,27 +26,36 @@ public class PeriodTest {
 
     @Test
     @DisplayName("반납일자가 대출일자보다 이전이거나 반납일자 또는 대출일자가 null이면 예외가 발생한다.")
-    public void ofExceptionTest() {
+    public void exceptionOccursIfReturnDateIsEarlierThanBorrowDateOrIsNull() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> new BorrowPeriod(date2, date1));
         Assertions.assertThrows(NullPointerException.class, () -> new BorrowPeriod(null, null));
     }
 
     @Test
-    @DisplayName("회원 등급에 따라 대출 연장 기간을 확인한다,")
+    @DisplayName("대출 연장은 회원 등급에 따라 반납 기간이 연장된다.")
     public void checkBorrowExtensionsPeriodByMemberShipLevel() {
         LocalDate borrowDate = LocalDate.now();
 
-        BorrowPeriod basicExtendedPeriod = BorrowPeriod.of(borrowDate, Level.BASIC).extend(Level.BASIC);
-        BorrowPeriod wormExtendedPeriod = BorrowPeriod.of(borrowDate, Level.WORM).extend(Level.WORM);
-        BorrowPeriod librarianExtendedPeriod = BorrowPeriod.of(borrowDate, Level.LIBRARIAN).extend(Level.LIBRARIAN);
+        BorrowPeriod basicExtendedPeriod = new BorrowPeriod(borrowDate, borrowDate
+                .plusWeeks(Level.BASIC.getBorrowPeriod())
+                .plusWeeks(Level.BASIC.getExtendPeriod())
+        );
+        BorrowPeriod wormExtendedPeriod = new BorrowPeriod(borrowDate, borrowDate
+                .plusWeeks(Level.WORM.getBorrowPeriod())
+                .plusWeeks(Level.WORM.getExtendPeriod())
+        );
+        BorrowPeriod librarianExtendedPeriod = new BorrowPeriod(borrowDate, borrowDate
+                .plusWeeks(Level.LIBRARIAN.getBorrowPeriod())
+                .plusWeeks(Level.LIBRARIAN.getExtendPeriod())
+        );
 
-        BorrowPeriod newBasicPeriod = new BorrowPeriod(borrowDate, borrowDate.plusWeeks(Level.BASIC.getBorrowPeriod()).plusWeeks(Level.BASIC.getExtendPeriod()));
-        BorrowPeriod newWormPeriod = new BorrowPeriod(borrowDate, borrowDate.plusWeeks(Level.WORM.getBorrowPeriod()).plusWeeks(Level.WORM.getExtendPeriod()));
-        BorrowPeriod newLibrarianPeriod = new BorrowPeriod(borrowDate, borrowDate.plusWeeks(Level.LIBRARIAN.getBorrowPeriod()).plusWeeks(Level.LIBRARIAN.getExtendPeriod()));
+        BorrowPeriod basicExpectedPeriod = BorrowPeriod.of(borrowDate, Level.BASIC).extend(Level.BASIC);
+        BorrowPeriod wormExpectedPeriod = BorrowPeriod.of(borrowDate, Level.WORM).extend(Level.WORM);
+        BorrowPeriod librarianExpectedPeriod = BorrowPeriod.of(borrowDate, Level.LIBRARIAN).extend(Level.LIBRARIAN);
 
-        assertThat(basicExtendedPeriod).isEqualTo(newBasicPeriod);
-        assertThat(wormExtendedPeriod).isEqualTo(newWormPeriod);
-        assertThat(librarianExtendedPeriod).isEqualTo(newLibrarianPeriod);
+        assertThat(basicExtendedPeriod).isEqualTo(basicExpectedPeriod);
+        assertThat(wormExtendedPeriod).isEqualTo(wormExpectedPeriod);
+        assertThat(librarianExtendedPeriod).isEqualTo(librarianExpectedPeriod);
 
     }
 

@@ -2,7 +2,6 @@ package com.study.bookcafe.domain.reservation;
 
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.member.Member;
-import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +25,7 @@ public class Reservation {
         if (bookInventory.isBorrowable()) {
             if (member.isBorrowable()) throw new IllegalStateException("해당 도서는 대출 가능한 상태입니다.");
             // 도서가 대출 가능한 상태일 경우, 예약은 불가능
-            else throw new IllegalStateException("해당 도서는 대출 가능한 상태이지만 회원님은 대출 가능한 상태가 아닙니다.");
+            else throw new IllegalStateException("대출 가능한 도서는 예약할 수 없습니다.");
         }
 
         member.increaseReservationCount();

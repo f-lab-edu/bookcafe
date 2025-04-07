@@ -1,78 +1,82 @@
 package com.study.bookcafe.reservation;
 
+import com.study.bookcafe.application.command.book.BookInventoryService;
+import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.command.reservation.ReservationService;
-import com.study.bookcafe.application.query.reservation.ReservationQueryService;
+import com.study.bookcafe.application.command.reservation.ReservationServiceImpl;
 import com.study.bookcafe.domain.book.BookInventory;
+import com.study.bookcafe.domain.member.Level;
 import com.study.bookcafe.domain.member.Member;
+import com.study.bookcafe.domain.reservation.Reservation;
+import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
-import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
-import com.study.bookcafe.query.reservation.ReservationView;
-import org.junit.jupiter.api.Assertions;
+import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class ReserveTest {
 
-    @Autowired
-    private ReservationQueryService reservationQueryService;
-    @Autowired
     private ReservationService reservationService;
+    private static ReservationRepository reservationRepository;
+    private static MemberService memberService;
+    private static BookInventoryService bookInventoryService;
 
-    @Test
-    @DisplayName("도서를 예약한다.")
-    public void reserveTest() {
-
-        Member member = MemberTestSets.BASIC_MEMBER;
-        BookInventory book = BookTestSets.VEGETARIAN_BOOK_INVENTORY;
-
-        Assertions.assertThrows(IllegalStateException.class, () -> reservationService.reserve(member.getId(), book.getBookId()));
+    @BeforeAll
+    public static void setUp() {
+        memberService = mock(MemberService.class);
+        bookInventoryService = mock(BookInventoryService.class);
+        reservationRepository = mock(ReservationRepository.class);
     }
 
     @Test
-    @DisplayName("도서 예약을 조회한다.")
-    public void findByIdTest() {
-        long reservationId_1 = 2L;
-        long reservationId_2 = 10L;
+    @DisplayName("도서 예약 후 회원과 도서의 예약 건수가 증가한다.")
+    public void increaseMemberAndBookReservationCount() {
+        // given (Mock 설정)
+        Member member = MemberTestSets.createBasicMember();
+        Member expectedMember = Member.builder().id(1L).name("슈카").level(Level.BASIC).borrowCount(0).reservationCount(2).build();
+        BookInventory book = BookTestSets.createWhiteBookInventory();
+        BookInventory expectedBook = BookInventory.builder().id(2L).bookId(2L).book(BookTestSets.WHITE_BOOK).stock(2).borrowedCount(2).reservedCount(2).build();
 
-        // 존재하는 예약
-        assertThat(reservationService.findById(reservationId_1)).isNotNull();
+        when(memberService.findById(member.getId())).thenReturn(member);
+        when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);
+        reservationService = new ReservationServiceImpl(reservationRepository, memberService, bookInventoryService);
 
-        // 존재하지 않는 예약
-        assertThatThrownBy(() -> reservationService.findById(reservationId_2)).isInstanceOf(IllegalArgumentException.class);
+        // when (테스트 실행)
+        reservationService.reserve(member.getId(), book.getBookId());
+
+        // then (결과 검증)
+        assertThat(member.getReservationCount()).isEqualTo(expectedMember.getReservationCount());
+        assertThat(book.getReservedCount()).isEqualTo(expectedBook.getReservedCount());
     }
 
     @Test
-    @DisplayName("도서 예약 목록을 조회한다.")
-    public void findMembersReservationDetailsTest() {
-        long memberId = MemberTestSets.BASIC_MEMBER.getId();
-        List<ReservationView> membersReservations = reservationQueryService.findMembersReservationDetails(memberId);
-        assertThat(membersReservations.size()).isEqualTo(TestReservationQueryStorage.membersReservationViews.get(memberId).size());
-    }
-
-    @Test
-    @DisplayName("도서 예약을 취소한다.")
+    @DisplayName("도서 예약 취소 후 회원과 도서의 예약 건수가 차감된다.")
     public void cancelReserveTest() {
-        long reservationId_1 = 1L;
-        long reservationId_2 = 10L;
+        // given (Mock 설정)
+        Reservation reservation = ReservationTestSets.WORM_MEMBER_RESERVATION;
+        Member member = reservation.getMember();
+        Member expectedMember = Member.builder().id(2L).name("머스크").level(Level.WORM).borrowCount(3).reservationCount(1).build();
+        BookInventory book = reservation.getBook();
+        BookInventory expectedBook = BookInventory.builder().id(2L).bookId(2L).book(BookTestSets.WHITE_BOOK).stock(2).borrowedCount(2).reservedCount(0).build();
 
-        // 예약 확인
-        assertThat(reservationService.findById(reservationId_1)).isNotNull();
+        when(memberService.findById(member.getId())).thenReturn(member);
+        when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);
+        when(reservationRepository.findById(reservation.getId())).thenReturn(Optional.of(reservation));
+        reservationService = new ReservationServiceImpl(reservationRepository, memberService, bookInventoryService);
 
-        // 예약 취소
-        reservationService.cancel(reservationId_1);
+        // when (테스트 실행)
+        reservationService.cancel(reservation.getId());
 
-        // 예약 목록에서 삭제됐는지 검증
-        assertThatThrownBy(() -> reservationService.findById(reservationId_1)).isInstanceOf(IllegalArgumentException.class);
-
-        // 존재하지 않는 예약 번호로 조회
-        assertThatThrownBy(() -> reservationService.cancel(reservationId_2)).isInstanceOf(IllegalArgumentException.class);
+        // then (결과 검증)
+        assertThat(member.getReservationCount()).isEqualTo(expectedMember.getReservationCount());
+        assertThat(book.getReservedCount()).isEqualTo(expectedBook.getReservedCount());
     }
 }

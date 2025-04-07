@@ -38,7 +38,7 @@ public class BorrowTest {
     private static ReservationRepository reservationRepository;
 
     @BeforeAll
-    public static void createTestDouble() {
+    public static void setUp() {
         borrowRepository = mock(BorrowRepository.class);
         memberService = mock(MemberService.class);
         bookInventoryService = mock(BookInventoryService.class);
@@ -73,7 +73,7 @@ public class BorrowTest {
     }
 
     @Test
-    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 예약 제거 및 예약 카운트 차감")
+    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 회원의 예약 제거 및 예약 카운트가 차감된다.")
     public void testBorrowReservedBook() {
 
         // given (Mock 설정)

@@ -6,7 +6,6 @@ import com.study.bookcafe.application.command.borrow.BorrowServiceImpl;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.command.reservation.ReservationService;
 import com.study.bookcafe.application.command.reservation.ReservationServiceImpl;
-import com.study.bookcafe.application.query.borrow.BorrowQueryService;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
@@ -17,11 +16,9 @@ import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
-import com.study.bookcafe.infrastructure.query.reservation.ReservationTestSets;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -38,7 +35,7 @@ public class BorrowTest {
     private static ReservationRepository reservationRepository;
 
     @BeforeAll
-    public static void createTestDouble() {
+    public static void setUp() {
         borrowRepository = mock(BorrowRepository.class);
         memberService = mock(MemberService.class);
         bookInventoryService = mock(BookInventoryService.class);
@@ -73,7 +70,7 @@ public class BorrowTest {
     }
 
     @Test
-    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 예약 제거 및 예약 카운트 차감")
+    @DisplayName("도서를 대출할 때 회원이 예약한 도서일 경우, 회원의 예약 제거 및 예약 카운트가 차감된다.")
     public void testBorrowReservedBook() {
 
         // given (Mock 설정)
@@ -115,10 +112,12 @@ public class BorrowTest {
         LocalDateTime from = LocalDateTime.of(2025, 3, 31, 0, 0);
         Borrow borrow = new Borrow(member, book, from);
 
-        BorrowPeriod expectedBorrowPeriod = new BorrowPeriod(from.toLocalDate(), from.toLocalDate()
-                .plusWeeks(Level.BASIC.getBorrowPeriod())
-                .plusWeeks(Level.BASIC.getExtendPeriod())
-        );
+//        BorrowPeriod expectedBorrowPeriod = new BorrowPeriod(from.toLocalDate(), from.toLocalDate()
+//                .plusWeeks(Level.BASIC.getBorrowPeriod())
+//                .plusWeeks(Level.BASIC.getExtendPeriod())
+//        );
+
+        BorrowPeriod expectedBorrowPeriod = new BorrowPeriod(from.toLocalDate(), Level.BASIC).extend();
 
         when(memberService.findById(member.getId())).thenReturn(member);
         when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);

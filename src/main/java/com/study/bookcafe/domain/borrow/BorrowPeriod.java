@@ -14,6 +14,9 @@ public class BorrowPeriod {
     public static BorrowPeriod of(@NonNull LocalDate from, @NonNull Level level) {
         return new BorrowPeriod(from, level);
     }
+    public static BorrowPeriod of(@NonNull Period period, @NonNull Level level) {
+        return new BorrowPeriod(period, level);
+    }
 
     public BorrowPeriod(@NonNull LocalDate from, @NonNull Level level) {
         try {
@@ -24,7 +27,7 @@ public class BorrowPeriod {
         }
     }
 
-    public BorrowPeriod(@NonNull Period period, @NonNull Level level) {
+    private BorrowPeriod(@NonNull Period period, @NonNull Level level) {
         this.period = period;
         this.level = level;
     }

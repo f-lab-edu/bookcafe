@@ -40,13 +40,13 @@ public class PeriodTest {
         LocalDate borrowDate = LocalDate.now();
 
         // expected
-        BorrowPeriod basicExpectedPeriod = new BorrowPeriod(new Period(borrowDate, borrowDate
+        BorrowPeriod basicExpectedPeriod = BorrowPeriod.of(new Period(borrowDate, borrowDate
                 .plusWeeks(Level.BASIC.getBorrowPeriod())
                 .plusWeeks(Level.BASIC.getExtendPeriod())), Level.BASIC);
-        BorrowPeriod wormExpectedPeriod = new BorrowPeriod(new Period(borrowDate, borrowDate
+        BorrowPeriod wormExpectedPeriod = BorrowPeriod.of(new Period(borrowDate, borrowDate
                 .plusWeeks(Level.WORM.getBorrowPeriod())
                 .plusWeeks(Level.WORM.getExtendPeriod())), Level.WORM);
-        BorrowPeriod librarianExpectedPeriod = new BorrowPeriod(new Period(borrowDate, borrowDate
+        BorrowPeriod librarianExpectedPeriod = BorrowPeriod.of(new Period(borrowDate, borrowDate
                 .plusWeeks(Level.LIBRARIAN.getBorrowPeriod())
                 .plusWeeks(Level.LIBRARIAN.getExtendPeriod())), Level.LIBRARIAN);
 

@@ -50,7 +50,7 @@ public class Borrow {
     public void extendPeriod(final LocalDate now) {
         if (!canExtend(now)) return;
 
-        BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend(this.getMember().getLevel());
+        BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend();
 
         updateExtendedPeriod(extendedPeriod);
         increaseExtendCount();

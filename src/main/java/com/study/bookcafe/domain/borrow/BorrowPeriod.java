@@ -9,36 +9,31 @@ import java.time.LocalDate;
 public class BorrowPeriod {
 
     Period period;
+    Level level;
 
-    public static BorrowPeriod of(@NonNull LocalDate from, Level level) {
+    public static BorrowPeriod of(@NonNull LocalDate from, @NonNull Level level) {
         return new BorrowPeriod(from, level);
     }
 
-    private BorrowPeriod(@NonNull LocalDate from, Level level) {
+    public BorrowPeriod(@NonNull LocalDate from, @NonNull Level level) {
         try {
             this.period = new Period(from, from.plusWeeks(level.getBorrowPeriod()));
+            this.level = level;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("반납 일자는 대출 일자보다 이후여야 합니다.");
         }
     }
 
-    private BorrowPeriod(Period period) {
+    public BorrowPeriod(@NonNull Period period, @NonNull Level level) {
         this.period = period;
+        this.level = level;
     }
 
-    public BorrowPeriod(LocalDate from, LocalDate to) {
-        try {
-            this.period = new Period(from, to);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("반납 일자는 대출 일자보다 이후여야 합니다.");
-        }
+    public BorrowPeriod extend() {
+        return new BorrowPeriod(period.extendByWeeks(level.getExtendPeriod()), level);
     }
 
-    public BorrowPeriod extend(Level level) {
-        return new BorrowPeriod(period.extendByWeeks(level.getExtendPeriod()));
-    }
-
-    public boolean isExtendable(LocalDate now) {
+    public boolean isExtendable(@NonNull LocalDate now) {
         LocalDate targetDate = period.getMidDate().minusDays(1);
         return now.isAfter(targetDate);
     }

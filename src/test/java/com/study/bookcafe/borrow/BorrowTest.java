@@ -117,7 +117,7 @@ public class BorrowTest {
 //                .plusWeeks(Level.BASIC.getExtendPeriod())
 //        );
 
-        BorrowPeriod expectedBorrowPeriod = new BorrowPeriod(from.toLocalDate(), Level.BASIC).extend();
+        BorrowPeriod expectedBorrowPeriod = BorrowPeriod.of(from.toLocalDate(), Level.BASIC).extend();
 
         when(memberService.findById(member.getId())).thenReturn(member);
         when(bookInventoryService.findByBookId(book.getBookId())).thenReturn(book);

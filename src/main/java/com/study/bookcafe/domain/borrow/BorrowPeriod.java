@@ -18,7 +18,7 @@ public class BorrowPeriod {
         return new BorrowPeriod(period, level);
     }
 
-    public BorrowPeriod(@NonNull LocalDate from, @NonNull Level level) {
+    private BorrowPeriod(@NonNull LocalDate from, @NonNull Level level) {
         try {
             this.period = new Period(from, from.plusWeeks(level.getBorrowPeriod()));
             this.level = level;

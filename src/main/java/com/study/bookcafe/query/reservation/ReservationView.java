@@ -13,4 +13,5 @@ public class ReservationView {
     private MemberView member;          // 회원
     private BookInventoryView book;     // 도서
     private LocalDateTime time;         // 예약 시간
+    private int order;                  // 예약 순서
 }

@@ -16,6 +16,7 @@ public class ReservationTestSets {
             .member(MemberTestSets.BASIC_MEMBER)
             .book(BookTestSets.VEGETARIAN_BOOK_INVENTORY)
             .time(now)
+            .order(1)
             .build();
 
     public static final Reservation WORM_MEMBER_RESERVATION = Reservation.builder()
@@ -23,6 +24,7 @@ public class ReservationTestSets {
             .member(MemberTestSets.WORM_MEMBER)
             .book(BookTestSets.WHITE_BOOK_INVENTORY)
             .time(now)
+            .order(2)
             .build();
 
     public static final ReservationEntity BASIC_MEMBER_RESERVATION_ENTITY = ReservationEntity.builder()
@@ -30,6 +32,7 @@ public class ReservationTestSets {
             .member(MemberTestSets.BASIC_MEMBER_ENTITY)
             .book(BookTestSets.VEGETARIAN_BOOK_INVENTORY_ENTITY)
             .time(now)
+            .order(1)
             .build();
 
     public static final ReservationEntity WORM_MEMBER_RESERVATION_ENTITY = ReservationEntity.builder()
@@ -37,6 +40,7 @@ public class ReservationTestSets {
             .member(MemberTestSets.WORM_MEMBER_ENTITY)
             .book(BookTestSets.WHITE_BOOK_INVENTORY_ENTITY)
             .time(now)
+            .order(2)
             .build();
 
     public static final ReservationView BASIC_MEMBER_RESERVATION_VIEW = ReservationView.builder()
@@ -44,6 +48,7 @@ public class ReservationTestSets {
             .member(MemberTestSets.BASIC_MEMBER_VIEW)
             .book(BookTestSets.VEGETARIAN_BOOK_INVENTORY_VIEW)
             .time(now)
+            .order(1)
             .build();
 
     public static final ReservationView WORM_MEMBER_RESERVATION_VIEW = ReservationView.builder()
@@ -51,5 +56,6 @@ public class ReservationTestSets {
             .member(MemberTestSets.WORM_MEMBER_VIEW)
             .book(BookTestSets.WHITE_BOOK_INVENTORY_VIEW)
             .time(now)
+            .order(2)
             .build();
 }

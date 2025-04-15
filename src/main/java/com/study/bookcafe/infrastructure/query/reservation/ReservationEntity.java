@@ -14,4 +14,5 @@ public class ReservationEntity {
     private MemberEntity member;        // 회원
     private BookInventoryEntity book;   // 도서
     private LocalDateTime time;         // 예약 시간
+    private int order;                  // 예약 순서
 }

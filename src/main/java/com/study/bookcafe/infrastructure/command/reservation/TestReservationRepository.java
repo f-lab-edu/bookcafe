@@ -34,6 +34,14 @@ public class TestReservationRepository implements ReservationRepository {
     }
 
     @Override
+    public Optional<Reservation> findFirstByBookId(long bookId) {
+        return TestReservationQueryStorage.reservationEntities.values().stream()
+                .map(reservationMapper::toReservation)
+                .filter(reservationEntity ->
+                        reservationEntity.getBook().getBookId() == bookId && reservationEntity.getOrder() == 1).findFirst();
+    }
+
+    @Override
     public void save(final Reservation reservation) {
         final var reservationEntity = reservationMapper.toReservationEntity(reservation);
 

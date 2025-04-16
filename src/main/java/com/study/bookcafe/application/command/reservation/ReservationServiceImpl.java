@@ -25,13 +25,18 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation findById(final long reservationId) {
-        return reservationRepository.findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약 정보를 찾을 수 없습니다."));
+    public Optional<Reservation> findById(final long reservationId) {
+        return reservationRepository.findById(reservationId);
     }
 
     @Override
     public Optional<Reservation> findByMemberIdAndBookId(long memberId, long bookId) {
         return reservationRepository.findByMemberIdAndBookId(memberId, bookId);
+    }
+
+    @Override
+    public Optional<Reservation> findFirstByBookId(long bookId) {
+        return reservationRepository.findFirstByBookId(bookId);
     }
 
     @Override
@@ -57,7 +62,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void delete(final long reservationId) {
-        this.delete(findById(reservationId));
+        Reservation reservation = findById(reservationId).orElseThrow(() -> new IllegalArgumentException("예약 정보를 찾을 수 없습니다."));
+        this.delete(reservation);
     }
 
     @Override

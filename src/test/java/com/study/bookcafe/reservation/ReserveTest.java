@@ -79,4 +79,22 @@ public class ReserveTest {
         assertThat(member.getReservationCount()).isEqualTo(expectedMember.getReservationCount());
         assertThat(book.getReservedCount()).isEqualTo(expectedBook.getReservedCount());
     }
+
+    @Test
+    @DisplayName("회원의 예약 순서는 예약하려는 도서에 대한 예약 개수 + 1 이 된다.")
+    public void setReservationOrder() {
+        // given (Mock 설정)
+        Reservation expectedReservation = Reservation.builder()
+                .order(2)
+                .build();
+
+        Member member = MemberTestSets.createBasicMember();
+        BookInventory book = BookTestSets.createWhiteBookInventory();
+
+        // when (테스트 실행)
+        Reservation reservation = Reservation.of(member, book);
+
+        // then (결과 검증)
+        assertThat(reservation.getOrder()).isEqualTo(expectedReservation.getOrder());
+    }
 }

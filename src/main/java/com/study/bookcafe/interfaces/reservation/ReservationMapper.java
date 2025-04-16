@@ -21,6 +21,7 @@ public interface ReservationMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberEntityToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryEntityToBookInventory"})
     @Mapping(target = "time", source = "time")
+    @Mapping(target = "order", source = "order")
     // ReservationEntity -> Reservation
     Reservation toReservation(ReservationEntity reservationEntity);
 
@@ -29,6 +30,7 @@ public interface ReservationMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberEntity"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryToBookInventoryEntity"})
     @Mapping(target = "time", source = "time")
+    @Mapping(target = "order", source = "order")
     // Reservation -> ReservationEntity
     ReservationEntity toReservationEntity(Reservation reservation);
 }

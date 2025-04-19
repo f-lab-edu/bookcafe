@@ -12,7 +12,7 @@ public class Period {
     LocalDate to;             // 종료 일자
 
     public Period(@NonNull LocalDate from, @NonNull LocalDate to) {
-        if(from.isAfter(to)) throw new IllegalArgumentException("시작 일자는 종료 일자보다 이후여야 합니다.");
+        if(from.isAfter(to)) throw new IllegalArgumentException("종료 일자는 시작 일자보다 이후여야 합니다.");
 
         this.from = from;
         this.to = to;

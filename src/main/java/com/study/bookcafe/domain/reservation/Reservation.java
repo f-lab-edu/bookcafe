@@ -22,7 +22,7 @@ public class Reservation {
         return new Reservation(member, book);
     }
 
-    public Reservation(final Member member, final BookInventory book) {
+    private Reservation(final Member member, final BookInventory book) {
         if (book.isBorrowable()) {
             if (member.isBorrowable()) throw new IllegalStateException("해당 도서는 대출 가능한 상태입니다.");
             // 도서가 대출 가능한 상태일 경우, 예약은 불가능

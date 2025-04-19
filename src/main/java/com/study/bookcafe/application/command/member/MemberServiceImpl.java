@@ -1,6 +1,5 @@
 package com.study.bookcafe.application.command.member;
 
-import com.study.bookcafe.application.command.book.BookInventoryService;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.member.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -9,11 +8,9 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final BookInventoryService bookInventoryService;
 
-    public MemberServiceImpl(MemberRepository memberRepository, BookInventoryService bookInventoryService) {
+    public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.bookInventoryService = bookInventoryService;
     }
 
     /**
@@ -27,16 +24,8 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
     }
 
-//    @Override
-//    public void returnBook(final long memberId, final long bookId) {
-//        final var targetBorrow = borrowService.findBorrowByMemberIdAndBookId(memberId, bookId);
-//
-//        targetBorrow.ifPresent(borrow -> {
-//            final Member member = findById(memberId);
-//            final Return returnInfo = member.returnBook(borrow.getBook());
-//
-//            borrowService.save(returnInfo);
-//        });
-//    }
-
+    @Override
+    public void save(Member member) {
+        memberRepository.save(member);
+    }
 }

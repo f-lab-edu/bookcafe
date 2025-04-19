@@ -1,11 +1,12 @@
 package com.study.bookcafe.domain.member;
 
-import com.study.bookcafe.domain.book.BookInventory;
-import com.study.bookcafe.domain.borrow.Return;
+import com.study.bookcafe.domain.borrow.PriorityBorrowRight;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Builder
 @Getter
@@ -20,6 +21,9 @@ public class Member {
 
     private LocalDateTime createDate;       // 회원 가입 일자
     private LocalDateTime updateDate;       // 회원 수정 일자
+
+    @Builder.Default
+    private Map<Long, PriorityBorrowRight> priorityBorrowRightsMap = new HashMap<>(); // 도서 별 우선대출권
 
     /**
      * 회원이 대출 가능한 상태인지 알려준다.
@@ -56,11 +60,13 @@ public class Member {
         return getReservationCount() > 0;
     }
 
-    public Return returnBook(final BookInventory book) {
-        return Return.builder()
-                .member(this)
-                .book(book)
-                .date(LocalDateTime.now())
-                .build();
+    public void grant(PriorityBorrowRight priorityBorrowRight) {
+        priorityBorrowRightsMap.put(priorityBorrowRight.getBookId(), priorityBorrowRight);
     }
+
+    public boolean validatePriorityBorrowForBook(long bookId, LocalDateTime now) {
+        return priorityBorrowRightsMap.containsKey(bookId) && priorityBorrowRightsMap.get(bookId).validateExpirationDate(now);
+    }
+
+
 }

@@ -1,7 +1,6 @@
 package com.study.bookcafe.application.command.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.borrow.Return;
 import java.util.Optional;
 
 public interface BorrowService {
@@ -11,6 +10,6 @@ public interface BorrowService {
     Optional<Borrow> findBorrowByMemberIdAndBookId(long memberId, long bookId);
     void borrow(long memberId, long bookId);
     void extend(long memberId, long bookId);
+    void returnBook(long memberId, long bookId);
 
-    void save(Return returnInfo) ;
 }

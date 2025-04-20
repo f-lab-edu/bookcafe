@@ -8,28 +8,25 @@ import java.time.temporal.ChronoUnit;
 @Value
 public class PriorityBorrowRight {
     long bookId;
-    LocalDateTime from;
-    LocalDateTime to;
+    DateTimePeriod period;
 
     static final int DAY_EXPIRATION_DATE = 2;
 
-    public PriorityBorrowRight(long bookId, LocalDateTime from) {
+    public PriorityBorrowRight(final long bookId, final LocalDateTime from) {
         this.bookId = bookId;
-        this.from = from;
-        this.to = from.plusDays(DAY_EXPIRATION_DATE);
+        this.period = new DateTimePeriod(from, from.plusDays(DAY_EXPIRATION_DATE));
     }
 
-    public PriorityBorrowRight(long bookId, LocalDateTime from, LocalDateTime to) {
+    public PriorityBorrowRight(final long bookId, LocalDateTime from, LocalDateTime to) {
         long between = ChronoUnit.DAYS.between(from, to);
 
         if(between != DAY_EXPIRATION_DATE) throw new IllegalArgumentException("우선대출권의 유효기간은 2일입니다.");
 
         this.bookId = bookId;
-        this.from = from;
-        this.to = to;
+        this.period = new DateTimePeriod(from, to);
     }
 
-    public boolean validateExpirationDate(LocalDateTime now) {
-        return now.isAfter(from) && now.isBefore(to);
+    public boolean validateExpirationDate(final LocalDateTime date) {
+        return period.includes(date);
     }
 }

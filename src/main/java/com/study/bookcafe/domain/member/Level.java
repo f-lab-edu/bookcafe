@@ -36,13 +36,13 @@ public enum Level {
     public boolean isBorrowCountLeft(final int borrowCount) {
         if (borrowCount < 0) throw new IllegalArgumentException("대출 권수는 0보다 작을 수 없습니다.");
 
-        return this.maximumBorrowCount - borrowCount > 0;
+        return maximumBorrowCount - borrowCount > 0;
     }
 
     public boolean isReservationCountLeft(final int reservationCount) {
         if (reservationCount < 0) throw new IllegalArgumentException("예약 권수는 0보다 작을 수 없습니다.");
 
-        return this.maximumReservationCount - reservationCount > 0;
+        return maximumReservationCount - reservationCount > 0;
     }
 
     /**
@@ -52,7 +52,7 @@ public enum Level {
      * @return 회원의 최대 대출 연장 횟수 - 회원의 연장한 횟수
      */
     public boolean haveExtendableCount(final int extendedCount) {
-        return this.maximumExtendCount - extendedCount > 0;
+        return maximumExtendCount - extendedCount > 0;
     }
 
 }

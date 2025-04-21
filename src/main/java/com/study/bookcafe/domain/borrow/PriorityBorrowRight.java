@@ -1,5 +1,6 @@
 package com.study.bookcafe.domain.borrow;
 
+import lombok.NonNull;
 import lombok.Value;
 
 import java.time.LocalDateTime;
@@ -11,19 +12,19 @@ public class PriorityBorrowRight {
 
     static final int DAY_EXPIRATION_DATE = 2;
 
-    public PriorityBorrowRight(final long bookId, final LocalDateTime from) {
+    public PriorityBorrowRight(final long bookId, @NonNull final LocalDateTime from) {
         this.bookId = bookId;
         this.period = new DateTimePeriod(from, from.plusDays(DAY_EXPIRATION_DATE));
     }
 
-    public PriorityBorrowRight(final long bookId, final DateTimePeriod period) {
+    public PriorityBorrowRight(final long bookId, @NonNull final DateTimePeriod period) {
         if(!period.equalsToDays(DAY_EXPIRATION_DATE)) throw new IllegalArgumentException("우선대출권의 유효기간은 2일입니다.");
 
         this.bookId = bookId;
         this.period = period;
     }
 
-    public boolean validateExpirationDate(final LocalDateTime date) {
+    public boolean validateExpirationDate(@NonNull final LocalDateTime date) {
         return period.includes(date);
     }
 }

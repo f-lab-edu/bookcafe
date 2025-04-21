@@ -15,12 +15,22 @@ public class Borrow {
     private Member member;                  // 회원
     private BookInventory book;             // 도서
     private LocalDateTime time;             // 대출 시간
+    @Setter
+    private LocalDateTime returnTime;       // 반납 시간
     private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extensionCount;             // 대출 연장한 횟수
 
     private final int MAXIMUM_EXTENSION_COUNT = 1;
 
-    public Borrow(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+    public static Borrow of(@NonNull final Member member, @NonNull final BookInventory book) {
+        return new Borrow(member, book, LocalDateTime.now());
+    }
+
+    public static Borrow of(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        return new Borrow(member, book, from);
+    }
+
+    private Borrow(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
         member.increaseBorrowCount();
         book.increaseBorrowedCount();
 
@@ -30,18 +40,14 @@ public class Borrow {
         this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
     }
 
-    public static Borrow of(final Member member, final BookInventory book) {
-        return new Borrow(member, book, LocalDateTime.now());
-    }
-
-    private void updateExtendedPeriod(final BorrowPeriod borrowPeriod) {
+    private void updateExtendedPeriod(@NonNull final BorrowPeriod borrowPeriod) {
         this.borrowPeriod = borrowPeriod;
     }
 
     private void increaseExtendCount() {
         if (extensionCount >= MAXIMUM_EXTENSION_COUNT) throw new IllegalStateException("대출의 연장 가능한 횟수가 없습니다.");
 
-        this.extensionCount++;
+        extensionCount++;
     }
 
     /**
@@ -64,19 +70,19 @@ public class Borrow {
      * @return 연장 가능한지 여부
      */
     public boolean haveExtendableCount() {
-        return this.getMember().getLevel().haveExtendableCount(extensionCount);
+        return member.getLevel().haveExtendableCount(extensionCount);
     }
 
     private boolean haveMemberReservation() {
-        return this.getMember().haveReservationCount();
+        return member.haveReservationCount();
     }
 
     private boolean haveReservationForBook() {
-        return this.getBook().haveReservedCount();
+        return book.haveReservedCount();
     }
 
     public boolean haveReservation() {
-        return this.haveMemberReservation() && this.haveReservationForBook();
+        return haveMemberReservation() && haveReservationForBook();
     }
 
     /**
@@ -88,10 +94,10 @@ public class Borrow {
      * @return 대출 연장 가능한지 여부
      */
     public boolean isExtendableDate(final LocalDate now) {
-        return this.getBorrowPeriod().isExtendable(now);
+        return borrowPeriod.isExtendable(now);
     }
 
-    private boolean canExtend(LocalDate now) {
+    private boolean canExtend(final LocalDate now) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
         if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
@@ -102,5 +108,10 @@ public class Borrow {
         if (!isExtendableDate(now)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
 
         return true;
+    }
+
+    public void decreaseBorrowCount() {
+        member.decreaseBorrowCount();
+        book.decreaseBorrowedCount();
     }
 }

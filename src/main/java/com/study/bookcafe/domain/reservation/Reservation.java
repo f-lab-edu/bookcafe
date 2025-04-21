@@ -5,6 +5,7 @@ import com.study.bookcafe.domain.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
@@ -18,11 +19,11 @@ public class Reservation {
     private LocalDateTime time;     // 예약 시간
     private int order;              // 예약 순서
 
-    public static Reservation of(final Member member, final BookInventory book) {
+    public static Reservation of(@NonNull final Member member, @NonNull final BookInventory book) {
         return new Reservation(member, book);
     }
 
-    private Reservation(final Member member, final BookInventory book) {
+    private Reservation(@NonNull final Member member, @NonNull final BookInventory book) {
         if (book.isBorrowable()) {
             if (member.isBorrowable()) throw new IllegalStateException("해당 도서는 대출 가능한 상태입니다.");
             // 도서가 대출 가능한 상태일 경우, 예약은 불가능

@@ -11,14 +11,14 @@ public class BorrowPeriod {
     DatePeriod period;
     Level level;
 
-    public static BorrowPeriod of(@NonNull LocalDate from, @NonNull Level level) {
+    public static BorrowPeriod of(@NonNull final LocalDate from, @NonNull final Level level) {
         return new BorrowPeriod(from, level);
     }
-    public static BorrowPeriod of(@NonNull DatePeriod period, @NonNull Level level) {
+    public static BorrowPeriod of(@NonNull final DatePeriod period, @NonNull final Level level) {
         return new BorrowPeriod(period, level);
     }
 
-    private BorrowPeriod(@NonNull LocalDate from, @NonNull Level level) {
+    private BorrowPeriod(@NonNull final LocalDate from, @NonNull final Level level) {
         try {
             this.period = new DatePeriod(from, from.plusWeeks(level.getBorrowPeriod()));
             this.level = level;
@@ -27,7 +27,7 @@ public class BorrowPeriod {
         }
     }
 
-    private BorrowPeriod(@NonNull DatePeriod period, @NonNull Level level) {
+    private BorrowPeriod(@NonNull final DatePeriod period, @NonNull final Level level) {
         this.period = period;
         this.level = level;
     }

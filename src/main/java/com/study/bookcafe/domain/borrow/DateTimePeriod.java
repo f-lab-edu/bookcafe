@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.Value;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Value
 public class DateTimePeriod {
@@ -19,5 +20,9 @@ public class DateTimePeriod {
 
     public boolean includes(@NonNull final LocalDateTime date) {
         return from.isBefore(date) && to.isAfter(date);
+    }
+
+    public boolean equalsToDays(final int between) {
+        return ChronoUnit.DAYS.between(from, to) == between;
     }
 }

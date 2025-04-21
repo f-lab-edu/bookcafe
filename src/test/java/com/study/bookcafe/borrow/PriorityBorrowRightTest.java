@@ -1,5 +1,6 @@
 package com.study.bookcafe.borrow;
 
+import com.study.bookcafe.domain.borrow.DateTimePeriod;
 import com.study.bookcafe.domain.borrow.PriorityBorrowRight;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class PriorityBorrowRightTest {
         LocalDateTime now = LocalDateTime.now();
 
         PriorityBorrowRight priorityBorrowRight = new PriorityBorrowRight(bookId, now);
-        PriorityBorrowRight expectedPriorityBorrowRight = new PriorityBorrowRight(bookId, now, now.plusDays(2));
+        PriorityBorrowRight expectedPriorityBorrowRight = new PriorityBorrowRight(bookId, new DateTimePeriod(now, now.plusDays(2)));
 
         assertThat(priorityBorrowRight).isEqualTo(expectedPriorityBorrowRight);
     }

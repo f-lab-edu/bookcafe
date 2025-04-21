@@ -3,7 +3,6 @@ package com.study.bookcafe.domain.borrow;
 import lombok.Value;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Value
 public class PriorityBorrowRight {
@@ -17,13 +16,11 @@ public class PriorityBorrowRight {
         this.period = new DateTimePeriod(from, from.plusDays(DAY_EXPIRATION_DATE));
     }
 
-    public PriorityBorrowRight(final long bookId, LocalDateTime from, LocalDateTime to) {
-        long between = ChronoUnit.DAYS.between(from, to);
-
-        if(between != DAY_EXPIRATION_DATE) throw new IllegalArgumentException("우선대출권의 유효기간은 2일입니다.");
+    public PriorityBorrowRight(final long bookId, final DateTimePeriod period) {
+        if(!period.equalsToDays(DAY_EXPIRATION_DATE)) throw new IllegalArgumentException("우선대출권의 유효기간은 2일입니다.");
 
         this.bookId = bookId;
-        this.period = new DateTimePeriod(from, to);
+        this.period = period;
     }
 
     public boolean validateExpirationDate(final LocalDateTime date) {

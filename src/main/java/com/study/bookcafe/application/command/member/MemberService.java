@@ -6,7 +6,5 @@ public interface MemberService {
 
     // 회원 조회 (id)
     Member findById(long memberId);
-
-    // 도서 반납
-//    void returnBook(long memberId, long bookId);
+    void save(Member member);
 }

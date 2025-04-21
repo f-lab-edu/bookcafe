@@ -1,7 +1,7 @@
 package com.study.bookcafe.borrow;
 
 import com.study.bookcafe.domain.borrow.BorrowPeriod;
-import com.study.bookcafe.domain.borrow.Period;
+import com.study.bookcafe.domain.borrow.DatePeriod;
 import com.study.bookcafe.domain.member.Level;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class PeriodTest {
+public class DatePeriodTest {
 
     private final LocalDate date1 = LocalDate.of(2024, 12, 7);
     private final LocalDate date2 = LocalDate.of(2024, 12, 8);
@@ -18,8 +18,8 @@ public class PeriodTest {
     @Test
     @DisplayName("반납일자는 대출일자보다 이후여야 한다.")
     public void returnDateMustBeLaterThanTheBorrowDate() {
-        Period period1 = new Period(date1, date2);
-        Period period2 = new Period(date2, date2);
+        DatePeriod period1 = new DatePeriod(date1, date2);
+        DatePeriod period2 = new DatePeriod(date2, date2);
 
         assertThat(period1).isNotNull();
         assertThat(period2).isNotNull();
@@ -28,10 +28,10 @@ public class PeriodTest {
     @Test
     @DisplayName("반납일자가 대출일자보다 이전이거나 반납일자 또는 대출일자가 null이면 예외가 발생한다.")
     public void exceptionOccursIfReturnDateIsEarlierThanBorrowDateOrIsNull() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new Period(date2, date1));
-        Assertions.assertThrows(NullPointerException.class, () -> new Period(null, null));
-        Assertions.assertThrows(NullPointerException.class, () -> new Period(date1, null));
-        Assertions.assertThrows(NullPointerException.class, () -> new Period(null, date2));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new DatePeriod(date2, date1));
+        Assertions.assertThrows(NullPointerException.class, () -> new DatePeriod(null, null));
+        Assertions.assertThrows(NullPointerException.class, () -> new DatePeriod(date1, null));
+        Assertions.assertThrows(NullPointerException.class, () -> new DatePeriod(null, date2));
     }
 
     @Test
@@ -40,13 +40,13 @@ public class PeriodTest {
         LocalDate borrowDate = LocalDate.now();
 
         // expected
-        BorrowPeriod basicExpectedPeriod = BorrowPeriod.of(new Period(borrowDate, borrowDate
+        BorrowPeriod basicExpectedPeriod = BorrowPeriod.of(new DatePeriod(borrowDate, borrowDate
                 .plusWeeks(Level.BASIC.getBorrowPeriod())
                 .plusWeeks(Level.BASIC.getExtendPeriod())), Level.BASIC);
-        BorrowPeriod wormExpectedPeriod = BorrowPeriod.of(new Period(borrowDate, borrowDate
+        BorrowPeriod wormExpectedPeriod = BorrowPeriod.of(new DatePeriod(borrowDate, borrowDate
                 .plusWeeks(Level.WORM.getBorrowPeriod())
                 .plusWeeks(Level.WORM.getExtendPeriod())), Level.WORM);
-        BorrowPeriod librarianExpectedPeriod = BorrowPeriod.of(new Period(borrowDate, borrowDate
+        BorrowPeriod librarianExpectedPeriod = BorrowPeriod.of(new DatePeriod(borrowDate, borrowDate
                 .plusWeeks(Level.LIBRARIAN.getBorrowPeriod())
                 .plusWeeks(Level.LIBRARIAN.getExtendPeriod())), Level.LIBRARIAN);
 

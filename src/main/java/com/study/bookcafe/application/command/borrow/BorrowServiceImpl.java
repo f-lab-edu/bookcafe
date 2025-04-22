@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 public class BorrowServiceImpl implements BorrowService {
@@ -69,6 +70,10 @@ public class BorrowServiceImpl implements BorrowService {
     public void extend(final long memberId, final long bookId) {
         final var borrow = findBorrowByMemberIdAndBookId(memberId, bookId, true);
 
+        Function<Borrow, Member> borrowFunction = Borrow::getMember;
+
+        borrow.map(borrowFunction);
+
         borrow.ifPresent(targetBorrow -> {
             LocalDate now = LocalDate.now();
             targetBorrow.extendPeriod(now);
@@ -84,9 +89,9 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     public void returnBook(long memberId, long bookId) {
         Borrow borrow = findBorrowByMemberIdAndBookId(memberId, bookId).orElseThrow(() -> new IllegalStateException("대출 정보를 찾을 수 없습니다."));
-
         LocalDateTime now = LocalDateTime.now();
-        borrow.setReturnTime(now);
+
+        borrow.terminate(now);
 
         // 도서에 대한 예약이 있다면, 예약 순서에 따라 회원에게 우선대출권 부여
         if (borrow.getBook().haveReservedCount()) {

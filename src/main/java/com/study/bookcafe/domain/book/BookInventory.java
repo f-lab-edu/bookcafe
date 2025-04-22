@@ -30,11 +30,15 @@ public class BookInventory {
      * @return 현재 도서의 대출 가능한 재고가 있는지 여부
      */
     public boolean isBorrowable() {
-        return this.isOnStock();
+        return isOnStock();
     }
 
     private boolean isOnStock() {
         return stock - borrowedCount > 0;
+    }
+
+    public boolean haveBorrowedCount() {
+        return borrowedCount > 0;
     }
 
     public boolean haveReservedCount() {
@@ -44,23 +48,24 @@ public class BookInventory {
     public void increaseBorrowedCount() {
         if (!isBorrowable()) throw new IllegalStateException("해당 도서는 이미 모두 대출되었습니다.");
 
-        this.borrowedCount++;
+        borrowedCount++;
     }
 
     public void increaseReservedCount() {
         if (MAXIMUM_RESERVATION_COUNT - reservedCount <= 0) throw new IllegalStateException("해당 도서에 대한 예약이 모두 찼습니다.");
 
-        this.reservedCount++;
+        reservedCount++;
+    }
+
+    public void decreaseBorrowedCount() {
+        if (!haveBorrowedCount()) throw new IllegalStateException("해당 도서에 대한 대출이 없습니다.");
+
+        borrowedCount--;
     }
 
     public void decreaseReservedCount() {
-        if (!this.haveReservedCount()) throw new IllegalStateException("해당 도서에 대한 예약이 없습니다.");
+        if (!haveReservedCount()) throw new IllegalStateException("해당 도서에 대한 예약이 없습니다.");
 
-        this.reservedCount--;
-    }
-
-    // 테스트
-    public void decreaseBorrowedCount() {
-        this.borrowedCount--;
+        reservedCount--;
     }
 }

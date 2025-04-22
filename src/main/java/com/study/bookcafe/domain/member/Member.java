@@ -4,6 +4,8 @@ import com.study.bookcafe.domain.borrow.PriorityBorrowRight;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,40 +33,50 @@ public class Member {
      * @return 현재 회원의 대출 가능 권수가 남았는지 여부
      */
     public boolean isBorrowable() {
-        return this.getLevel().isBorrowCountLeft(getBorrowCount());
+        return level.isBorrowCountLeft(borrowCount);
     }
 
     public boolean isReservable() {
-        return this.getLevel().isReservationCountLeft(getReservationCount());
+        return level.isReservationCountLeft(reservationCount);
     }
 
     public void increaseBorrowCount() {
-        if (!this.isBorrowable()) throw new IllegalStateException("회원의 대출 가능 권수가 없습니다.");
+        if (!isBorrowable()) throw new IllegalStateException("회원의 대출 가능 권수가 없습니다.");
 
-        this.borrowCount++;
+        borrowCount++;
     }
 
     public void increaseReservationCount() {
-        if (!this.isReservable()) throw new IllegalStateException("회원의 예약 가능 권수가 없습니다.");
+        if (!isReservable()) throw new IllegalStateException("회원의 예약 가능 권수가 없습니다.");
 
-        this.reservationCount++;
+        reservationCount++;
+    }
+
+    public void decreaseBorrowCount() {
+        if (!haveBorrowCount()) throw new IllegalStateException("회원의 대출 건수가 없습니다.");
+
+        borrowCount--;
     }
 
     public void decreaseReservationCount() {
-        if (!this.haveReservationCount()) throw new IllegalStateException("회원의 예약 건수가 없습니다.");
+        if (!haveReservationCount()) throw new IllegalStateException("회원의 예약 건수가 없습니다.");
 
-        this.reservationCount--;
+        reservationCount--;
+    }
+
+    public boolean haveBorrowCount() {
+        return borrowCount > 0;
     }
 
     public boolean haveReservationCount() {
-        return getReservationCount() > 0;
+        return reservationCount > 0;
     }
 
-    public void grant(PriorityBorrowRight priorityBorrowRight) {
+    public void grant(@NonNull final PriorityBorrowRight priorityBorrowRight) {
         priorityBorrowRightsMap.put(priorityBorrowRight.getBookId(), priorityBorrowRight);
     }
 
-    public boolean validatePriorityBorrowForBook(long bookId, LocalDateTime now) {
+    public boolean validatePriorityBorrowForBook(final long bookId, @NonNull final LocalDateTime now) {
         return priorityBorrowRightsMap.containsKey(bookId) && priorityBorrowRightsMap.get(bookId).validateExpirationDate(now);
     }
 

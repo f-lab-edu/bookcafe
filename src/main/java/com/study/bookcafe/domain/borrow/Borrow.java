@@ -15,7 +15,7 @@ public class Borrow {
     private Member member;                  // 회원
     private BookInventory book;             // 도서
     private LocalDateTime time;             // 대출 시간
-    @Setter
+    @Setter(AccessLevel.PRIVATE)
     private LocalDateTime returnTime;       // 반납 시간
     private BorrowPeriod borrowPeriod;      // 대출 기간
     private int extensionCount;             // 대출 연장한 횟수
@@ -53,7 +53,7 @@ public class Borrow {
     /**
      * 대출을 연장한다.
      */
-    public void extendPeriod(final LocalDate now) {
+    public void extendPeriod(@NonNull final LocalDate now) {
         if (!canExtend(now)) return;
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend();
@@ -93,11 +93,11 @@ public class Borrow {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isExtendableDate(final LocalDate now) {
+    public boolean isExtendableDate(@NonNull final LocalDate now) {
         return borrowPeriod.isExtendable(now);
     }
 
-    private boolean canExtend(final LocalDate now) {
+    private boolean canExtend(@NonNull final LocalDate now) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
         if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
@@ -110,7 +110,8 @@ public class Borrow {
         return true;
     }
 
-    public void decreaseBorrowCount() {
+    public void terminate(@NonNull final LocalDateTime date) {
+        setReturnTime(date);
         member.decreaseBorrowCount();
         book.decreaseBorrowedCount();
     }

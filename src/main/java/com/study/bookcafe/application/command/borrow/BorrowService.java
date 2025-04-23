@@ -11,5 +11,5 @@ public interface BorrowService {
     void borrow(long memberId, long bookId);
     void extend(long memberId, long bookId);
     void returnBook(long memberId, long bookId);
-
+    void relinquish(long memberId, long bookId);
 }

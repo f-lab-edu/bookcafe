@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Service
 public class BorrowServiceImpl implements BorrowService {
@@ -83,23 +82,33 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public void returnBook(long memberId, long bookId) {
-        Borrow borrow = findBorrowByMemberIdAndBookId(memberId, bookId).orElseThrow(() -> new IllegalStateException("대출 정보를 찾을 수 없습니다."));
-        LocalDateTime now = LocalDateTime.now();
+    @Transactional
+    public void returnBook(final long memberId, final long bookId) {
+        final var borrow = findBorrowByMemberIdAndBookId(memberId, bookId).orElseThrow(() -> new IllegalStateException("대출 정보를 찾을 수 없습니다."));
+        final var now = LocalDateTime.now();
 
         borrow.terminate(now);
-
-        // 도서에 대한 예약이 있다면, 예약 순서에 따라 회원에게 우선대출권 부여
-        if (borrow.getBook().haveReservedCount()) {
-            reservationService.findFirstByBookId(bookId).ifPresent(reservation -> {
-                PriorityBorrowRight priorityBorrowRight = new PriorityBorrowRight(bookId, now);
-
-                Member member = reservation.getMember();
-                member.grant(priorityBorrowRight);
-                memberService.save(member);
-            });
-        }
-
         save(borrow);
+        grantPriorityBorrowRightToPriorityMember(bookId, now);
+    }
+
+    private void grantPriorityBorrowRightToPriorityMember(final long bookId, final LocalDateTime date) {
+        reservationService.findFirstByBookId(bookId).ifPresent(reservation -> {
+            PriorityBorrowRight priorityBorrowRight = new PriorityBorrowRight(bookId, date);
+
+            Member priorityMember = reservation.getMember();
+            priorityMember.grant(priorityBorrowRight);
+            memberService.save(priorityMember);
+        });
+    }
+
+    @Override
+    @Transactional
+    public void relinquish(final long memberId, final long bookId) {
+        final Member member = memberService.findById(memberId);
+        member.revoke(bookId);
+        memberService.save(member);
+
+        grantPriorityBorrowRightToPriorityMember(bookId, LocalDateTime.now());
     }
 }

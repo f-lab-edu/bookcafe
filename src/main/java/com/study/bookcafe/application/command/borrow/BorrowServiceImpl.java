@@ -70,10 +70,6 @@ public class BorrowServiceImpl implements BorrowService {
     public void extend(final long memberId, final long bookId) {
         final var borrow = findBorrowByMemberIdAndBookId(memberId, bookId, true);
 
-        Function<Borrow, Member> borrowFunction = Borrow::getMember;
-
-        borrow.map(borrowFunction);
-
         borrow.ifPresent(targetBorrow -> {
             LocalDate now = LocalDate.now();
             targetBorrow.extendPeriod(now);

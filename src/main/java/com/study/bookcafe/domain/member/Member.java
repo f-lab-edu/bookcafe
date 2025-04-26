@@ -76,6 +76,12 @@ public class Member {
         priorityBorrowRightsMap.put(priorityBorrowRight.getBookId(), priorityBorrowRight);
     }
 
+    public void revoke(final long bookId) {
+        if (!priorityBorrowRightsMap.containsKey(bookId)) throw new IllegalStateException("해당 도서에 대한 우선대출권을 보유하고 있지 않습니다.");
+
+        priorityBorrowRightsMap.remove(bookId);
+    }
+
     public boolean validatePriorityBorrowForBook(final long bookId, @NonNull final LocalDateTime now) {
         return priorityBorrowRightsMap.containsKey(bookId) && priorityBorrowRightsMap.get(bookId).validateExpirationDate(now);
     }

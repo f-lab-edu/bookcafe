@@ -98,4 +98,23 @@ public class BorrowTestSets {
             .order(1)
             .build();
 
+    public static Borrow createBasicVegetarianBorrow() {
+        return Borrow.builder()
+                .id(1)
+                .member(MemberTestSets.createBasicMember())
+                .book(BookTestSets.createVegetarianBookInventory())
+                .borrowPeriod(BASIC_PERIOD)
+                .time(now)
+                .build();
+    }
+
+    public static Borrow createWormWhiteBorrow() {
+        return Borrow.builder()
+                .id(2)
+                .member(MemberTestSets.createWormMember())
+                .book(BookTestSets.createWhiteBookInventory())
+                .borrowPeriod(WORM_PERIOD)
+                .time(now)
+                .build();
+    }
 }

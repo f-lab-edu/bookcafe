@@ -35,8 +35,8 @@ public class BorrowTest {
     private static ReservationService reservationService;
     private static ReservationRepository reservationRepository;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         borrowRepository = mock(BorrowRepository.class);
         memberService = mock(MemberService.class);
         bookInventoryService = mock(BookInventoryService.class);
@@ -113,11 +113,6 @@ public class BorrowTest {
         LocalDateTime from = LocalDateTime.of(2025, 3, 31, 0, 0);
         Borrow borrow = Borrow.of(member, book, from);
 
-//        BorrowPeriod expectedBorrowPeriod = new BorrowPeriod(from.toLocalDate(), from.toLocalDate()
-//                .plusWeeks(Level.BASIC.getBorrowPeriod())
-//                .plusWeeks(Level.BASIC.getExtendPeriod())
-//        );
-
         BorrowPeriod expectedBorrowPeriod = BorrowPeriod.of(from.toLocalDate(), Level.BASIC).extend();
 
         when(memberService.findById(member.getId())).thenReturn(member);
@@ -143,7 +138,7 @@ public class BorrowTest {
         // given (Mock 설정)
         Member member1 = MemberTestSets.createWormMember();
         BookInventory book1 = BookTestSets.createWhiteBookInventory();
-        Borrow borrow = BorrowTestSets.WORM_WHITE_BORROW;
+        Borrow borrow = BorrowTestSets.createWormWhiteBorrow();
 
         Member member2 = MemberTestSets.createBasicMember();
         BookInventory book2 = BookTestSets.createWhiteBookInventory();
@@ -163,4 +158,26 @@ public class BorrowTest {
 
         assertThat(member.validatePriorityBorrowForBook(book2.getBookId(), LocalDateTime.now())).isTrue();
     }
+
+    @Test
+    @DisplayName("회원은 회원에게 부여된 우선대출권을 포기하면, 다음 우선순위의 회원에게 우선대출권이 부여된다.")
+    public void relinquishToPriorityBorrowRight() {
+        // given (Mock 설정)
+        Member member = MemberTestSets.createWormMember();
+        BookInventory book = BookTestSets.createWhiteBookInventory();
+
+        Member expectedMember = MemberTestSets.createBasicMember();
+        Reservation reservation = Reservation.of(expectedMember, book);
+
+        when(memberService.findById(member.getId())).thenReturn(member);
+        when(reservationService.findFirstByBookId(book.getBookId())).thenReturn(Optional.of(reservation));
+        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
+
+        // when (테스트 실행)
+        borrowService.relinquish(member.getId(), book.getBookId());
+
+        // then (결과 검증)
+        assertThat(expectedMember.validatePriorityBorrowForBook(book.getBookId(), LocalDateTime.now())).isTrue();
+    }
+
 }

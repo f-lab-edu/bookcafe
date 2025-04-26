@@ -19,7 +19,7 @@ public class DateTimePeriod {
     }
 
     public boolean includes(@NonNull final LocalDateTime date) {
-        return from.isBefore(date) && to.isAfter(date);
+        return !from.isAfter(date) && !to.isBefore(date);
     }
 
     public boolean equalsToDays(final int between) {

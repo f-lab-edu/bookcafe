@@ -11,6 +11,10 @@ public class DatePeriod {
     LocalDate from;           // 시작 일자
     LocalDate to;             // 종료 일자
 
+    public static DatePeriod of(@NonNull final LocalDate from, final int weeks) {
+        return new DatePeriod(from, from.plusWeeks(weeks));
+    }
+
     public DatePeriod(@NonNull final LocalDate from, @NonNull final LocalDate to) {
         if(from.isAfter(to)) throw new IllegalArgumentException("종료 일자는 시작 일자보다 이후여야 합니다.");
 

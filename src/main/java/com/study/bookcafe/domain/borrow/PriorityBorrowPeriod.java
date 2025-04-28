@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 @Value
 public class PriorityBorrowPeriod {
     DateTimePeriod period;
+
     static final int DAY_EXPIRATION_DATE = 2;
 
-    public PriorityBorrowPeriod(@NonNull final LocalDateTime date) {
-        this.period = new DateTimePeriod(date, date.plusDays(DAY_EXPIRATION_DATE));
+    public PriorityBorrowPeriod(@NonNull final LocalDateTime from) {
+        this.period = DateTimePeriod.of(from, DAY_EXPIRATION_DATE);
     }
 }

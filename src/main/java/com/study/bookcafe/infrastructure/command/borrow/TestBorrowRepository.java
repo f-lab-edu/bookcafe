@@ -2,7 +2,6 @@ package com.study.bookcafe.infrastructure.command.borrow;
 
 import com.study.bookcafe.domain.borrow.Borrow;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
-import com.study.bookcafe.domain.borrow.Return;
 import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
 import com.study.bookcafe.infrastructure.query.borrow.TestBorrowQueryStorage;
@@ -70,14 +69,5 @@ public class TestBorrowRepository implements BorrowRepository {
         final var targetBorrows = TestBorrowQueryStorage.borrowDtos.get(borrowEntity.getId());
 
         targetBorrows.setBorrowPeriod(borrow.getBorrowPeriod());
-    }
-
-    @Transactional
-    @Override
-    public void save(final Return returnInfo) {
-        final var borrows = TestBorrowQueryStorage.membersBorrows.get(returnInfo.getMember().getId());
-
-        borrows.removeIf(borrow -> borrow.getBook().getId() == returnInfo.getBook().getBookId());
-        TestBorrowQueryStorage.membersBorrowsHistory.get(returnInfo.getMember().getId()).add(returnInfo);
     }
 }

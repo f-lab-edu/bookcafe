@@ -1,12 +1,16 @@
 package com.study.bookcafe.infrastructure.command.reservation;
 
+import com.study.bookcafe.domain.borrow.PriorityBorrowPeriod;
 import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.TestBookQueryStorage;
 import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
+import com.study.bookcafe.infrastructure.query.reservation.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import com.study.bookcafe.interfaces.reservation.ReservationMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.Comparator;
 import java.util.Optional;
 
 @Repository
@@ -33,13 +37,13 @@ public class TestReservationRepository implements ReservationRepository {
                                 reservationEntity.getBook().getBookId() == bookId).findFirst();
     }
 
-    @Override
-    public Optional<Reservation> findFirstByBookId(long bookId) {
-        return TestReservationQueryStorage.reservationEntities.values().stream()
-                .map(reservationMapper::toReservation)
-                .filter(reservationEntity ->
-                        reservationEntity.getBook().getBookId() == bookId && reservationEntity.getOrder() == 1).findFirst();
-    }
+//    @Override
+//    public Optional<Reservation> findPriorityReservationByBookId(long bookId) {
+//        return TestReservationQueryStorage.reservationEntities.values().stream()
+//                .filter(reservationEntity -> reservationEntity.getBook().getBookId() == bookId && reservationEntity.getPriorityBorrowPeriod() != null)
+//                .min(Comparator.comparing(reservationEntity -> reservationEntity.getMember().getId()))
+//                .map(reservationMapper::toReservation);
+//    }
 
     @Override
     public void save(final Reservation reservation) {
@@ -61,6 +65,24 @@ public class TestReservationRepository implements ReservationRepository {
     public void updateReservationCount(Reservation reservation) {
         this.updateMemberReservationCount(reservation);
         this.updateBookReservationCount(reservation);
+    }
+
+    @Override
+    public void selectPriorityReservation(long bookId, PriorityBorrowPeriod period) {
+
+        // bookId로 찾은 예약 목록 중 우선대출 중이 아닌(우선대출 기간 = null) 가장 첫번째 예약에 기간을 세팅
+        Optional<Reservation> target = TestReservationQueryStorage.reservationEntities.values().stream()
+                .filter(reservationEntity -> reservationEntity.getBook().getBookId() == bookId && reservationEntity.getPriorityBorrowPeriod() != null)
+                .min(Comparator.comparing(reservationEntity -> reservationEntity.getMember().getId()))
+                .map(reservationMapper::toReservation);
+
+        target.ifPresent(reservation -> {
+            reservation.setPriorityBorrowPeriod(period);
+            ReservationEntity reservationEntity = reservationMapper.toReservationEntity(reservation);
+
+            TestReservationQueryStorage.reservationEntities.put(reservationEntity.getId(), reservationEntity);
+        });
+
     }
 
     private void updateMemberReservationCount(final Reservation reservation) {

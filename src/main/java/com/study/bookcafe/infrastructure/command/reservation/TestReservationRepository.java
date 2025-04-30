@@ -8,12 +8,14 @@ import com.study.bookcafe.infrastructure.query.member.TestMemberQueryStorage;
 import com.study.bookcafe.infrastructure.query.reservation.ReservationEntity;
 import com.study.bookcafe.infrastructure.query.reservation.TestReservationQueryStorage;
 import com.study.bookcafe.interfaces.reservation.ReservationMapper;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
 import java.util.Optional;
 
 @Repository
+@Profile("test")
 public class TestReservationRepository implements ReservationRepository {
 
     private final ReservationMapper reservationMapper;

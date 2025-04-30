@@ -1,5 +1,6 @@
 package com.study.bookcafe.domain.borrow;
 
+import jakarta.persistence.Column;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -7,7 +8,10 @@ import java.time.LocalDateTime;
 
 @Value
 public class DateTimePeriod {
+
+    @Column(name = "\"from\"")
     LocalDateTime from;
+    @Column(name = "\"to\"")
     LocalDateTime to;
 
     public static DateTimePeriod of(@NonNull final LocalDateTime from, final int days) {

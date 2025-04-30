@@ -1,5 +1,6 @@
 package com.study.bookcafe.domain.borrow;
 
+import jakarta.persistence.Column;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -8,7 +9,9 @@ import java.time.LocalDate;
 @Value
 public class DatePeriod {
 
+    @Column(name = "\"from\"")
     LocalDate from;           // 시작 일자
+    @Column(name = "\"to\"")
     LocalDate to;             // 종료 일자
 
     public static DatePeriod of(@NonNull final LocalDate from, final int weeks) {

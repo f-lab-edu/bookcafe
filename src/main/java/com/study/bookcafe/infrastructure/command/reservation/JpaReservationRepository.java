@@ -1,4 +1,4 @@
-package com.study.bookcafe.infrastructure.command;
+package com.study.bookcafe.infrastructure.command.reservation;
 
 import com.study.bookcafe.domain.borrow.PriorityBorrowPeriod;
 import com.study.bookcafe.domain.reservation.Reservation;

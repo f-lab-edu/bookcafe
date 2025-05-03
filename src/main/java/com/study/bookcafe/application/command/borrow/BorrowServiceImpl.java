@@ -6,7 +6,6 @@ import com.study.bookcafe.application.command.reservation.ReservationService;
 import com.study.bookcafe.domain.book.BookInventory;
 import com.study.bookcafe.domain.borrow.BorrowRepository;
 import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.domain.borrow.PriorityBorrowRight;
 import com.study.bookcafe.domain.member.Member;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +42,9 @@ public class BorrowServiceImpl implements BorrowService {
     @Transactional
     public void borrow(final long memberId, final long bookId) {
 
+        // memberId와 bookId으로 예약 조회
+
+
         // 예약 순서에 따라 우선순위 적용
 
         /*
@@ -57,6 +59,8 @@ public class BorrowServiceImpl implements BorrowService {
 
         Member member = memberService.findById(memberId);
         BookInventory book = bookInventoryService.findByBookId(bookId);
+
+
         Borrow borrow = Borrow.of(member, book);
 
         if (borrow.haveReservation()) reservationService.removeDueToBorrow(memberId, bookId);
@@ -89,26 +93,8 @@ public class BorrowServiceImpl implements BorrowService {
 
         borrow.terminate(now);
         save(borrow);
-        grantPriorityBorrowRightToPriorityMember(bookId, now);
-    }
 
-    private void grantPriorityBorrowRightToPriorityMember(final long bookId, final LocalDateTime date) {
-        reservationService.findFirstByBookId(bookId).ifPresent(reservation -> {
-            PriorityBorrowRight priorityBorrowRight = new PriorityBorrowRight(bookId, date);
-
-            Member priorityMember = reservation.getMember();
-            priorityMember.grant(priorityBorrowRight);
-            memberService.save(priorityMember);
-        });
-    }
-
-    @Override
-    @Transactional
-    public void relinquish(final long memberId, final long bookId) {
-        final Member member = memberService.findById(memberId);
-        member.revoke(bookId);
-        memberService.save(member);
-
-        grantPriorityBorrowRightToPriorityMember(bookId, LocalDateTime.now());
+        // 우선순위 예약을 선정하여 우선대출기간 세팅
+        if (borrow.getBook().haveReservedCount()) reservationService.selectPriorityReservation(bookId, now);
     }
 }

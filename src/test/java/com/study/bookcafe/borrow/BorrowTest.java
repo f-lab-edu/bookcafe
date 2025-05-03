@@ -15,7 +15,6 @@ import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import com.study.bookcafe.infrastructure.query.book.BookTestSets;
-import com.study.bookcafe.infrastructure.query.borrow.BorrowTestSets;
 import com.study.bookcafe.infrastructure.query.member.MemberTestSets;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentCaptor;
@@ -132,52 +131,29 @@ public class BorrowTest {
         assertThat(targetBorrow.getBorrowPeriod()).isEqualTo(expectedBorrowPeriod);
     }
 
-    @Test
-    @DisplayName("도서가 반납될 때 도서에 대해 예약이 있으면, 첫번째 예약의 회원에게 우선대출권을 부여한다.")
-    public void returnBook() {
-        // given (Mock 설정)
-        Member member1 = MemberTestSets.createWormMember();
-        BookInventory book1 = BookTestSets.createWhiteBookInventory();
-        Borrow borrow = BorrowTestSets.createWormWhiteBorrow();
-
-        Member member2 = MemberTestSets.createBasicMember();
-        BookInventory book2 = BookTestSets.createWhiteBookInventory();
-        Reservation reservation = Reservation.of(member2, book2);
-
-        when(borrowRepository.findBorrowByMemberIdAndBookId(member1.getId(), book1.getBookId())).thenReturn(Optional.of(borrow));
-        when(reservationService.findFirstByBookId(book2.getBookId())).thenReturn(Optional.of(reservation));
-        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
-
-        // when (테스트 실행)
-        borrowService.returnBook(member1.getId(), book1.getBookId());
-
-        // then (결과 검증)
-        ArgumentCaptor<Member> memberCaptor = ArgumentCaptor.forClass(Member.class);
-        verify(memberService).save(memberCaptor.capture());
-        Member member = memberCaptor.getValue();
-
-        assertThat(member.validatePriorityBorrowForBook(book2.getBookId(), LocalDateTime.now())).isTrue();
-    }
-
-    @Test
-    @DisplayName("회원은 회원에게 부여된 우선대출권을 포기하면, 다음 우선순위의 회원에게 우선대출권이 부여된다.")
-    public void relinquishToPriorityBorrowRight() {
-        // given (Mock 설정)
-        Member member = MemberTestSets.createWormMember();
-        BookInventory book = BookTestSets.createWhiteBookInventory();
-
-        Member expectedMember = MemberTestSets.createBasicMember();
-        Reservation reservation = Reservation.of(expectedMember, book);
-
-        when(memberService.findById(member.getId())).thenReturn(member);
-        when(reservationService.findFirstByBookId(book.getBookId())).thenReturn(Optional.of(reservation));
-        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
-
-        // when (테스트 실행)
-        borrowService.relinquish(member.getId(), book.getBookId());
-
-        // then (결과 검증)
-        assertThat(expectedMember.validatePriorityBorrowForBook(book.getBookId(), LocalDateTime.now())).isTrue();
-    }
-
+//    @Test
+//    @DisplayName("도서가 반납될 때 도서에 대해 예약이 있으면, 우선순위 예약을 선정하여 우선대출기간을 세팅한다.")
+//    public void returnBook() {
+//        // given (Mock 설정)
+//        Reservation reservation = ;
+//
+//        Member member1 = TestReservationQueryStorage.reservationEntities.
+//        BookInventory book1 = BookTestSets.createWhiteBookInventory();
+//        Borrow borrow = BorrowTestSets.createWormWhiteBorrow();
+//
+//
+//
+//        when(borrowRepository.findBorrowByMemberIdAndBookId(member1.getId(), book1.getBookId())).thenReturn(Optional.of(borrow));
+//        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
+//
+//        // when (테스트 실행)
+//        borrowService.returnBook(member1.getId(), book1.getBookId());
+//
+//        // then (결과 검증)
+//        ArgumentCaptor<Member> memberCaptor = ArgumentCaptor.forClass(Member.class);
+//        verify(memberService).save(memberCaptor.capture());
+//        Member member = memberCaptor.getValue();
+//
+//        assertThat(member.validatePriorityBorrowForBook(book2.getBookId(), LocalDateTime.now())).isTrue();
+//    }
 }

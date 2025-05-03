@@ -1,6 +1,7 @@
 package com.study.bookcafe.domain.borrow;
 
 import com.study.bookcafe.domain.member.Level;
+import jakarta.persistence.Embedded;
 import lombok.NonNull;
 import lombok.Value;
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 @Value
 public class BorrowPeriod {
 
+    @Embedded
     DatePeriod period;
     Level level;
 
@@ -20,7 +22,7 @@ public class BorrowPeriod {
 
     private BorrowPeriod(@NonNull final LocalDate from, @NonNull final Level level) {
         try {
-            this.period = new DatePeriod(from, from.plusWeeks(level.getBorrowPeriod()));
+            this.period = DatePeriod.of(from, level.getBorrowPeriod());
             this.level = level;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("반납 일자는 대출 일자보다 이후여야 합니다.");

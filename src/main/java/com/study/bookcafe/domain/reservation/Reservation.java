@@ -1,11 +1,9 @@
 package com.study.bookcafe.domain.reservation;
 
 import com.study.bookcafe.domain.book.BookInventory;
+import com.study.bookcafe.domain.borrow.PriorityBorrowPeriod;
 import com.study.bookcafe.domain.member.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,11 +11,12 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 public class Reservation {
-    private long id;                // 예약 번호
-    private Member member;          // 회원
-    private BookInventory book;     // 도서
-    private LocalDateTime time;     // 예약 시간
-    private int order;              // 예약 순서
+    private long id;                                        // 예약 번호
+    private Member member;                                  // 회원
+    private BookInventory book;                             // 도서
+    private LocalDateTime time;                             // 예약 시간
+    @Setter
+    private PriorityBorrowPeriod priorityBorrowPeriod;      // 우선대출기간
 
     public static Reservation of(@NonNull final Member member, @NonNull final BookInventory book) {
         return new Reservation(member, book);
@@ -32,7 +31,6 @@ public class Reservation {
 
         member.increaseReservationCount();
         book.increaseReservedCount();
-        setOrder(book);
 
         this.member = member;
         this.book = book;
@@ -44,7 +42,4 @@ public class Reservation {
         book.decreaseReservedCount();
     }
 
-    private void setOrder(BookInventory book) {
-        order = book.getReservedCount();
-    }
 }

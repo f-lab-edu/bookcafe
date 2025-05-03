@@ -3,12 +3,14 @@ package com.study.bookcafe.application.command.reservation;
 import com.study.bookcafe.application.command.book.BookInventoryService;
 import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.domain.book.BookInventory;
+import com.study.bookcafe.domain.borrow.PriorityBorrowPeriod;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.reservation.Reservation;
 import com.study.bookcafe.domain.reservation.ReservationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -34,10 +36,10 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findByMemberIdAndBookId(memberId, bookId);
     }
 
-    @Override
-    public Optional<Reservation> findFirstByBookId(long bookId) {
-        return reservationRepository.findFirstByBookId(bookId);
-    }
+//    @Override
+//    public Optional<Reservation> findPriorityReservationByBookId(long bookId) {
+//        return reservationRepository.findPriorityReservationByBookId(bookId);
+//    }
 
     @Override
     public void reserve(final long memberId, final long bookId) {
@@ -73,5 +75,18 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.deleteById(reservation.getId());
         reservationRepository.updateReservationCount(reservation);
+    }
+
+    @Override
+    public void selectPriorityReservation(long bookId, LocalDateTime date) {
+        reservationRepository.selectPriorityReservation(bookId, new PriorityBorrowPeriod(date));
+    }
+
+    @Override
+    @Transactional
+    public void relinquish(final long memberId, final long bookId) {
+
+        // 예약 내역 테이블로 이동
+
     }
 }

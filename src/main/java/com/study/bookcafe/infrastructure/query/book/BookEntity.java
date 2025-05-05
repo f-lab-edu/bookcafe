@@ -1,15 +1,21 @@
 package com.study.bookcafe.infrastructure.query.book;
 
+import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
-@Value
+@Embeddable
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class BookEntity {
     @Positive(message = "잘못된 ISBN 입니다.")
     @NotNull(message = "ISBN은 필수 값입니다.")

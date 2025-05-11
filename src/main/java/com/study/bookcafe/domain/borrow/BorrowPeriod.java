@@ -1,15 +1,15 @@
 package com.study.bookcafe.domain.borrow;
 
 import com.study.bookcafe.domain.member.Level;
-import jakarta.persistence.Embedded;
+import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import java.time.LocalDate;
 
 @Value
+@Builder
 public class BorrowPeriod {
 
-    @Embedded
     DatePeriod period;
     Level level;
 

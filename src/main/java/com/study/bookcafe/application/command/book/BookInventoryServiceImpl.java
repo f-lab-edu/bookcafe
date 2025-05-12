@@ -24,7 +24,8 @@ public class BookInventoryServiceImpl implements BookInventoryService {
     }
 
     @Override
-    public void update(BookInventory bookInventory) {
-        bookInventoryRepository.update(bookInventory);
+    public void completePriorityBorrowReservation(BookInventory book) {
+        book.decreasePriorityBorrowCount();
+        bookInventoryRepository.update(book);
     }
 }

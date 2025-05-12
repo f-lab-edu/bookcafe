@@ -22,4 +22,9 @@ public class BookInventoryServiceImpl implements BookInventoryService {
     public BookInventory findByBookId(long bookId) {
         return bookInventoryRepository.findByBookId(bookId).orElseThrow(() -> new IllegalArgumentException("도서 정보를 찾을 수 없습니다."));
     }
+
+    @Override
+    public void update(BookInventory bookInventory) {
+        bookInventoryRepository.update(bookInventory);
+    }
 }

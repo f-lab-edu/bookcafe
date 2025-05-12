@@ -7,5 +7,6 @@ public interface BookInventoryService {
     // 도서 조회 (id)
     BookInventory findById(long id);
     BookInventory findByBookId(long bookId);
+    void update(BookInventory bookInventory);
 
 }

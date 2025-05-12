@@ -6,5 +6,6 @@ public interface BookInventoryRepository {
 
     Optional<BookInventory> findById(long id);
     Optional<BookInventory> findByBookId(long bookId);
+    void update(BookInventory bookInventory);
 
 }

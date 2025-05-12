@@ -13,5 +13,5 @@ VALUES
 -- reservation
 INSERT INTO reservation(id, member_id, book_id, time, "from", "to")
 VALUES
-    (1, 1, 1, '2025-05-03 15:00:00', NULL, NULL),
+    (1, 1, 1, '2025-05-03 15:00:00', '2025-05-10 12:00:00', '2025-05-12 12:00:00'),
     (2, 2, 1, '2025-05-03 16:00:00', NULL, NULL);

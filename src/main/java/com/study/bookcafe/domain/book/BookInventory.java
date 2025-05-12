@@ -21,8 +21,10 @@ public class BookInventory {
     private int borrowedCount;              // 대출 건수
     @PositiveOrZero(message = "예약 건수는 0 이상이어야 합니다.")
     private int reservedCount;              // 예약 건수
+    @PositiveOrZero(message = "우선대출예약 건수는 0 이상이어야 합니다.")
+    private int priorityBorrowCount;        // 우선대출예약 건수
 
-    private final int MAXIMUM_RESERVATION_COUNT = 5;
+    private static final int MAXIMUM_RESERVATION_COUNT = 5;
 
     /**
      * 도서가 대출 가능한 상태인지 확인한다.
@@ -30,11 +32,7 @@ public class BookInventory {
      * @return 현재 도서의 대출 가능한 재고가 있는지 여부
      */
     public boolean isBorrowable() {
-        return isOnStock();
-    }
-
-    private boolean isOnStock() {
-        return stock - borrowedCount > 0;
+        return stock - borrowedCount - priorityBorrowCount > 0;
     }
 
     public boolean haveBorrowedCount() {
@@ -57,6 +55,12 @@ public class BookInventory {
         reservedCount++;
     }
 
+    public void increasePriorityBorrowCount() {
+        if (priorityBorrowCount > stock) throw new IllegalStateException("우선대출예약 건수는 재고와 같거나 이하여야 합니다.");
+
+        priorityBorrowCount++;
+    }
+
     public void decreaseBorrowedCount() {
         if (!haveBorrowedCount()) throw new IllegalStateException("해당 도서에 대한 대출이 없습니다.");
 
@@ -67,5 +71,13 @@ public class BookInventory {
         if (!haveReservedCount()) throw new IllegalStateException("해당 도서에 대한 예약이 없습니다.");
 
         reservedCount--;
+    }
+
+    public void decreasePriorityBorrowCount() {
+        priorityBorrowCount--;
+    }
+
+    public int getBorrowableCount() {
+        return stock - borrowedCount;
     }
 }

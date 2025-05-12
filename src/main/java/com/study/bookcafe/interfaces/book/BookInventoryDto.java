@@ -12,4 +12,5 @@ public class BookInventoryDto {
     private int stock;                      // 재고
     private int borrowedCount;              // 대출 건수
     private int reservedCount;              // 예약 건수
+    private int priorityBorrowCount;        // 우선대출예약 건수
 }

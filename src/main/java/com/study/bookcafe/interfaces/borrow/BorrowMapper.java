@@ -1,10 +1,9 @@
 package com.study.bookcafe.interfaces.borrow;
 
-import com.study.bookcafe.domain.borrow.Borrow;
-import com.study.bookcafe.infrastructure.query.borrow.BorrowEntity;
+import com.study.bookcafe.domain.borrow.*;
+import com.study.bookcafe.infrastructure.query.borrow.*;
 import com.study.bookcafe.interfaces.book.BookMapper;
 import com.study.bookcafe.interfaces.member.MemberMapper;
-import jdk.jfr.Name;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public interface BorrowMapper {
     BorrowDto toBorrowDto(Borrow borrow);
 
     // BorrowDto -> Borrow
-    @Name("BorrowDtoToBorrow")
+    @Named("BorrowDtoToBorrow")
     @Mapping(target = "id", source = "id")
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberDtoToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryDtoToBookInventory"})
@@ -43,7 +42,7 @@ public interface BorrowMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberToMemberEntity"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryToBookInventoryEntity"})
     @Mapping(target = "time", source = "time")
-    @Mapping(target = "borrowPeriod", source = "borrowPeriod")
+    @Mapping(target = "borrowPeriod", source = "borrowPeriod", qualifiedByName = {"BorrowPeriodToBorrowPeriodEntity"})
     @Mapping(target = "extensionCount", source = "extensionCount")
     BorrowEntity toBorrowEntity(Borrow borrow);
 
@@ -53,7 +52,7 @@ public interface BorrowMapper {
     @Mapping(target = "member", source = "member", qualifiedByName = {"MemberMapper", "MemberEntityToMember"})
     @Mapping(target = "book", source = "book", qualifiedByName = {"BookMapper", "BookInventoryEntityToBookInventory"})
     @Mapping(target = "time", source = "time")
-    @Mapping(target = "borrowPeriod", source = "borrowPeriod")
+    @Mapping(target = "borrowPeriod", source = "borrowPeriod", qualifiedByName = {"BorrowPeriodEntityToBorrowPeriod"})
     @Mapping(target = "extensionCount", source = "extensionCount")
     Borrow toBorrow(BorrowEntity borrowEntity);
 
@@ -69,5 +68,50 @@ public interface BorrowMapper {
     @IterableMapping(qualifiedByName = "BorrowToBorrowDto")
     List<BorrowDto> toBorrowDtos(List<Borrow> borrows);
 
+    // DateTimePeriod -> DateTimePeriodEntity
+    @Named("DateTimePeriodToDateTimePeriodEntity")
+    @Mapping(target = "from", source = "from")
+    @Mapping(target = "to", source = "to")
+    DateTimePeriodEntity toDateTimePeriodEntity(DateTimePeriod dateTimePeriod);
+
+    // DateTimePeriodEntity -> DateTimePeriod
+    @Named("DateTimePeriodEntityToDateTimePeriod")
+    @Mapping(target = "from", source = "from")
+    @Mapping(target = "to", source = "to")
+    DateTimePeriod toDateTimePeriod(DateTimePeriodEntity dateTimePeriodEntity);
+
+    // DatePeriod -> DatePeriodEntity
+    @Named("DatePeriodToDatePeriodEntity")
+    @Mapping(target = "from", source = "from")
+    @Mapping(target = "to", source = "to")
+    DatePeriodEntity toDatePeriodEntity(DatePeriod datePeriod);
+
+    // DatePeriodEntity -> DatePeriod
+    @Named("DatePeriodEntityToDatePeriod")
+    @Mapping(target = "from", source = "from")
+    @Mapping(target = "to", source = "to")
+    DatePeriod toDatePeriod(DatePeriodEntity datePeriodEntity);
+
+    // BorrowPeriod -> BorrowPeriodEntity
+    @Named("BorrowPeriodToBorrowPeriodEntity")
+    @Mapping(target = "period", source = "period")
+    @Mapping(target = "level", source = "level")
+    BorrowPeriodEntity toBorrowPeriodEntity(BorrowPeriod borrowPeriod);
+
+    // BorrowPeriodEntity -> BorrowPeriod
+    @Named("BorrowPeriodEntityToBorrowPeriod")
+    @Mapping(target = "period", source = "period")
+    @Mapping(target = "level", source = "level")
+    BorrowPeriod toBorrowPeriod(BorrowPeriodEntity borrowPeriodEntity);
+
+    // PriorityBorrowPeriod -> PriorityBorrowPeriodEntity
+    @Named("PriorityBorrowPeriodToPriorityBorrowPeriodEntity")
+    @Mapping(target = "period", source = "period")
+    PriorityBorrowPeriodEntity toPriorityBorrowPeriodEntity(PriorityBorrowPeriod priorityBorrowPeriod);
+
+    // PriorityBorrowPeriodEntity -> PriorityBorrowPeriod
+    @Named("PriorityBorrowPeriodEntityToPriorityBorrowPeriod")
+    @Mapping(target = "period", source = "period")
+    PriorityBorrowPeriod toPriorityBorrowPeriod(PriorityBorrowPeriodEntity priorityBorrowPeriodEntity);
 
 }

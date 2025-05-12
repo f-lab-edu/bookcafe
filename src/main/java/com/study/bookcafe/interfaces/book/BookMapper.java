@@ -21,6 +21,7 @@ public interface BookMapper {
     @Mapping(target = "stock", source = "stock")
     @Mapping(target = "borrowedCount", source = "borrowedCount")
     @Mapping(target = "reservedCount", source = "reservedCount")
+    @Mapping(target = "priorityBorrowCount", source = "priorityBorrowCount")
     BookInventoryDto toBookInventoryDto(BookInventory bookInventory);
 
     // BookInventoryDto -> BookInventory
@@ -31,6 +32,7 @@ public interface BookMapper {
     @Mapping(target = "stock", source = "stock")
     @Mapping(target = "borrowedCount", source = "borrowedCount")
     @Mapping(target = "reservedCount", source = "reservedCount")
+    @Mapping(target = "priorityBorrowCount", source = "priorityBorrowCount")
     BookInventory toBookInventory(BookInventoryDto bookInventoryDto);
 
     // BookInventory -> BookInventoryEntity
@@ -41,6 +43,7 @@ public interface BookMapper {
     @Mapping(target = "stock", source = "stock")
     @Mapping(target = "borrowedCount", source = "borrowedCount")
     @Mapping(target = "reservedCount", source = "reservedCount")
+    @Mapping(target = "priorityBorrowCount", source = "priorityBorrowCount")
     BookInventoryEntity toBookInventoryEntity(BookInventory bookInventory);
 
     // BookInventoryEntity -> BookInventory
@@ -51,6 +54,7 @@ public interface BookMapper {
     @Mapping(target = "stock", source = "stock")
     @Mapping(target = "borrowedCount", source = "borrowedCount")
     @Mapping(target = "reservedCount", source = "reservedCount")
+    @Mapping(target = "priorityBorrowCount", source = "priorityBorrowCount")
     BookInventory toBookInventory(BookInventoryEntity bookInventoryEntity);
 
 

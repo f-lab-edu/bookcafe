@@ -36,6 +36,11 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.findByMemberIdAndBookId(memberId, bookId);
     }
 
+    @Override
+    public Optional<Reservation> findPriorityByMemberIdAndBookId(long memberId, long bookId) {
+        return reservationRepository.findPriorityByMemberIdAndBookId(memberId, bookId);
+    }
+
 //    @Override
 //    public Optional<Reservation> findPriorityReservationByBookId(long bookId) {
 //        return reservationRepository.findPriorityReservationByBookId(bookId);
@@ -78,8 +83,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void selectPriorityReservation(long bookId, LocalDateTime date) {
-        reservationRepository.selectPriorityReservation(bookId, new PriorityBorrowPeriod(date));
+    public void selectPriorityReservation(BookInventory book, LocalDateTime date) {
+        book.increasePriorityBorrowCount();
+
+        reservationRepository.selectPriorityReservation(book.getBookId(), new PriorityBorrowPeriod(date));
     }
 
     @Override

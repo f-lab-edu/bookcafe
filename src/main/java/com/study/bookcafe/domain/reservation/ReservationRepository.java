@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface ReservationRepository {
     Optional<Reservation> findById(long reservationId);
     Optional<Reservation> findByMemberIdAndBookId(long memberId, long bookId);
-//    Optional<Reservation> findPriorityReservationByBookId(long bookId);
+    Optional<Reservation> findPriorityByMemberIdAndBookId(long memberId, long bookId);
     void save(Reservation reservation);
     void deleteById(long reservationId);
     void updateReservationCount(Reservation reservation);

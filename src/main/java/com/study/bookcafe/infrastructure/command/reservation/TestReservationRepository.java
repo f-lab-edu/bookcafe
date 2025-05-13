@@ -39,13 +39,10 @@ public class TestReservationRepository implements ReservationRepository {
                                 reservationEntity.getBook().getBookId() == bookId).findFirst();
     }
 
-//    @Override
-//    public Optional<Reservation> findPriorityReservationByBookId(long bookId) {
-//        return TestReservationQueryStorage.reservationEntities.values().stream()
-//                .filter(reservationEntity -> reservationEntity.getBook().getBookId() == bookId && reservationEntity.getPriorityBorrowPeriod() != null)
-//                .min(Comparator.comparing(reservationEntity -> reservationEntity.getMember().getId()))
-//                .map(reservationMapper::toReservation);
-//    }
+    @Override
+    public Optional<Reservation> findPriorityByMemberIdAndBookId(long memberId, long bookId) {
+        return Optional.empty();
+    }
 
     @Override
     public void save(final Reservation reservation) {

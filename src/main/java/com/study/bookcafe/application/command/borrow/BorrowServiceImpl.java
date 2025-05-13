@@ -41,32 +41,25 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     @Transactional
     public void borrow(final long memberId, final long bookId) {
+        reservationService.findPriorityByMemberIdAndBookId(memberId, bookId)
+                .ifPresentOrElse(reservation -> {
+                    BookInventory book = reservation.getBook();
+                    bookInventoryService.completePriorityBorrowReservation(book);
 
-        // memberId와 bookId으로 예약 조회
+                    reservationService.delete(reservation);
 
+                    Borrow borrow = Borrow.of(reservation.getMember(), book);
+                    save(borrow);
+                }, () -> {
+                    BookInventory book = bookInventoryService.findByBookId(bookId);
 
-        // 예약 순서에 따라 우선순위 적용
-
-        /*
-            도서
-            - 예약
-
-            1. 대출이 가능하고, 도서에 예약이 없을 때 : 바로 대출 가능
-            2. 대출이 가능하고, 도서에 예약이 있을 때 : 우선대출 중
-                - 해당 회원에게 우선대출권이 있으면 가능
-
-         */
-
-        Member member = memberService.findById(memberId);
-        BookInventory book = bookInventoryService.findByBookId(bookId);
-
-
-        Borrow borrow = Borrow.of(member, book);
-
-        if (borrow.haveReservation()) reservationService.removeDueToBorrow(memberId, bookId);
-
-//        borrowRepository.save(borrow);
-        save(borrow);
+                    if (book.isBorrowable()) {
+                        Member member = memberService.findById(memberId);
+                        Borrow borrow = Borrow.of(member, book);
+                        save(borrow);
+                    }
+                }
+            );
     }
 
     @Override
@@ -95,6 +88,6 @@ public class BorrowServiceImpl implements BorrowService {
         save(borrow);
 
         // 우선순위 예약을 선정하여 우선대출기간 세팅
-        if (borrow.getBook().haveReservedCount()) reservationService.selectPriorityReservation(bookId, now);
+        if (borrow.getBook().haveReservedCount()) reservationService.selectPriorityReservation(borrow.getBook(), now);
     }
 }

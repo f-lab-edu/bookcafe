@@ -51,15 +51,17 @@ public class BorrowServiceImpl implements BorrowService {
                     Borrow borrow = Borrow.of(reservation.getMember(), book);
                     save(borrow);
                 }, () -> {
-                    BookInventory book = bookInventoryService.findByBookId(bookId);
+                    Borrow borrow = createBorrowByMemberIdAndBookId(memberId, bookId);
 
-                    if (book.isBorrowable()) {
-                        Member member = memberService.findById(memberId);
-                        Borrow borrow = Borrow.of(member, book);
-                        save(borrow);
-                    }
+                    if (borrow.getBook().isBorrowable()) save(borrow);
                 }
             );
+    }
+
+    private Borrow createBorrowByMemberIdAndBookId(long memberId, long bookId) {
+        Member member = memberService.findById(memberId);
+        BookInventory book = bookInventoryService.findByBookId(bookId);
+        return Borrow.of(member, book);
     }
 
     @Override

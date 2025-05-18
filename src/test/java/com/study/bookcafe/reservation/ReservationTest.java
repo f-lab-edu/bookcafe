@@ -5,6 +5,7 @@ import com.study.bookcafe.application.command.member.MemberService;
 import com.study.bookcafe.application.command.reservation.ReservationService;
 import com.study.bookcafe.application.command.reservation.ReservationServiceImpl;
 import com.study.bookcafe.domain.book.BookInventory;
+import com.study.bookcafe.domain.borrow.PriorityBorrowPeriod;
 import com.study.bookcafe.domain.member.Level;
 import com.study.bookcafe.domain.member.Member;
 import com.study.bookcafe.domain.reservation.Reservation;
@@ -16,13 +17,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-public class ReserveTest {
+public class ReservationTest {
 
     private ReservationService reservationService;
     private static ReservationRepository reservationRepository;
@@ -81,20 +82,34 @@ public class ReserveTest {
     }
 
     @Test
-    @DisplayName("회원의 예약 순서는 예약하려는 도서에 대한 예약 개수 + 1 이 된다.")
-    public void setReservationOrder() {
-        // given (Mock 설정)
-        Reservation expectedReservation = Reservation.builder()
-                .order(2)
-                .build();
+    public void test() {
+        BookInventory book = BookTestSets.createVegetarianBookInventory();
+        LocalDateTime date = LocalDateTime.now();
 
-        Member member = MemberTestSets.createBasicMember();
-        BookInventory book = BookTestSets.createWhiteBookInventory();
+        reservationService = new ReservationServiceImpl(reservationRepository, memberService, bookInventoryService);
 
-        // when (테스트 실행)
-        Reservation reservation = Reservation.of(member, book);
-
-        // then (결과 검증)
-        assertThat(reservation.getOrder()).isEqualTo(expectedReservation.getOrder());
+        reservationService.selectPriorityReservation(book, date);
+        verify(reservationRepository).selectPriorityReservation(book.getBookId(), new PriorityBorrowPeriod(date));
     }
+
+//    @Test
+//    @DisplayName("회원은 회원에게 부여된 우선대출권을 포기하면, 다음 우선순위의 회원에게 우선대출권이 부여된다.")
+//    public void relinquishToPriorityBorrowRight() {
+//        // given (Mock 설정)
+//        Member member = MemberTestSets.createWormMember();
+//        BookInventory book = BookTestSets.createWhiteBookInventory();
+//
+//        Member expectedMember = MemberTestSets.createBasicMember();
+//        Reservation reservation = Reservation.of(expectedMember, book);
+//
+//        when(memberService.findById(member.getId())).thenReturn(member);
+//        when(reservationService.findFirstByBookId(book.getBookId())).thenReturn(Optional.of(reservation));
+//        borrowService = new BorrowServiceImpl(borrowRepository, memberService, bookInventoryService, reservationService);
+//
+//        // when (테스트 실행)
+//        borrowService.relinquish(member.getId(), book.getBookId());
+//
+//        // then (결과 검증)
+//        assertThat(expectedMember.validatePriorityBorrowForBook(book.getBookId(), LocalDateTime.now())).isTrue();
+//    }
 }

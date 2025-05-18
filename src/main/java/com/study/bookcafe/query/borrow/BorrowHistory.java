@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class BorrowDetails {
+public class BorrowHistory {
     private long id;                        // 대출 ID
     private MemberView member;              // 회원
     private BookInventoryView book;         // 도서

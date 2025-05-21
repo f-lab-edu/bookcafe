@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @AllArgsConstructor
-public class Borrow {
+public class BorrowBusiness {
     private long id;                        // 대출 ID
     private Member member;                  // 회원
     private BookInventory book;             // 도서
@@ -22,15 +22,15 @@ public class Borrow {
 
     private final int MAXIMUM_EXTENSION_COUNT = 1;
 
-    public static Borrow of(@NonNull final Member member, @NonNull final BookInventory book) {
-        return new Borrow(member, book, LocalDateTime.now());
+    public static BorrowBusiness of(@NonNull final Member member, @NonNull final BookInventory book) {
+        return new BorrowBusiness(member, book, LocalDateTime.now());
     }
 
-    public static Borrow of(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        return new Borrow(member, book, from);
+    public static BorrowBusiness of(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        return new BorrowBusiness(member, book, from);
     }
 
-    private Borrow(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+    private BorrowBusiness(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
         member.increaseBorrowCount();
         book.increaseBorrowedCount();
 
@@ -72,18 +72,10 @@ public class Borrow {
     public boolean haveExtendableCount() {
         return member.getLevel().haveExtendableCount(extensionCount);
     }
-
-//    private boolean haveMemberReservation() {
-//        return member.haveReservationCount();
-//    }
 //
     private boolean haveReservationForBook() {
         return book.haveReservedCount();
     }
-
-//    public boolean haveReservation() {
-//        return haveMemberReservation() && haveReservationForBook();
-//    }
 
     /**
      * 대출 연장이 가능한 날짜인지 확인한다.
@@ -114,5 +106,9 @@ public class Borrow {
         setReturnTime(date);
         member.decreaseBorrowCount();
         book.decreaseBorrowedCount();
+    }
+
+    public void borrow() {
+
     }
 }

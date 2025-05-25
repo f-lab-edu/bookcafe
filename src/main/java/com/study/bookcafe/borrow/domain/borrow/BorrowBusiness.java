@@ -53,8 +53,8 @@ public class BorrowBusiness {
     /**
      * 대출을 연장한다.
      */
-    public void extendPeriod(@NonNull final LocalDate now) {
-        if (!canExtend(now)) return;
+    public void extendPeriod(@NonNull final LocalDate extensionDay) {
+        if (!canExtend(extensionDay)) return;
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend();
 
@@ -85,11 +85,11 @@ public class BorrowBusiness {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isExtendableDate(@NonNull final LocalDate now) {
-        return borrowPeriod.isExtendable(now);
+    public boolean isExtendableDate(@NonNull final LocalDate extensionDay) {
+        return borrowPeriod.isExtendable(extensionDay);
     }
 
-    private boolean canExtend(@NonNull final LocalDate now) {
+    private boolean canExtend(@NonNull final LocalDate extensionDay) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
         if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
@@ -97,7 +97,7 @@ public class BorrowBusiness {
         if (haveReservationForBook()) throw new IllegalStateException("연장하려는 도서에 예약이 있습니다.");
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
-        if (!isExtendableDate(now)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
+        if (!isExtendableDate(extensionDay)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
 
         return true;
     }

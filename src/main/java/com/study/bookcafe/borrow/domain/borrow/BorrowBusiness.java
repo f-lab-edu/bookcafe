@@ -54,7 +54,7 @@ public class BorrowBusiness {
      * 대출을 연장한다.
      */
     public void extendPeriod(@NonNull final LocalDate extensionDay) {
-        if (!canExtend(extensionDay)) return;
+        assertExtendable(extensionDay);
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend();
 
@@ -89,7 +89,7 @@ public class BorrowBusiness {
         return borrowPeriod.isExtendable(extensionDay);
     }
 
-    private boolean canExtend(@NonNull final LocalDate extensionDay) {
+    private void assertExtendable(@NonNull final LocalDate extensionDay) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
         if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
@@ -98,8 +98,6 @@ public class BorrowBusiness {
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
         if (!isExtendableDate(extensionDay)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
-
-        return true;
     }
 
     public void terminate(@NonNull final LocalDateTime date) {

@@ -1,7 +1,7 @@
 package com.study.bookcafe.borrow.domain.borrow;
 
 import com.study.bookcafe.borrow.domain.book.BookInventory;
-import com.study.bookcafe.borrow.domain.member.Member;
+import com.study.bookcafe.borrow.domain.borrower.Borrower;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BorrowBusiness {
     private long id;                        // 대출 ID
-    private Member member;                  // 회원
+    private Borrower borrower;              // 대출자
     private BookInventory book;             // 도서
     private LocalDateTime time;             // 대출 시간
     @Setter(AccessLevel.PRIVATE)
@@ -22,22 +22,22 @@ public class BorrowBusiness {
 
     private final int MAXIMUM_EXTENSION_COUNT = 1;
 
-    public static BorrowBusiness of(@NonNull final Member member, @NonNull final BookInventory book) {
-        return new BorrowBusiness(member, book, LocalDateTime.now());
+    public static BorrowBusiness of(@NonNull final Borrower borrower, @NonNull final BookInventory book) {
+        return new BorrowBusiness(borrower, book, LocalDateTime.now());
     }
 
-    public static BorrowBusiness of(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        return new BorrowBusiness(member, book, from);
+    public static BorrowBusiness of(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        return new BorrowBusiness(borrower, book, from);
     }
 
-    private BorrowBusiness(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        member.increaseBorrowCount();
+    private BorrowBusiness(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        borrower.increaseBorrowCount();
         book.increaseBorrowedCount();
 
-        this.member = member;
+        this.borrower = borrower;
         this.book = book;
         this.time = from;
-        this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
+        this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), borrower.getLevel());
     }
 
     private void updateExtendedPeriod(@NonNull final BorrowPeriod borrowPeriod) {
@@ -70,9 +70,9 @@ public class BorrowBusiness {
      * @return 연장 가능한지 여부
      */
     public boolean haveExtendableCount() {
-        return member.getLevel().haveExtendableCount(extensionCount);
+        return borrower.getLevel().haveExtendableCount(extensionCount);
     }
-//
+
     private boolean haveReservationForBook() {
         return book.haveReservedCount();
     }
@@ -102,7 +102,7 @@ public class BorrowBusiness {
 
     public void terminate(@NonNull final LocalDateTime date) {
         setReturnTime(date);
-        member.decreaseBorrowCount();
+        borrower.decreaseBorrowCount();
         book.decreaseBorrowedCount();
     }
 

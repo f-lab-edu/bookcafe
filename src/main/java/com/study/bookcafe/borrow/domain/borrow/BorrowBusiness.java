@@ -1,7 +1,7 @@
 package com.study.bookcafe.borrow.domain.borrow;
 
 import com.study.bookcafe.borrow.domain.book.BookInventory;
-import com.study.bookcafe.borrow.domain.member.Member;
+import com.study.bookcafe.borrow.domain.borrower.Borrower;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BorrowBusiness {
     private long id;                        // 대출 ID
-    private Member member;                  // 회원
+    private Borrower borrower;              // 대출자
     private BookInventory book;             // 도서
     private LocalDateTime time;             // 대출 시간
     @Setter(AccessLevel.PRIVATE)
@@ -22,22 +22,22 @@ public class BorrowBusiness {
 
     private final int MAXIMUM_EXTENSION_COUNT = 1;
 
-    public static BorrowBusiness of(@NonNull final Member member, @NonNull final BookInventory book) {
-        return new BorrowBusiness(member, book, LocalDateTime.now());
+    public static BorrowBusiness of(@NonNull final Borrower borrower, @NonNull final BookInventory book) {
+        return new BorrowBusiness(borrower, book, LocalDateTime.now());
     }
 
-    public static BorrowBusiness of(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        return new BorrowBusiness(member, book, from);
+    public static BorrowBusiness of(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        return new BorrowBusiness(borrower, book, from);
     }
 
-    private BorrowBusiness(@NonNull final Member member, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        member.increaseBorrowCount();
+    private BorrowBusiness(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        borrower.increaseBorrowCount();
         book.increaseBorrowedCount();
 
-        this.member = member;
+        this.borrower = borrower;
         this.book = book;
         this.time = from;
-        this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), member.getLevel());
+        this.borrowPeriod = BorrowPeriod.of(from.toLocalDate(), borrower.getLevel());
     }
 
     private void updateExtendedPeriod(@NonNull final BorrowPeriod borrowPeriod) {
@@ -53,8 +53,8 @@ public class BorrowBusiness {
     /**
      * 대출을 연장한다.
      */
-    public void extendPeriod(@NonNull final LocalDate now) {
-        if (!canExtend(now)) return;
+    public void extendPeriod(@NonNull final LocalDate extensionDay) {
+        assertExtendable(extensionDay);
 
         BorrowPeriod extendedPeriod = this.getBorrowPeriod().extend();
 
@@ -70,9 +70,9 @@ public class BorrowBusiness {
      * @return 연장 가능한지 여부
      */
     public boolean haveExtendableCount() {
-        return member.getLevel().haveExtendableCount(extensionCount);
+        return borrower.getLevel().haveExtendableCount(extensionCount);
     }
-//
+
     private boolean haveReservationForBook() {
         return book.haveReservedCount();
     }
@@ -85,11 +85,11 @@ public class BorrowBusiness {
      *
      * @return 대출 연장 가능한지 여부
      */
-    public boolean isExtendableDate(@NonNull final LocalDate now) {
-        return borrowPeriod.isExtendable(now);
+    public boolean isExtendableDate(@NonNull final LocalDate extensionDay) {
+        return borrowPeriod.isExtendable(extensionDay);
     }
 
-    private boolean canExtend(@NonNull final LocalDate now) {
+    private void assertExtendable(@NonNull final LocalDate extensionDay) {
         // 연장 가능한 횟수가 남아있지 않으므로 불가
         if (!haveExtendableCount()) throw new IllegalStateException("잔여 연장 횟수가 없습니다.");
 
@@ -97,14 +97,12 @@ public class BorrowBusiness {
         if (haveReservationForBook()) throw new IllegalStateException("연장하려는 도서에 예약이 있습니다.");
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
-        if (!isExtendableDate(now)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
-
-        return true;
+        if (!isExtendableDate(extensionDay)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
     }
 
     public void terminate(@NonNull final LocalDateTime date) {
         setReturnTime(date);
-        member.decreaseBorrowCount();
+        borrower.decreaseBorrowCount();
         book.decreaseBorrowedCount();
     }
 

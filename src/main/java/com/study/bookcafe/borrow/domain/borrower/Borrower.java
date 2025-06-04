@@ -17,21 +17,14 @@ public class Borrower {
      *
      * @return 현재 회원의 대출 가능 권수가 남았는지 여부
      */
-    public boolean isBorrowable() {
+    public void assertBorrowable() {
+        if (!isBorrowable()) throw new IllegalStateException("회원의 대출 가능 권수가 없습니다.");
+    }
+
+    private boolean isBorrowable() {
         return level.isBorrowCountLeft(borrowCount);
     }
 
-    public void increaseBorrowCount() {
-        if (!isBorrowable()) throw new IllegalStateException("회원의 대출 가능 권수가 없습니다.");
-
-        borrowCount++;
-    }
-
-    public void decreaseBorrowCount() {
-        if (!haveBorrowCount()) throw new IllegalStateException("회원의 대출 건수가 없습니다.");
-
-        borrowCount--;
-    }
     public boolean haveBorrowCount() {
         return borrowCount > 0;
     }

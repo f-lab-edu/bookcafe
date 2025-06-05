@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @AllArgsConstructor
-public class BorrowBusiness {
+public class Borrow {
     private long id;                        // 대출 ID
     private Borrower borrower;              // 대출자
     private BookInventory book;             // 도서
@@ -22,18 +22,15 @@ public class BorrowBusiness {
 
     private final int MAXIMUM_EXTENSION_COUNT = 1;
 
-    public static BorrowBusiness of(@NonNull final Borrower borrower, @NonNull final BookInventory book) {
-        return new BorrowBusiness(borrower, book, LocalDateTime.now());
+    public static Borrow of(@NonNull final Borrower borrower, @NonNull final BookInventory book) {
+        return new Borrow(borrower, book, LocalDateTime.now());
     }
 
-    public static BorrowBusiness of(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        return new BorrowBusiness(borrower, book, from);
+    public static Borrow of(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
+        return new Borrow(borrower, book, from);
     }
 
-    private BorrowBusiness(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
-        borrower.increaseBorrowCount();
-        book.increaseBorrowedCount();
-
+    private Borrow(@NonNull final Borrower borrower, @NonNull final BookInventory book, @NonNull final LocalDateTime from) {
         this.borrower = borrower;
         this.book = book;
         this.time = from;
@@ -98,15 +95,5 @@ public class BorrowBusiness {
 
         // 대출 연장이 가능한 날짜가 아니므로 불가
         if (!isExtendableDate(extensionDay)) throw new IllegalStateException("연장 가능한 날짜가 아닙니다.");
-    }
-
-    public void terminate(@NonNull final LocalDateTime date) {
-        setReturnTime(date);
-        borrower.decreaseBorrowCount();
-        book.decreaseBorrowedCount();
-    }
-
-    public void borrow() {
-
     }
 }

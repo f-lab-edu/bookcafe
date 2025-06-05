@@ -1,6 +1,6 @@
 package com.study.bookcafe.borrow.domain.borrow;
 
-import com.study.bookcafe.borrow.domain.member.Level;
+import com.study.bookcafe.borrow.domain.borrower.Level;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;

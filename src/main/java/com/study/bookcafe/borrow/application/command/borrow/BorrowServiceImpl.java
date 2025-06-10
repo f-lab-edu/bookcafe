@@ -2,11 +2,13 @@ package com.study.bookcafe.borrow.application.command.borrow;
 
 import com.study.bookcafe.borrow.application.command.book.BookInventoryService;
 import com.study.bookcafe.borrow.application.command.borrower.BorrowerService;
+import com.study.bookcafe.borrow.application.event.BorrowEvent;
 import com.study.bookcafe.borrow.domain.book.BookInventory;
 import com.study.bookcafe.borrow.domain.borrow.Borrow;
 import com.study.bookcafe.borrow.domain.borrow.BorrowManager;
 import com.study.bookcafe.borrow.domain.borrow.BorrowRepository;
 import com.study.bookcafe.borrow.domain.borrower.Borrower;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service("borrowContextBorrowService")
@@ -15,11 +17,13 @@ public class BorrowServiceImpl implements BorrowService {
     private final BorrowerService borrowerService;
     private final BookInventoryService bookInventoryService;
     private final BorrowRepository borrowRepository;
+    private ApplicationEventPublisher eventPublisher;
 
-    public BorrowServiceImpl(BorrowerService borrowerService, BookInventoryService bookInventoryService, BorrowRepository borrowRepository) {
+    public BorrowServiceImpl(BorrowerService borrowerService, BookInventoryService bookInventoryService, BorrowRepository borrowRepository, ApplicationEventPublisher eventPublisher) {
         this.borrowerService = borrowerService;
         this.bookInventoryService = bookInventoryService;
         this.borrowRepository = borrowRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -31,5 +35,6 @@ public class BorrowServiceImpl implements BorrowService {
         Borrow borrow = manager.borrow();
 
         borrowRepository.save(borrow);
+        eventPublisher.publishEvent(new BorrowEvent(memberId, bookId));
     }
 }

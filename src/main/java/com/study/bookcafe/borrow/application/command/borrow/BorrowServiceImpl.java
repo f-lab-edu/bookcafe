@@ -8,23 +8,18 @@ import com.study.bookcafe.borrow.domain.borrow.Borrow;
 import com.study.bookcafe.borrow.domain.borrow.BorrowManager;
 import com.study.bookcafe.borrow.domain.borrow.BorrowRepository;
 import com.study.bookcafe.borrow.domain.borrower.Borrower;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service("borrowContextBorrowService")
+@RequiredArgsConstructor
 public class BorrowServiceImpl implements BorrowService {
 
     private final BorrowerService borrowerService;
     private final BookInventoryService bookInventoryService;
     private final BorrowRepository borrowRepository;
-    private ApplicationEventPublisher eventPublisher;
-
-    public BorrowServiceImpl(BorrowerService borrowerService, BookInventoryService bookInventoryService, BorrowRepository borrowRepository, ApplicationEventPublisher eventPublisher) {
-        this.borrowerService = borrowerService;
-        this.bookInventoryService = bookInventoryService;
-        this.borrowRepository = borrowRepository;
-        this.eventPublisher = eventPublisher;
-    }
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public void borrow(long memberId, long bookId) {
